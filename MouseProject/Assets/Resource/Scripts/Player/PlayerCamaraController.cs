@@ -11,6 +11,10 @@ public class PlayerCamaraController : MonoBehaviour
     public float camSizeMin = 1.3f;
     public float camSizeMax = 2f;
 
+    public float camOfsetX;
+    public float camOfsetXMin = 0;
+    public float camOfsetXMax = 1;
+
     private CinemachineVirtualCamera cm;
 
     private void Start()

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5212420527549543183}
   - component: {fileID: 5212420527549543182}
   - component: {fileID: 5212420527549543177}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SueloMiguel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3227211330649569517}
   - component: {fileID: 6066763456538146767}
   - component: {fileID: 706692333388922780}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 1624651704480399693}
   - component: {fileID: 6994976111283514206}
   - component: {fileID: 2064199034878229318}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SueloPrefab
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   - component: {fileID: 4601140295755319895}
   - component: {fileID: 950994448397802728}
   - component: {fileID: 7199666029063298499}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (1)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -362,7 +362,7 @@ GameObject:
   - component: {fileID: 4152139448166399970}
   - component: {fileID: 7461921423433868765}
   - component: {fileID: 3034790363408281679}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SueloReal
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -473,7 +473,7 @@ GameObject:
   - component: {fileID: 8234581585107508567}
   - component: {fileID: 6776405110013428675}
   - component: {fileID: 2779045957292614386}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (2)
   m_TagString: Ground
   m_Icon: {fileID: 0}

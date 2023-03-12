@@ -12,11 +12,13 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rigidbody;
     private Animator animator;
+    public PlayerGroundController groundScript;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        groundScript = gameObject.GetComponentInChildren<PlayerGroundController>();
     }
 
     void Start()
@@ -37,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
         {
             speed = 2;
         }
-        else
+        else if (Input.GetButtonUp("Fire1"))
         {
             speed = 1;
         }
@@ -45,10 +47,15 @@ public class PlayerMovement : MonoBehaviour
         movement = new Vector2(1, 0f);
             
         float horizontalvelocity = movement.normalized.x * speed;
-        
+
+        /*
         rigidbody.velocity =
             transform.TransformDirection(new Vector3(horizontalvelocity, rigidbody.velocity.y, 0));
-        
+        */
+
+
+        rigidbody.velocity = new Vector3(horizontalvelocity, rigidbody.velocity.y, 0);
+
         animator.SetBool("run", true);
     }
 
@@ -56,8 +63,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump"))
         {
-            animator.SetTrigger("jump");
-            rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            
+            if (groundScript.isGrounded == true)
+            {
+                rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                animator.SetTrigger("jump");
+            }
         }
         
         animator.SetFloat("verticalVelocity", rigidbody.velocity.y);

@@ -17,7 +17,7 @@ public class GenerarTerreno : MonoBehaviour
     {
         player = GameObject.Find("Player");
 
-        segundoSuelo = GameObject.Find("SegundoSuelo");
+        segundoSuelo = GameObject.Find("SueloReal");
     }
 
     // Update is called once per frame
@@ -26,12 +26,14 @@ public class GenerarTerreno : MonoBehaviour
 
         distance = Vector3.Distance(player.transform.position, segundoSuelo.transform.position);
 
-        if (distance < 10)
+        if (distance < 4)
         {
+
             GameObject instancia = Instantiate(sueloPrefab, segundoSuelo.transform.position, Quaternion.identity);
             Suelo instanciaScript = instancia.GetComponent<Suelo>();
 
             ActualizarTarget(instanciaScript.hijo);
+
         }
 
 

@@ -19,7 +19,8 @@ public class PlayerGroundController : MonoBehaviour
         animator.SetBool("grounded", isGrounded);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Ground"))
         {

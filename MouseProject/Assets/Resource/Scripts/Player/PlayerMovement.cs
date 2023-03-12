@@ -16,15 +16,16 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rigidbody;
     private Animator animator;
-    private PlayerGroundController gorundController;
+    private PlayerGroundController groundController;
 
     private bool saltandoParedes = false;
+    private bool aireSaltandoPared = false;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        gorundController = gameObject.GetComponentInChildren<PlayerGroundController>();
+        groundController = gameObject.GetComponentInChildren<PlayerGroundController>();
     }
 
     void Update()
@@ -35,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            if (gorundController.isGrounded)
+            if (groundController.isGrounded)
             {
                 saltar(jumpForce);
             }
@@ -50,8 +51,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (gorundController.isGrounded)
+        if (groundController.isGrounded)
         {
+            aireSaltandoPared = false;
             saltandoParedes = false;
             transform.localScale = new Vector3(1, 1, 1);
             movement = new Vector2(1, 0f);
@@ -62,15 +64,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void movimiento()
     {
-        if (gorundController.isGrounded)
+        if (!aireSaltandoPared)
         {
-            if (Input.GetButton("Fire1"))
+            if (groundController.isGrounded)
             {
-                speed = maxSpeed;
-            }
-            else
-            {
-                speed = minSpeed;
+                if (Input.GetButton("Fire1"))
+                {
+                    speed = maxSpeed;
+                }
+                else
+                {
+                    speed = minSpeed;
+                }
             }
         }
         else
@@ -117,8 +122,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (hitInfo.collider != null && hitInfo.collider.tag.Equals("Ground"))
         {
-            if (!gorundController.isGrounded)
+            if (!groundController.isGrounded)
             {
+                aireSaltandoPared = true;
                 saltandoParedes = true;
             }
         }

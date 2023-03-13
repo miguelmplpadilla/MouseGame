@@ -17,15 +17,17 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rigidbody;
     private Animator animator;
     private PlayerGroundController groundController;
+    private PlayerGanchoController playerGanchoController;
 
     private bool saltandoParedes = false;
-    private bool aireSaltandoPared = false;
+    public bool aireSaltandoPared = false;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        groundController = gameObject.GetComponentInChildren<PlayerGroundController>();
+        groundController = GetComponentInChildren<PlayerGroundController>();
+        playerGanchoController = GetComponent<PlayerGanchoController>();
     }
 
     void Update()
@@ -85,8 +87,15 @@ public class PlayerMovement : MonoBehaviour
 
         float horizontalvelocity = movement.normalized.x * speed;
 
-        rigidbody.velocity =
-            transform.TransformDirection(new Vector3(horizontalvelocity, rigidbody.velocity.y, 0));
+        if (!playerGanchoController.enganchado)
+        {
+            rigidbody.velocity =
+                transform.TransformDirection(new Vector3(horizontalvelocity, rigidbody.velocity.y, 0));
+        }
+        else
+        {
+            transform.Translate(movement * Time.deltaTime * speed);
+        }
 
         animator.SetBool("run", true);
     }
@@ -116,7 +125,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 direccionRay = new Vector2(transform.localScale.x, 0);
         
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, direccionRay,0.2f, 1 << 6);
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, direccionRay,0.1f, 1 << 6);
 
         Debug.DrawRay(transform.position, direccionRay, Color.red);
 

@@ -16,12 +16,14 @@ public class PlayerCamaraController : MonoBehaviour
     public float camOfsetXMax = 1;
 
     private CinemachineVirtualCamera cm;
+    private CinemachineFramingTransposer cmft;
 
     private void Start()
     {
         camSize = camSizeMin;
         
         cm = GameObject.Find("CM").GetComponent<CinemachineVirtualCamera>();
+        cmft = cm.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
 
     void Update()
@@ -32,6 +34,11 @@ public class PlayerCamaraController : MonoBehaviour
             {
                 camSize += 2 * Time.deltaTime;
             }
+            
+            if (camOfsetX < camOfsetXMax)
+            {
+                camOfsetX += 2 * Time.deltaTime;
+            }
         }
         else
         {
@@ -39,8 +46,14 @@ public class PlayerCamaraController : MonoBehaviour
             {
                 camSize -= 2 * Time.deltaTime;
             }
+            
+            if (camOfsetX > camOfsetXMin)
+            {
+                camOfsetX -= 2 * Time.deltaTime;
+            }
         }
 
         cm.m_Lens.OrthographicSize = camSize;
+        cmft.m_TrackedObjectOffset = new Vector3(camOfsetX, cmft.m_TrackedObjectOffset.y, cmft.m_TrackedObjectOffset.z);
     }
 }

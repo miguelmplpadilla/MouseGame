@@ -14,13 +14,19 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 1;
     public float jumpForcePared = 1;
 
+    public float estamina = 150;
+
     private Rigidbody2D rigidbody;
     private Animator animator;
     private PlayerGroundController groundController;
     private PlayerGanchoController playerGanchoController;
+    private PlayerDeslizarController playerDeslizarController;
+    private PlayerBordeController playerBordeController;
 
     private bool saltandoParedes = false;
     public bool aireSaltandoPared = false;
+
+    private RectTransform rectTransformEstamina;
 
     private void Awake()
     {
@@ -28,27 +34,55 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         groundController = GetComponentInChildren<PlayerGroundController>();
         playerGanchoController = GetComponent<PlayerGanchoController>();
+        playerDeslizarController = GetComponentInChildren<PlayerDeslizarController>();
+        playerBordeController = GetComponentInChildren<PlayerBordeController>();
+    }
+
+    private void Start()
+    {
+        rectTransformEstamina = GameObject.Find("PanelEstamina").GetComponent<RectTransform>();
     }
 
     void Update()
     {
         movimiento();
-        
-        saltarPared();
 
-        if (Input.GetButtonDown("Jump"))
+        if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
         {
-            if (groundController.isGrounded)
-            {
-                saltar(jumpForce);
-            }
+            saltarPared();
         }
-        
+
         animator.SetFloat("verticalVelocity", rigidbody.velocity.y);
-        
-        animator.SetBool("deslizando", saltandoParedes);
-        
+
+        if (saltandoParedes)
+        {
+            if (rigidbody.velocity.y < 0.2f)
+            {
+                animator.SetBool("deslizando", true);
+            }
+            else
+            {
+                animator.SetBool("deslizando", false);
+            }
+        } else
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                if (groundController.isGrounded && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
+                {
+                    saltar(jumpForce);
+                }
+            }
+            
+            animator.SetBool("deslizando", false);
+        }
+
         animator.SetFloat("speed", speed);
+    }
+
+    private void LateUpdate()
+    {
+        actualizarEstamina();
     }
 
     private void FixedUpdate()
@@ -68,11 +102,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!aireSaltandoPared)
         {
-            if (groundController.isGrounded)
+            if (groundController.isGrounded && !playerDeslizarController.deslizandoSuelo)
             {
-                if (Input.GetButton("Fire1"))
+                if (estamina > 0)
                 {
-                    speed = maxSpeed;
+                    if (Input.GetButton("Fire1"))
+                    {
+                        speed = maxSpeed;
+                    }
+                    else
+                    {
+                        speed = minSpeed;
+                    }
                 }
                 else
                 {
@@ -141,5 +182,58 @@ public class PlayerMovement : MonoBehaviour
         {
             saltandoParedes = false;
         }
+    }
+
+    public void actualizarEstamina()
+    {
+        if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
+        {
+            if (Input.GetButton("Fire1"))
+            {
+                if (estamina > 0)
+                {
+                    estamina -= 100f * Time.deltaTime;
+                }
+                else
+                {
+                    estamina = -150;
+                }
+            }
+            else
+            {
+                if (estamina < 150)
+                {
+                    estamina += 80f  * Time.deltaTime;
+                }
+                else
+                {
+                    estamina = 150;
+                }
+            }
+        }
+        else
+        {
+            if (estamina < 150)
+            {
+                estamina += 80f  * Time.deltaTime;
+            }
+            else
+            {
+                estamina = 150;
+            }
+        }
+
+        if (estamina >= -1 && estamina <= 150)
+        {
+            rectTransformEstamina.sizeDelta = new Vector2(estamina, rectTransformEstamina.sizeDelta.y);
+        }
+    }
+
+    public void salirBorde()
+    {
+        transform.parent = null;
+        rigidbody.bodyType = RigidbodyType2D.Dynamic;
+        saltar(jumpForcePared);
+        playerBordeController.enganchadoBorde = false;
     }
 }

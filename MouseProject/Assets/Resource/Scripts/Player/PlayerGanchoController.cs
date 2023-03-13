@@ -40,7 +40,7 @@ public class PlayerGanchoController : MonoBehaviour
 
     void Update()
     {
-        Vector2 direccionRay = new Vector2(1, 0.8f);
+        Vector2 direccionRay = new Vector2(1, 0.6f);
         
         if (!groundController.isGrounded && !playerMovement.aireSaltandoPared)
         {
@@ -66,6 +66,8 @@ public class PlayerGanchoController : MonoBehaviour
                 gancho.transform.position = puntoLanzamientoGancho.transform.position;
                 
                 distanceJoint.enabled = false;
+                
+                playerMovement.saltar(playerMovement.jumpForce);
                 
                 enganchado = false;
             }
@@ -108,11 +110,14 @@ public class PlayerGanchoController : MonoBehaviour
     private IEnumerator tiempoGanchoLanzado()
     {
         yield return new WaitForSeconds(0.5f);
-        
-        gancho.transform.parent = transform;
-        gancho.transform.position = puntoLanzamientoGancho.transform.position;
+
+        if (!enganchado)
+        {
+            gancho.transform.parent = transform;
+            gancho.transform.position = puntoLanzamientoGancho.transform.position;
                 
-        enganchado = false;
-        ganchoLanzado = false;
+            enganchado = false;
+            ganchoLanzado = false;
+        }
     }
 }

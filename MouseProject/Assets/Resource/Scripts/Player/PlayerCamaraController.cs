@@ -18,6 +18,17 @@ public class PlayerCamaraController : MonoBehaviour
     private CinemachineVirtualCamera cm;
     private CinemachineFramingTransposer cmft;
 
+    private PlayerMovement playerMovement;
+    private PlayerBordeController playerBordeController;
+    private PlayerDeslizarController playerDeslizarController;
+
+    private void Awake()
+    {
+        playerMovement = GetComponent<PlayerMovement>();
+        playerBordeController = GetComponentInChildren<PlayerBordeController>();
+        playerDeslizarController = GetComponentInChildren<PlayerDeslizarController>();
+    }
+
     private void Start()
     {
         camSize = camSizeMin;
@@ -28,16 +39,31 @@ public class PlayerCamaraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButton("Fire1"))
+        if (playerMovement.estamina > 0 && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
         {
-            if (camSize < camSizeMax)
+            if (Input.GetButton("Fire1"))
             {
-                camSize += 2 * Time.deltaTime;
-            }
+                if (camSize < camSizeMax)
+                {
+                    camSize += 2 * Time.deltaTime;
+                }
             
-            if (camOfsetX < camOfsetXMax)
+                if (camOfsetX < camOfsetXMax)
+                {
+                    camOfsetX += 2 * Time.deltaTime;
+                }
+            }
+            else
             {
-                camOfsetX += 2 * Time.deltaTime;
+                if (camSize > camSizeMin)
+                {
+                    camSize -= 2 * Time.deltaTime;
+                }
+            
+                if (camOfsetX > camOfsetXMin)
+                {
+                    camOfsetX -= 2 * Time.deltaTime;
+                }
             }
         }
         else
@@ -53,7 +79,7 @@ public class PlayerCamaraController : MonoBehaviour
             }
         }
 
-        cm.m_Lens.OrthographicSize = camSize;
+            cm.m_Lens.OrthographicSize = camSize;
         cmft.m_TrackedObjectOffset = new Vector3(camOfsetX, cmft.m_TrackedObjectOffset.y, cmft.m_TrackedObjectOffset.z);
     }
 }

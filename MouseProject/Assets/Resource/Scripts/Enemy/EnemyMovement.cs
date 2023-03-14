@@ -85,6 +85,8 @@ public class EnemyMovement : MonoBehaviour
 
         saltarPared();
 
+        //if (!groundController.isGrounded) { estamina = 150; }
+
 
         if (distancia > 4.5f)
         {
@@ -111,22 +113,15 @@ public class EnemyMovement : MonoBehaviour
         {
 
             maxSpeed = 1.9f;
-            minSpeed = 0.9f;
-
-            if (!groundController.isGrounded && speed == 1.9f) { speed = 2; }
-            else{ speed = 1.9f; }
-
-            if (!groundController.isGrounded && speed == 0.9f) { speed = 1; }
-            else { speed = 0.9f; }
-
-            if (distancia < 0.1)
-            {
-                speed = 0.9f;
-            }
-
-            
+            minSpeed = 0.9f;  
 
         }
+
+        if (!groundController.isGrounded && speed == 1.9f) { speed = 2; }
+        else { speed = 1.9f; }
+
+        if (!groundController.isGrounded && speed == 0.9f) { speed = 1; }
+        else { speed = 0.9f; }
 
         if (distancia > distanciaInicial + 0.5)
         {
@@ -162,15 +157,23 @@ public class EnemyMovement : MonoBehaviour
             }
             else
             {
-                speed = minSpeed;
                 recuperandoPosicion = false;
             }
+
         }
 
 
-        if (Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position)<0.02)
+
+        if (Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position)<0.04)
         {
-            EjecutarSalto();
+            // EjecutarSalto();
+            if (speed == 1.9f) { speed = 2; }
+            else { speed = 1.9f; }
+
+            if (speed == 0.9f) { speed = 1; }
+            else { speed = 0.9f; }
+
+            Invoke("EjecutarSalto", 0.025f);
             playerPoints.jumpPoint[IJumpPoint] = Vector3.zero;
 
             if (IJumpPoint>=10)
@@ -217,8 +220,8 @@ public class EnemyMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        actualizarEstamina();
-        //estamina = 150;
+        //actualizarEstamina();
+        estamina = 150;
     }
 
     public void EncontrarPuntosCercanos()
@@ -268,15 +271,18 @@ public class EnemyMovement : MonoBehaviour
     public void movimiento()
     {
 
-            if (Vector3.Distance(playerPoints.runPoint, transform.position) < 0.05)
+            if (Vector3.Distance(playerPoints.runPoint, transform.position) < 0.03)
             {
                 SetRun();
                 playerPoints.runPoint = Vector3.zero;
             }
-            else if (Vector3.Distance(playerPoints.walkPoint, transform.position) < 0.05)
+            else if (Vector3.Distance(playerPoints.walkPoint, transform.position) < 0.03)
             {
-                SetWalk();
-                playerPoints.walkPoint = Vector3.zero;
+                if (groundController.isGrounded)
+                {
+                    SetWalk();
+                    playerPoints.walkPoint = Vector3.zero;
+                }
             }
 
 
@@ -292,6 +298,7 @@ public class EnemyMovement : MonoBehaviour
     public void SetRun()
     {
         speed = maxSpeed;
+        speed = 2;
     }
 
     public void SetWalk()
@@ -426,7 +433,6 @@ public class EnemyMovement : MonoBehaviour
 
         rigidbody.AddForce(Vector2.up * jumpForcePared, ForceMode2D.Impulse);
         animator.SetTrigger("jump");
-        speed = 1;
         playerBordeController.enganchadoBorde = false;
     }
 

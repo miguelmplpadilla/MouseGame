@@ -44,7 +44,7 @@ public class PlayerPoints : MonoBehaviour
                 MakeRunPoint();
             }
         }
-        else if (Input.GetButtonUp("Fire1"))
+        else if (Input.GetButtonUp("Fire1") && groundController.isGrounded)
         {
             MakeWalkPoint();
         }

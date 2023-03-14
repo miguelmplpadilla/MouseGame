@@ -28,6 +28,11 @@ public class PlayerMovement : MonoBehaviour
 
     private RectTransform rectTransformEstamina;
 
+    private Vector3 posicionAnteriro;
+
+    private RaycastHit2D hitInfo;
+    private Vector2 direccionRay;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -41,10 +46,18 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rectTransformEstamina = GameObject.Find("PanelEstamina").GetComponent<RectTransform>();
+
+        posicionAnteriro = transform.position;
+        direccionRay = new Vector2(transform.localScale.x, 0);
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            LoadSceneController.cargarEscena("MarioScene");
+        }
+        
         movimiento();
 
         if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
@@ -137,8 +150,19 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.Translate(movement * Time.deltaTime * speed);
         }
+        
+        direccionRay = new Vector2(transform.localScale.x, 0);
 
-        animator.SetBool("run", true);
+        hitInfo = Physics2D.Raycast(transform.position, direccionRay,0.01f, 1 << 6);
+
+        if (groundController.isGrounded && hitInfo.collider != null && hitInfo.collider.tag.Equals("Ground"))
+        {
+            animator.SetBool("run", false);
+        }
+        else
+        {
+            animator.SetBool("run", true);
+        }
     }
 
     public void saltar(float fuerzaSalto)
@@ -164,9 +188,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void comprobarPared()
     {
-        Vector2 direccionRay = new Vector2(transform.localScale.x, 0);
+        direccionRay = new Vector2(transform.localScale.x, 0);
         
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, direccionRay,0.1f, 1 << 6);
+        hitInfo = Physics2D.Raycast(transform.position, direccionRay,0.1f, 1 << 6);
 
         Debug.DrawRay(transform.position, direccionRay, Color.red);
 
@@ -186,13 +210,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void actualizarEstamina()
     {
-        if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
+        if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo && groundController.isGrounded)
         {
             if (Input.GetButton("Fire1"))
             {
                 if (estamina > 0)
                 {
-                    estamina -= 100f * Time.deltaTime;
+                    estamina -= 50f * Time.deltaTime;
                 }
                 else
                 {
@@ -203,7 +227,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (estamina < 150)
                 {
-                    estamina += 80f  * Time.deltaTime;
+                    estamina += 50f  * Time.deltaTime;
                 }
                 else
                 {
@@ -215,7 +239,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (estamina < 150)
             {
-                estamina += 80f  * Time.deltaTime;
+                estamina += 50f  * Time.deltaTime;
             }
             else
             {

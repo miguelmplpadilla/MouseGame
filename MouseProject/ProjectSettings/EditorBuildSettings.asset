@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resource/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Resource/Scenes/PantallaCarga.unity
+    guid: 21c24ca6ade7de64d9ce2524c2915062
+  - enabled: 1
+    path: Assets/Resource/Scenes/MarioScene.unity
+    guid: bff4a162c46512e4ab6f37819910acff
   m_configObjects: {}

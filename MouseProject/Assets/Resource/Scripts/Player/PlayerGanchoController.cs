@@ -8,6 +8,7 @@ public class PlayerGanchoController : MonoBehaviour
 
     public bool ganchoLanzado = false;
     public bool enganchado = false;
+    public bool puedeDispararGancho = false;
 
     public GameObject puntoLanzamientoGancho;
     public GameObject gancho;
@@ -21,6 +22,9 @@ public class PlayerGanchoController : MonoBehaviour
     public float speedGancho = 2;
 
     private RaycastHit2D hitInfo;
+
+    private GameObject[] ganchosEscena;
+    private GameObject ganchoCercano;
 
     private void Awake()
     {
@@ -42,7 +46,7 @@ public class PlayerGanchoController : MonoBehaviour
     {
         Vector2 direccionRay = new Vector2(1, 0.6f);
         
-        if (!groundController.isGrounded && !playerMovement.aireSaltandoPared)
+        if (!groundController.isGrounded && !playerMovement.aireSaltandoPared && puedeDispararGancho)
         {
             if (!ganchoLanzado && !enganchado)
             {
@@ -103,13 +107,25 @@ public class PlayerGanchoController : MonoBehaviour
             }
         }
         
+        Vector2 direccionRay = new Vector2(1, 0.6f);
+        hitInfo = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
+
+        if (hitInfo.collider != null && hitInfo.collider.tag.Equals("Enganche"))
+        {
+            puedeDispararGancho = true;
+        }
+        else
+        {
+            puedeDispararGancho = false;
+        }
+        
         ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
         ganchoLineRenderer.SetPosition(1, gancho.transform.position);
     }
 
     private IEnumerator tiempoGanchoLanzado()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         if (!enganchado)
         {

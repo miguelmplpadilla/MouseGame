@@ -7,8 +7,6 @@ public class PlayerGroundController : MonoBehaviour
 {
     public bool isGrounded;
 
-    public bool isEnemy;
-
 
     private Animator animator;
 

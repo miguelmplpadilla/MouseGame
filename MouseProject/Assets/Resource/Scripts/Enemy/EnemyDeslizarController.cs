@@ -1,48 +1,65 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerDeslizarController : MonoBehaviour
+public class EnemyDeslizarController : MonoBehaviour
 {
-
-    private PlayerMovement playerMovement;
+    private EnemyDeslizarController playerMovement;
+    private GameObject player;
+    private PlayerPoints playerPoints;
     private Animator animator;
 
     public bool deslizandoSuelo = false;
     public bool paredSuperior = false;
 
-    /// <summary>
+    public int IDeslizarPoint;
 
-    public PlayerPoints playerPoints;
-
-    /// </summary>
+    /////
 
     private void Awake()
     {
-        playerMovement = GetComponentInParent<PlayerMovement>();
+        playerMovement = GetComponentInParent<EnemyDeslizarController>();
         animator = GetComponentInParent<Animator>();
 
-        //
+        player = GameObject.Find("Player");
+        playerPoints = player.GetComponent<PlayerPoints>();
+    }
 
-        playerPoints = GetComponentInParent<PlayerPoints>();
+    private void FixedUpdate()
+    {
+        float distanciaMinima = 99999;
+
+        int IJumpPointMasCercano = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+            if (playerPoints.deslizarPoint[i].x > transform.position.x)
+            {
+                float distanciaFor = Vector3.Distance(playerPoints.deslizarPoint[i], transform.position);
+                if (distanciaFor < distanciaMinima)
+                {
+                    IJumpPointMasCercano = i;
+                    distanciaMinima = distanciaFor;
+                }
+            }
+
+        }
+
+        IDeslizarPoint = IJumpPointMasCercano;
+
     }
 
     void Update()
     {
-        if (Input.mouseScrollDelta.y < 0)
+        if (Vector3.Distance(playerPoints.deslizarPoint[IDeslizarPoint], transform.position) < 0.02)
         {
             if (!deslizandoSuelo)
             {
                 StartCoroutine("resetearDeslizar");
                 animator.SetBool("deslizandoSuelo", true);
                 deslizandoSuelo = true;
-
-                playerPoints.MakeDeslizarPoint();
             }
         }
-
     }
 
     IEnumerator resetearDeslizar()
@@ -60,7 +77,7 @@ public class PlayerDeslizarController : MonoBehaviour
 
             yield return null;
         }
-        
+
         yield return null;
     }
 

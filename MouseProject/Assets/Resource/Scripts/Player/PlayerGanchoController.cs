@@ -42,6 +42,7 @@ public class PlayerGanchoController : MonoBehaviour
     {
         Vector2 direccionRay = new Vector2(1, 0.6f);
         
+
         if (!groundController.isGrounded && !playerMovement.aireSaltandoPared)
         {
             if (!ganchoLanzado && !enganchado)
@@ -55,6 +56,7 @@ public class PlayerGanchoController : MonoBehaviour
                 }
             }
         }
+
         
         Debug.DrawRay(transform.position, direccionRay, Color.red);
         

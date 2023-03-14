@@ -28,6 +28,17 @@ public class PlayerMovement : MonoBehaviour
 
     private RectTransform rectTransformEstamina;
 
+    public GameObject marca;
+
+    public Vector3[] paredJumpPoint;
+    public int IparedJumpPoint;
+
+    public Vector3[] jumpPoint;
+    public int IJumpPoint;
+
+    public Vector3 runPoint;
+    public Vector3 walkPoint;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -41,6 +52,9 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rectTransformEstamina = GameObject.Find("PanelEstamina").GetComponent<RectTransform>();
+
+        paredJumpPoint = new Vector3[10];
+        jumpPoint = new Vector3[10];
     }
 
     void Update()
@@ -71,6 +85,12 @@ public class PlayerMovement : MonoBehaviour
                 if (groundController.isGrounded && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
                 {
                     saltar(jumpForce);
+                    jumpPoint[IJumpPoint] = transform.position;
+                    IJumpPoint++;
+                    if (IJumpPoint>=10)
+                    {
+                        IJumpPoint = 0;
+                    }
                 }
             }
             
@@ -78,6 +98,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         animator.SetFloat("speed", speed);
+
+        comprobarPared();
     }
 
     private void LateUpdate()
@@ -95,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
             movement = new Vector2(1, 0f);
         }
 
-        comprobarPared();
+        
     }
 
     public void movimiento()
@@ -115,15 +137,18 @@ public class PlayerMovement : MonoBehaviour
                         speed = minSpeed;
                     }
                 }
-                else
+
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    speed = maxSpeed;
+                    runPoint = transform.position;
+                }
+                else if (Input.GetButtonUp("Fire1"))
                 {
                     speed = minSpeed;
+                    walkPoint = transform.position;
                 }
             }
-        }
-        else
-        {
-            speed = maxSpeed;
         }
 
         float horizontalvelocity = movement.normalized.x * speed;
@@ -144,6 +169,8 @@ public class PlayerMovement : MonoBehaviour
     public void saltar(float fuerzaSalto)
     {
         rigidbody.AddForce(Vector2.up * fuerzaSalto, ForceMode2D.Impulse);
+        GameObject instancia = Instantiate(marca, transform.position, Quaternion.identity);
+        instancia.name = "MarcaPlayer";
         animator.SetTrigger("jump");
     }
 
@@ -153,11 +180,16 @@ public class PlayerMovement : MonoBehaviour
         {
             if (saltandoParedes)
             {
+                paredJumpPoint[IparedJumpPoint] = transform.position;
+                IparedJumpPoint++;
+                if (IparedJumpPoint >= 10) { IparedJumpPoint = 0; }
+
                 rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
                 saltar(jumpForcePared);
                 movement = new Vector2(-movement.x, movement.y);
                 transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
                     transform.localScale.z);
+                //speed = minSpeed;
             }
         }
     }

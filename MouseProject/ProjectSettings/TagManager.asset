@@ -17,8 +17,6 @@ TagManager:
   - Ground
   - Enganche
   - 
-  - Enemy
-  - Player
   - 
   - 
   - 
@@ -43,9 +41,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Fondo
-    uniqueID: 1239442791
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

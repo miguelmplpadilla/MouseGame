@@ -25,6 +25,7 @@ public class PlayerGanchoController : MonoBehaviour
 
     private GameObject[] ganchosEscena;
     private GameObject ganchoCercano;
+    private GameObject clickDerechoGancho;
 
     private void Awake()
     {
@@ -40,6 +41,8 @@ public class PlayerGanchoController : MonoBehaviour
         puntoEngancheVirtual = GameObject.Find("PuntoEngancheVirtual");
         
         distanceJoint.connectedBody = puntoEngancheVirtual.GetComponent<Rigidbody2D>();
+        
+        clickDerechoGancho = GameObject.Find("ClickDerechoGancho");
     }
 
     void Update()
@@ -114,10 +117,14 @@ public class PlayerGanchoController : MonoBehaviour
 
         if (hitInfoComprobar.collider != null && hitInfoComprobar.collider.tag.Equals("Enganche"))
         {
+            clickDerechoGancho.transform.localScale = new Vector3(1, 1, 1);
+            clickDerechoGancho.transform.position = hitInfoComprobar.point;
+            
             puedeDispararGancho = true;
         }
         else
         {
+            clickDerechoGancho.transform.localScale = new Vector3(0,0,0);
             puedeDispararGancho = false;
         }
         

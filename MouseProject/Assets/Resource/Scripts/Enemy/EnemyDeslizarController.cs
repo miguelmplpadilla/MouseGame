@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyDeslizarController : MonoBehaviour
 {
     private EnemyDeslizarController playerMovement;
+    private EnemyMovement movementScript;
     private GameObject player;
     private PlayerPoints playerPoints;
     private Animator animator;
@@ -21,6 +22,7 @@ public class EnemyDeslizarController : MonoBehaviour
         playerMovement = GetComponentInParent<EnemyDeslizarController>();
         animator = GetComponentInParent<Animator>();
 
+        movementScript = GetComponentInParent<EnemyMovement>();
         player = GameObject.Find("Player");
         playerPoints = player.GetComponent<PlayerPoints>();
     }
@@ -33,28 +35,33 @@ public class EnemyDeslizarController : MonoBehaviour
 
         for (int i = 0; i < 10; i++)
         {
-            if (playerPoints.deslizarPoint[i].x > transform.position.x)
-            {
+
                 float distanciaFor = Vector3.Distance(playerPoints.deslizarPoint[i], transform.position);
                 if (distanciaFor < distanciaMinima)
                 {
                     IJumpPointMasCercano = i;
                     distanciaMinima = distanciaFor;
                 }
-            }
+
 
         }
 
         IDeslizarPoint = IJumpPointMasCercano;
 
+
     }
 
     void Update()
     {
-        if (Vector3.Distance(playerPoints.deslizarPoint[IDeslizarPoint], transform.position) < 0.02)
+
+        float distancia = (Vector3.Distance(playerPoints.deslizarPoint[IDeslizarPoint], transform.position));
+
+        if ((distancia < 0.03) || (distancia < 0.7 && playerPoints.deslizarPoint[IDeslizarPoint].x < transform.position.x))
         {
             if (!deslizandoSuelo)
             {
+                playerPoints.deslizarPoint[IDeslizarPoint] = Vector3.zero;
+                //movementScript.speed = 1;
                 StartCoroutine("resetearDeslizar");
                 animator.SetBool("deslizandoSuelo", true);
                 deslizandoSuelo = true;
@@ -66,7 +73,7 @@ public class EnemyDeslizarController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.42f);
 
             if (!paredSuperior)
             {

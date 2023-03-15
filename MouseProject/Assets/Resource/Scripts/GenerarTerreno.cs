@@ -29,9 +29,8 @@ public class GenerarTerreno : MonoBehaviour
         if (distance < 4)
         {
 
-            GameObject instancia = Instantiate(sueloPrefab, segundoSuelo.transform.position, Quaternion.identity);
+            GameObject instancia = Instantiate(sueloPrefab, segundoSuelo.transform.position + new Vector3(-0.1f,2,0), Quaternion.identity);
             Suelo instanciaScript = instancia.GetComponent<Suelo>();
-
             ActualizarTarget(instanciaScript.hijo);
 
         }

@@ -49,7 +49,7 @@ public class PlayerDeslizarController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.4f);
 
             if (!paredSuperior)
             {

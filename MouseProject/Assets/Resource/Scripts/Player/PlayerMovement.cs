@@ -36,6 +36,10 @@ public class PlayerMovement : MonoBehaviour
     public bool bloqueoSprint = true;
     public bool bloqueoSaltar = true;
 
+    //MARIO
+
+    PlayerPoints playerPoints;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -44,6 +48,10 @@ public class PlayerMovement : MonoBehaviour
         playerGanchoController = GetComponent<PlayerGanchoController>();
         playerDeslizarController = GetComponentInChildren<PlayerDeslizarController>();
         playerBordeController = GetComponentInChildren<PlayerBordeController>();
+
+        //MARIO
+
+        playerPoints = GetComponent<PlayerPoints>();
     }
 
     private void Start()
@@ -84,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
                     if (groundController.isGrounded && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
                     {
                         saltar(jumpForce);
+                        playerPoints.MakeJumpPoint();
                     }
                 }
             }
@@ -135,6 +144,11 @@ public class PlayerMovement : MonoBehaviour
                     {
                         speed = minSpeed;
                     }
+
+                    //MARIO
+
+                    
+                    //
                 }
                 else
                 {
@@ -187,6 +201,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (saltandoParedes)
                 {
+                    playerPoints.MakeJumpWallPoint();
                     rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
                     saltar(jumpForcePared);
                     movement = new Vector2(-movement.x, movement.y);

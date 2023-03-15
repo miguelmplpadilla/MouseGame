@@ -17,10 +17,16 @@ public class PlayerDeslizarController : MonoBehaviour
 
     public bool deslizarBloqueado = true;
 
+    public PlayerPoints playerPoints;
+
     private void Awake()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
         animator = GetComponentInParent<Animator>();
+
+        //
+
+        playerPoints = GetComponentInParent<PlayerPoints>();
     }
 
     void Update()
@@ -31,6 +37,7 @@ public class PlayerDeslizarController : MonoBehaviour
             {
                 if (!deslizandoSuelo)
                 {
+                    playerPoints.MakeDeslizarPoint();
                     StartCoroutine("resetearDeslizar");
                     animator.SetBool("deslizandoSuelo", true);
                     deslizandoSuelo = true;
@@ -55,6 +62,7 @@ public class PlayerDeslizarController : MonoBehaviour
                 animator.SetBool("deslizandoSuelo", false);
             }
         }
+
     }
 
     IEnumerator resetearDeslizar()

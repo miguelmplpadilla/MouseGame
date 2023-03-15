@@ -64,6 +64,7 @@ public class PlayerGanchoController : MonoBehaviour
                 }
             }
         }
+
         
         Debug.DrawRay(transform.position, direccionRay, Color.red);
         

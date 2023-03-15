@@ -9,9 +9,9 @@ EditorBuildSettings:
     path: Assets/Resource/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Resource/Scenes/PantallaCarga.unity
-    guid: 21c24ca6ade7de64d9ce2524c2915062
+    path: Assets/Resource/Scenes/Dead.unity
+    guid: fb124b919b6f95944b5b8c48c5c94719
   - enabled: 1
-    path: Assets/Resource/Scenes/MarioScene.unity
-    guid: bff4a162c46512e4ab6f37819910acff
+    path: Assets/Resource/Scenes/EscenaMario.unity
+    guid: 84bbaf84bfe3ff9419fffd3d64ef07d8
   m_configObjects: {}

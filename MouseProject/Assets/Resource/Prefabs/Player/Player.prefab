@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1463139014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1463139015}
+  m_Layer: 0
+  m_Name: PunutoRayCastDeslizar
+  m_TagString: Untagged
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1463139015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463139014}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.161, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4601852592093646370}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1519455163
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +88,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.19428605, y: 0.2359896}
+  m_Size: {x: 0.020892605, y: 0.2359896}
   m_EdgeRadius: 0
 --- !u!114 &1519455165
 MonoBehaviour:
@@ -73,6 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deslizandoSuelo: 0
   paredSuperior: 0
+  puntoRayCast: {fileID: 1463139014}
 --- !u!1 &609231982481402434
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,6 +249,7 @@ Transform:
   - {fileID: 6424024051543308033}
   - {fileID: 1519455164}
   - {fileID: 4108763547660964269}
+  - {fileID: 1463139015}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -305,6 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ganchoLanzado: 0
   enganchado: 0
+  puedeDispararGancho: 0
   puntoLanzamientoGancho: {fileID: 3428624153170672748}
   gancho: {fileID: 8636885761001590749}
   speedGancho: 10

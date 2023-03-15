@@ -55,6 +55,8 @@ public class PlayerGanchoController : MonoBehaviour
                     StartCoroutine("tiempoGanchoLanzado");
                     hitInfo = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
                     
+                    puntoEngancheVirtual.transform.position = hitInfo.point;
+                    
                     ganchoLanzado = true;
                 }
             }
@@ -91,7 +93,7 @@ public class PlayerGanchoController : MonoBehaviour
             {
                 if (hitInfo.collider.tag.Equals("Enganche"))
                 {
-                    puntoEngancheVirtual.transform.position = hitInfo.point;
+                    //puntoEngancheVirtual.transform.position = hitInfo.point;
                     
                     distanceJoint.enabled = true;
 
@@ -108,9 +110,9 @@ public class PlayerGanchoController : MonoBehaviour
         }
         
         Vector2 direccionRay = new Vector2(1, 0.6f);
-        hitInfo = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
+        RaycastHit2D hitInfoComprobar = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
 
-        if (hitInfo.collider != null && hitInfo.collider.tag.Equals("Enganche"))
+        if (hitInfoComprobar.collider != null && hitInfoComprobar.collider.tag.Equals("Enganche"))
         {
             puedeDispararGancho = true;
         }
@@ -125,7 +127,7 @@ public class PlayerGanchoController : MonoBehaviour
 
     private IEnumerator tiempoGanchoLanzado()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
         if (!enganchado)
         {

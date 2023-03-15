@@ -13,6 +13,8 @@ public class PlayerDeslizarController : MonoBehaviour
     public bool deslizandoSuelo = false;
     public bool paredSuperior = false;
 
+    public GameObject puntoRayCast;
+
     private void Awake()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
@@ -32,11 +34,29 @@ public class PlayerDeslizarController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        Vector2 direccionRay = new Vector2(transform.localScale.x, 0);
+
+        RaycastHit2D hitInfo = Physics2D.Raycast(puntoRayCast.transform.position, direccionRay,0.01f, 1 << 6);
+
+        Debug.DrawRay(puntoRayCast.transform.position, direccionRay, Color.red);
+        
+        if (hitInfo.collider != null && hitInfo.collider.tag.Equals("Ground"))
+        {
+            if (!paredSuperior)
+            {
+                deslizandoSuelo = false;
+                animator.SetBool("deslizandoSuelo", false);
+            }
+        }
+    }
+
     IEnumerator resetearDeslizar()
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.4f);
 
             if (!paredSuperior)
             {

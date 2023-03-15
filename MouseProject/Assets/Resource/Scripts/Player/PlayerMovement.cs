@@ -36,9 +36,9 @@ public class PlayerMovement : MonoBehaviour
     public bool bloqueoSprint = true;
     public bool bloqueoSaltar = true;
 
-    //MARIO
+    private PlayerPoints playerPoints;
 
-    PlayerPoints playerPoints;
+    public bool desbloquearVar = false;
 
     private void Awake()
     {
@@ -49,9 +49,12 @@ public class PlayerMovement : MonoBehaviour
         playerDeslizarController = GetComponentInChildren<PlayerDeslizarController>();
         playerBordeController = GetComponentInChildren<PlayerBordeController>();
 
-        //MARIO
-
         playerPoints = GetComponent<PlayerPoints>();
+
+        if (desbloquearVar)
+        {
+            gameObject.BroadcastMessage("desbloquearVariables");
+        }
     }
 
     private void Start()
@@ -144,11 +147,6 @@ public class PlayerMovement : MonoBehaviour
                     {
                         speed = minSpeed;
                     }
-
-                    //MARIO
-
-                    
-                    //
                 }
                 else
                 {
@@ -297,6 +295,12 @@ public class PlayerMovement : MonoBehaviour
     
     public void desbloquearFire1()
     {
+        bloqueoSprint = false;
+    }
+    
+    public void desbloquearVariables()
+    {
+        bloqueoSaltar = false;
         bloqueoSprint = false;
     }
 }

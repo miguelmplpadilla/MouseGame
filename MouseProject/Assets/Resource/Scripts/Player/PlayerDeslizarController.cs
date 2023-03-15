@@ -104,4 +104,9 @@ public class PlayerDeslizarController : MonoBehaviour
     {
         deslizarBloqueado = false;
     }
+    
+    public void desbloquearVariables()
+    {
+        deslizarBloqueado = false;
+    }
 }

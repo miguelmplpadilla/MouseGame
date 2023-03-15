@@ -475,7 +475,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.254717, g: 0.254717, b: 0.254717, a: 0}
+  m_BackGroundColor: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -652,27 +652,27 @@ PrefabInstance:
       objectReference: {fileID: 8047031497503380929, guid: a21feab904735484fb8b7d3cc208ae07, type: 3}
     - target: {fileID: 5414355691832618855, guid: 409b9e62e35c8b448a8f37c337465773, type: 3}
       propertyPath: puntos.Array.size
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5414355691832618855, guid: 409b9e62e35c8b448a8f37c337465773, type: 3}
       propertyPath: puntos.Array.data[0]
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414355691832618855, guid: 409b9e62e35c8b448a8f37c337465773, type: 3}
       propertyPath: puntos.Array.data[1]
-      value: 111
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414355691832618855, guid: 409b9e62e35c8b448a8f37c337465773, type: 3}
       propertyPath: puntos.Array.data[2]
-      value: 43
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414355691832618855, guid: 409b9e62e35c8b448a8f37c337465773, type: 3}
       propertyPath: puntos.Array.data[3]
-      value: 5465
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414355691832618855, guid: 409b9e62e35c8b448a8f37c337465773, type: 3}
       propertyPath: puntos.Array.data[4]
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5414355691832618855, guid: 409b9e62e35c8b448a8f37c337465773, type: 3}
       propertyPath: puntos.Array.data[5]

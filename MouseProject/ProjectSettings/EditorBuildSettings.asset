@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Resource/Scenes/EscenaMario.unity
     guid: 84bbaf84bfe3ff9419fffd3d64ef07d8
+  - enabled: 1
+    path: Assets/Resource/Scenes/PantallaCarga.unity
+    guid: 21c24ca6ade7de64d9ce2524c2915062
+  - enabled: 1
+    path: Assets/Resource/Scenes/Creditos.unity
+    guid: cb963c5003f4e0c4cbb60a1bf9839a21
   m_configObjects: {}

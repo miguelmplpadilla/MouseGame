@@ -37,24 +37,19 @@ public class Puntuacion : MonoBehaviour
 
     private void Start()
     {
-        recordTxt.text = "" + (int)record;
+        recordTxt.text = ((int)record).ToString();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-
         puntuacion = Vector3.Distance(player.transform.position, puntoInicio.transform.position) * 10;
 
         if (puntuacion > record)
         {
             PlayerPrefs.SetFloat("RECORD", puntuacion);
-            recordTxt.text = "" + (int)puntuacion;
+            recordTxt.text = ((int)puntuacion).ToString();
         }
 
-        puntuacionTxt.text = "" + (int)puntuacion;
-
-
-
+        puntuacionTxt.text = ((int)puntuacion).ToString();
     }
 }

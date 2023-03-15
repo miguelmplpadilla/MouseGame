@@ -33,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit2D hitInfo;
     private Vector2 direccionRay;
 
+    public bool bloqueoSprint = true;
+    public bool bloqueoSaltar = true;
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -53,11 +56,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            LoadSceneController.cargarEscena("MarioScene");
-        }
-        
         movimiento();
 
         if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
@@ -79,14 +77,17 @@ public class PlayerMovement : MonoBehaviour
             }
         } else
         {
-            if (Input.GetButtonDown("Jump"))
+            if (!bloqueoSaltar)
             {
-                if (groundController.isGrounded && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
+                if (Input.GetButtonDown("Jump"))
                 {
-                    saltar(jumpForce);
+                    if (groundController.isGrounded && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
+                    {
+                        saltar(jumpForce);
+                    }
                 }
             }
-            
+
             animator.SetBool("deslizando", false);
         }
 
@@ -119,9 +120,16 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (estamina > 0)
                 {
-                    if (Input.GetButton("Fire1"))
+                    if (!bloqueoSprint)
                     {
-                        speed = maxSpeed;
+                        if (Input.GetButton("Fire1"))
+                        {
+                            speed = maxSpeed;
+                        }
+                        else
+                        {
+                            speed = minSpeed;
+                        }
                     }
                     else
                     {
@@ -173,15 +181,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void saltarPared()
     {
-        if (Input.GetButtonDown("Jump"))
+        if (!bloqueoSaltar)
         {
-            if (saltandoParedes)
+            if (Input.GetButtonDown("Jump"))
             {
-                rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
-                saltar(jumpForcePared);
-                movement = new Vector2(-movement.x, movement.y);
-                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
-                    transform.localScale.z);
+                if (saltandoParedes)
+                {
+                    rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
+                    saltar(jumpForcePared);
+                    movement = new Vector2(-movement.x, movement.y);
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
+                        transform.localScale.z);
+                }
             }
         }
     }
@@ -212,26 +223,29 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo && groundController.isGrounded)
         {
-            if (Input.GetButton("Fire1"))
+            if (!bloqueoSprint)
             {
-                if (estamina > 0)
+                if (Input.GetButton("Fire1"))
                 {
-                    estamina -= 50f * Time.deltaTime;
+                    if (estamina > 0)
+                    {
+                        estamina -= 50f * Time.deltaTime;
+                    }
+                    else
+                    {
+                        estamina = -150;
+                    }
                 }
                 else
                 {
-                    estamina = -150;
-                }
-            }
-            else
-            {
-                if (estamina < 150)
-                {
-                    estamina += 50f  * Time.deltaTime;
-                }
-                else
-                {
-                    estamina = 150;
+                    if (estamina < 150)
+                    {
+                        estamina += 50f * Time.deltaTime;
+                    }
+                    else
+                    {
+                        estamina = 150;
+                    }
                 }
             }
         }
@@ -259,5 +273,15 @@ public class PlayerMovement : MonoBehaviour
         rigidbody.bodyType = RigidbodyType2D.Dynamic;
         saltar(jumpForcePared);
         playerBordeController.enganchadoBorde = false;
+    }
+    
+    public void desbloquearJump()
+    {
+        bloqueoSaltar = false;
+    }
+    
+    public void desbloquearFire1()
+    {
+        bloqueoSprint = false;
     }
 }

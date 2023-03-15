@@ -1,0 +1,71 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class TutorialController : MonoBehaviour
+{
+
+    private bool empezarTutorial = false;
+    private bool bloquearTutorial = false;
+
+    public string teclaTutorial;
+
+    private GameObject player;
+    private GameObject gameObjectTeclaTutorial;
+
+    public float velocidadRelentizarTiempo = 2;
+
+    private void Awake()
+    {
+        gameObjectTeclaTutorial = transform.GetChild(0).gameObject;
+        gameObjectTeclaTutorial.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
+
+    private void Update()
+    {
+        if (!bloquearTutorial)
+        {
+            if (empezarTutorial)
+            {
+                Time.timeScale -= velocidadRelentizarTiempo * Time.deltaTime;
+
+                if (teclaTutorial.Equals("Deslizar"))
+                {
+                    if (Input.mouseScrollDelta.y < 0)
+                    {
+                        bloquearTutorial = true;
+                        Time.timeScale = 1;
+                    
+                        player.BroadcastMessage("desbloquear"+teclaTutorial);
+                        //player.SendMessage("desbloquear"+teclaTutorial);
+                    }
+                }
+                else
+                {
+                    if (Input.GetButtonDown(teclaTutorial))
+                    {
+                        bloquearTutorial = true;
+                        Time.timeScale = 1;
+                    
+                        player.SendMessage("desbloquear"+teclaTutorial);
+                    }
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("Player"))
+        {
+            gameObjectTeclaTutorial.GetComponent<SpriteRenderer>().enabled = true;
+            empezarTutorial = true;
+        }
+    }
+}

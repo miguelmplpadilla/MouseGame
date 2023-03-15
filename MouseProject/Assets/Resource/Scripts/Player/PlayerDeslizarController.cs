@@ -15,6 +15,8 @@ public class PlayerDeslizarController : MonoBehaviour
 
     public GameObject puntoRayCast;
 
+    public bool deslizarBloqueado = true;
+
     private void Awake()
     {
         playerMovement = GetComponentInParent<PlayerMovement>();
@@ -25,11 +27,14 @@ public class PlayerDeslizarController : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y < 0)
         {
-            if (!deslizandoSuelo)
+            if (!deslizarBloqueado)
             {
-                StartCoroutine("resetearDeslizar");
-                animator.SetBool("deslizandoSuelo", true);
-                deslizandoSuelo = true;
+                if (!deslizandoSuelo)
+                {
+                    StartCoroutine("resetearDeslizar");
+                    animator.SetBool("deslizandoSuelo", true);
+                    deslizandoSuelo = true;
+                }
             }
         }
     }
@@ -85,5 +90,10 @@ public class PlayerDeslizarController : MonoBehaviour
         {
             paredSuperior = false;
         }
+    }
+
+    public void desbloquearDeslizar()
+    {
+        deslizarBloqueado = false;
     }
 }

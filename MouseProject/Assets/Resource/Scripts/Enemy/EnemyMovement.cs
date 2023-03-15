@@ -108,7 +108,9 @@ public class EnemyMovement : MonoBehaviour
         if (distancia < 0.2)
         {
             print("Te han pillado");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene("Dead");
+
         }
         else if (distancia < 0.6 && saltandoParedes == false && aireSaltandoPared == false)
         {  

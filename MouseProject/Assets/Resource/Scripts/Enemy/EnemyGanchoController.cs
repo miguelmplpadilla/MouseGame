@@ -59,7 +59,7 @@ public class EnemyGanchoController : MonoBehaviour
         {
             if (!ganchoLanzado && !enganchado)
             {
-                if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.04f)
+                if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.06f)
                 {
                     playerPoints.ganchoPoint[IGanchoPoint] = Vector3.zero;
                     StartCoroutine("tiempoGanchoLanzado");
@@ -77,7 +77,7 @@ public class EnemyGanchoController : MonoBehaviour
 
         if (enganchado)
         {
-            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.06f)
+            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.07f)
             {
 
                 playerPoints.breackGanchoPoint[IBreackGanchoPoint] = Vector3.zero;
@@ -174,6 +174,19 @@ public class EnemyGanchoController : MonoBehaviour
 
         ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
         ganchoLineRenderer.SetPosition(1, gancho.transform.position);
+    }
+
+    public void SoltarseGanchoTeleport()
+    {
+        //playerPoints.breackGanchoPoint[IBreackGanchoPoint] = Vector3.zero;
+        gancho.transform.parent = transform;
+        gancho.transform.position = puntoLanzamientoGancho.transform.position;
+
+        distanceJoint.enabled = false;
+
+        //enemyMovement.saltar(enemyMovement.jumpForce);
+
+        enganchado = false;
     }
 
     private IEnumerator tiempoGanchoLanzado()

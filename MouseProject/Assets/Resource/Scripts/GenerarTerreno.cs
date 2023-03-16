@@ -21,7 +21,7 @@ public class GenerarTerreno : MonoBehaviour
 
         distance = Vector3.Distance(player.transform.position, segundoSuelo.transform.position);
 
-        if (distance < 100)
+        if (distance < 4)
         {
             GameObject instancia = Instantiate(sueloPrefab, segundoSuelo.transform.position + new Vector3(-0.1f,2,0), Quaternion.identity);
             Suelo instanciaScript = instancia.GetComponent<Suelo>();

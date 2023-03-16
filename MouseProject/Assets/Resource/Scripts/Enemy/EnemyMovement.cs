@@ -51,7 +51,7 @@ public class EnemyMovement : MonoBehaviour
     public float ultimaVelocidad;
     public Vector3 ultimaPosicion;
 
-    
+    public bool tutorial;
 
     private void Awake()
     {
@@ -69,6 +69,7 @@ public class EnemyMovement : MonoBehaviour
 
         distanciaInicial = Vector3.Distance(player.transform.position, transform.position);
 
+        animator.SetBool("run", true);
 
     }
 
@@ -83,14 +84,20 @@ public class EnemyMovement : MonoBehaviour
 
         float distanciaSalto = Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position);
 
-        if ((distanciaSalto < 0.04 && (speed == 1.9f || speed == 2)) || (distanciaSalto < 0.015 && (speed == 0.9f || speed == 1))) //SALTAR
+        
+
+        if (distanciaSalto < 0.05 && (speed == 1.9f || speed == 2)) //SALTAR
         {
             EjecutarSalto();
 
         }
-        else if (distanciaSalto < 0.05 && playerPoints.jumpPoint[IJumpPoint].x < transform.position.x )
+        else if (distanciaSalto < 0.02 && (speed == 0.9f || speed == 1))
         {
             EjecutarSalto();
+        }
+        else if (distanciaSalto < 0.05 && playerPoints.jumpPoint[IJumpPoint].x < transform.position.x )
+        {
+            //EjecutarSalto();
         }
 
         animator.SetFloat("verticalVelocity", rigidbody.velocity.y);
@@ -123,7 +130,7 @@ public class EnemyMovement : MonoBehaviour
         comprobarPared();
         EncontrarPuntosCercanos();
 
-        if (transform.position == ultimaPosicion) EjecutarSalto();
+        if (transform.position == ultimaPosicion && groundController.isGrounded && !tutorial) EjecutarSalto();
         else ultimaPosicion = transform.position;
 
     }
@@ -133,70 +140,80 @@ public class EnemyMovement : MonoBehaviour
 
         distancia = Vector3.Distance(transform.position, player.transform.position);
 
-        if (distancia > 6f || player.transform.position.x + 3 < transform.position.x)
+        if (!tutorial)
         {
 
-            transform.position = player.transform.position - new Vector3(3.5f, 0, 0);
-            recuperandoPosicion = true;
-
-        }
-
-        if (distancia < 0.2)
-        {
-            print("Te han pillado");
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            SceneManager.LoadScene("Dead");
-
-        }
-        else if (distancia < 0.6 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
-        {
-
-            if (!jugadorCerca)
+            if (distancia > 6f || player.transform.position.x + 3 < transform.position.x)
             {
-                if (groundController.isGrounded) speed = 0.9f;
-                ultimaVelocidad = speed;
-                pararse = true;
-                jugadorCerca = true;
+
+                transform.position = player.transform.position - new Vector3(3.5f, 0, 0);
+                enemyGanchoController.SoltarseGanchoTeleport();
+                recuperandoPosicion = true;
+
             }
 
-            jugadorCerca = true;
-        }
-        else if (distancia > 0.6)
-        {
-            jugadorCerca = false;
-        }
-
-        if (distancia < 1)
-        {
-            if (speed == 2) { speed = 1.9f; }
-            else if (speed == 1) { speed = 0.9f; };
-        }
-        else
-        {
-            if (speed == 1.9f) { speed = 2f; }
-            else if (speed == 0.9f && recuperandoPosicion == false) { speed = 1f; };
-        }
-
-        if (distancia > distanciaInicial + 2)
-        {
-            speed = 1.9f;
-            recuperandoPosicion = true;
-        }
-
-        if (recuperandoPosicion == true)
-        {
-            maxSpeed = 2;
-            minSpeed = 1;
-
-            if (distancia > distanciaInicial)
+            if (distancia < 0.2)
             {
-                speed = maxSpeed;
+                print("Te han pillado");
+                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene("Dead");
+
+            }
+            else if (distancia < 0.5 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
+            {
+
+                if (!jugadorCerca)
+                {
+                    if (groundController.isGrounded) speed = 0.9f;
+                    ultimaVelocidad = speed;
+                    pararse = true;
+                    jugadorCerca = true;
+                }
+
+                jugadorCerca = true;
+            }
+            else if (distancia > 0.5)
+            {
+                jugadorCerca = false;
+            }
+
+            if (distancia < 0.8)
+            {
+                if (speed == 2) { speed = 1.9f; }
+                else if (speed == 1) { speed = 0.9f; };
             }
             else
             {
-                recuperandoPosicion = false;
+                if (speed == 1.9f) { speed = 2f; }
+                else if (speed == 0.9f && recuperandoPosicion == false) { speed = 1f; };
             }
 
+            if (distancia > distanciaInicial + 2)
+            {
+                speed = 1.9f;
+                recuperandoPosicion = true;
+            }
+
+            if (recuperandoPosicion == true)
+            {
+                maxSpeed = 2;
+                minSpeed = 1;
+
+                if (distancia > distanciaInicial)
+                {
+                    speed = maxSpeed;
+                }
+                else
+                {
+                    recuperandoPosicion = false;
+                }
+
+            }
+        }
+        else if (tutorial && speed != 0)
+        {
+            transform.position = new Vector3 (-10,0,0);
+            speed = 0;
         }
     }
 
@@ -310,7 +327,7 @@ public class EnemyMovement : MonoBehaviour
             transform.Translate(movement * Time.deltaTime * speed);
         }
 
-        animator.SetBool("run", true);
+        if (!tutorial) animator.SetBool("run", true);
     }
 
     public void SetRun()
@@ -333,11 +350,10 @@ public class EnemyMovement : MonoBehaviour
 
     public void EjecutarSalto()
     {
-        if (groundController.isGrounded)
-        {
+        playerPoints.jumpPoint[IJumpPoint] = Vector3.zero;
+
             rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             animator.SetTrigger("jump");
-        }
 
         if (speed == 1.9f) { speed = 2; }
         if (speed == 0.9f) { speed = 1; }
@@ -346,8 +362,6 @@ public class EnemyMovement : MonoBehaviour
         {
             speed = ultimaVelocidad;
         }
-
-        playerPoints.jumpPoint[IJumpPoint] = Vector3.zero;
 
         if (IJumpPoint >= 10)
         {

@@ -904,11 +904,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.552674
+      value: 2.552696
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05399984
+      value: 0.053999815
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.z
@@ -920,15 +920,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -2.6016981e-15
+      value: -2.5015928e-15
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000033688837
+      value: -0.000034773886
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000005255174
+      value: -0.0000005423199
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1868,6 +1868,7 @@ MonoBehaviour:
   jugadorCerca: 0
   ultimaVelocidad: 0
   ultimaPosicion: {x: 0, y: 0, z: 0}
+  tutorial: 0
 --- !u!1 &2102727203
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,6 +2001,10 @@ PrefabInstance:
     - target: {fileID: 4307165298897574977, guid: 946bb0126a9bf874b836a568e6802dc8, type: 3}
       propertyPath: m_Parameters.colorGradient.key1.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307165298972272803, guid: 946bb0126a9bf874b836a568e6802dc8, type: 3}
+      propertyPath: tutorial
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5483767867917102403, guid: 946bb0126a9bf874b836a568e6802dc8, type: 3}
       propertyPath: m_IsActive

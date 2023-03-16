@@ -5,11 +5,9 @@ using UnityEngine;
 public class Suelo : MonoBehaviour
 {
     public GameObject hijo;
-
     public GameObject[] escenarios;
 
     public int random;
-
     public bool generarTerreno;
 
     void Awake()

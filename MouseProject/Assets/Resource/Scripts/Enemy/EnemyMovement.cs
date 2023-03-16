@@ -24,23 +24,16 @@ public class EnemyMovement : MonoBehaviour
     public float distanciaInicial;
     public float distancia;
 
-    public GameObject player;
-    public PlayerMovement playerScript;
-    public PlayerPoints playerPoints;
+    private GameObject player;
+    private PlayerMovement playerScript;
+    private PlayerPoints playerPoints;
 
-    public float delay;
-
-    public bool pararse;
-
-    public float delayOffset;
-
-    public LayerMask playerLayer;
-
-    public LayerMask enemyLayer;
+    private float delay;
+    private bool pararse;
 
     public GameObject marca;
 
-    private PlayerGanchoController playerGanchoController;
+    private EnemyGanchoController enemyGanchoController;
     private EnemyDeslizarController playerDeslizarController;
     private PlayerBordeController playerBordeController;
 
@@ -70,7 +63,7 @@ public class EnemyMovement : MonoBehaviour
         playerScript = player.GetComponent<PlayerMovement>();
         playerPoints = player.GetComponent<PlayerPoints>();
 
-        playerGanchoController = GetComponent<PlayerGanchoController>();
+        enemyGanchoController = GetComponent<EnemyGanchoController>();
         playerDeslizarController = GetComponentInChildren<EnemyDeslizarController>();
         playerBordeController = GetComponentInChildren<PlayerBordeController>();
 
@@ -79,25 +72,68 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
-    private void Start()
-    {
-        
-    }
-
     void Update()
     {
-        //Physics.GetIgnoreLayerCollision(enemyLayer, playerLayer);
-
-        distancia = Vector3.Distance(transform.position, player.transform.position);
 
         movimiento();
 
         saltarPared();
 
-        //if (!groundController.isGrounded) { estamina = 150; }
+        ActualizarVelocidad();
 
+        float distanciaSalto = Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position);
 
-        if (distancia > 4f || player.transform.position.x + 2 < transform.position.x)
+        if ((distanciaSalto < 0.04 && (speed == 1.9f || speed == 2)) || (distanciaSalto < 0.015 && (speed == 0.9f || speed == 1))) //SALTAR
+        {
+            EjecutarSalto();
+
+        }
+        else if (distanciaSalto < 0.05 && playerPoints.jumpPoint[IJumpPoint].x < transform.position.x )
+        {
+            EjecutarSalto();
+        }
+
+        animator.SetFloat("verticalVelocity", rigidbody.velocity.y);
+        animator.SetBool("deslizando", saltandoParedes);
+        animator.SetFloat("speed", speed);
+
+        if (speed == maxSpeed)
+        {
+            animator.SetBool("isRun", true);
+            animator.SetBool("isWalk", false);
+        }
+        else
+        {
+            animator.SetBool("isRun", false);
+            animator.SetBool("isWalk", true);
+        }
+  
+    }
+
+    private void FixedUpdate()
+    {
+        if (groundController.isGrounded)
+        {
+            aireSaltandoPared = false;
+            saltandoParedes = false;
+            transform.localScale = new Vector3(1, 1, 1);
+            movement = new Vector2(1, 0f);
+        }
+
+        comprobarPared();
+        EncontrarPuntosCercanos();
+
+        if (transform.position == ultimaPosicion) EjecutarSalto();
+        else ultimaPosicion = transform.position;
+
+    }
+
+    public void ActualizarVelocidad()
+    {
+
+        distancia = Vector3.Distance(transform.position, player.transform.position);
+
+        if (distancia > 6f || player.transform.position.x + 3 < transform.position.x)
         {
 
             transform.position = player.transform.position - new Vector3(3.5f, 0, 0);
@@ -112,13 +148,12 @@ public class EnemyMovement : MonoBehaviour
             SceneManager.LoadScene("Dead");
 
         }
-        else if (distancia < 0.6 && saltandoParedes == false && aireSaltandoPared == false)
-        {  
+        else if (distancia < 0.6 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
+        {
 
             if (!jugadorCerca)
             {
                 if (groundController.isGrounded) speed = 0.9f;
-                print("CercaDelJugador");
                 ultimaVelocidad = speed;
                 pararse = true;
                 jugadorCerca = true;
@@ -148,7 +183,6 @@ public class EnemyMovement : MonoBehaviour
             recuperandoPosicion = true;
         }
 
-
         if (recuperandoPosicion == true)
         {
             maxSpeed = 2;
@@ -164,68 +198,11 @@ public class EnemyMovement : MonoBehaviour
             }
 
         }
-
-        float distanciaSalto = Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position);
-
-        if ((distanciaSalto < 0.03 && (speed == 1.9f || speed == 2)) || (distanciaSalto < 0.015 && (speed == 0.9f || speed == 1))) //SALTAR
-        {
-            EjecutarSalto();
-
-        }
-        else if (distanciaSalto < 0.05 && playerPoints.jumpPoint[IJumpPoint].x < transform.position.x )
-        {
-            EjecutarSalto();
-        }
-
-       
-        animator.SetFloat("verticalVelocity", rigidbody.velocity.y);
-
-        animator.SetBool("deslizando", saltandoParedes);
-
-        animator.SetFloat("speed", speed);
-
-        if (speed == maxSpeed)
-        {
-            animator.SetBool("isRun", true);
-            animator.SetBool("isWalk", false);
-        }
-        else
-        {
-            animator.SetBool("isRun", false);
-            animator.SetBool("isWalk", true);
-        }
-
-        
-    }
-
-    private void FixedUpdate()
-    {
-        if (groundController.isGrounded)
-        {
-            aireSaltandoPared = false;
-            saltandoParedes = false;
-            transform.localScale = new Vector3(1, 1, 1);
-            movement = new Vector2(1, 0f);
-        }
-
-        comprobarPared();
-        EncontrarPuntosCercanos();
-
-        if (transform.position == ultimaPosicion)
-        {
-            EjecutarSalto();
-        }
-        else
-        {
-            ultimaPosicion = transform.position;
-        }
     }
 
     private void LateUpdate()
     {
         actualizarEstamina();
-        //estamina = 150;
-
     }
 
     public void EncontrarPuntosCercanos()
@@ -296,24 +273,24 @@ public class EnemyMovement : MonoBehaviour
     public void movimiento()
     {
 
-            if (Vector3.Distance(playerPoints.runPoint[IRunPoint], transform.position) < 0.03)
-            {
+        if (Vector3.Distance(playerPoints.runPoint[IRunPoint], transform.position) < 0.03)
+        {
                 SetRun();
                 playerPoints.runPoint[IRunPoint] = Vector3.zero;
-            }
-            else if (Vector3.Distance(playerPoints.walkPoint, transform.position) < 0.03)
+        }
+        else if (Vector3.Distance(playerPoints.walkPoint, transform.position) < 0.03)
+        {
+            if (groundController.isGrounded)
             {
-                if (groundController.isGrounded)
-                {
-                    SetWalk();
-                    
-                }
-                else
-                {
-                    pararse = true;
-                }
-                 playerPoints.walkPoint = Vector3.zero;
-             }
+                SetWalk(); 
+            }
+            else
+            {
+                pararse = true;
+            }
+
+             playerPoints.walkPoint = Vector3.zero;
+        }
 
         if (pararse == true && groundController.isGrounded && saltandoParedes == false && aireSaltandoPared == false)
         {
@@ -323,8 +300,15 @@ public class EnemyMovement : MonoBehaviour
 
         float horizontalvelocity = movement.normalized.x * speed;
 
-        rigidbody.velocity =
-            transform.TransformDirection(new Vector3(horizontalvelocity, rigidbody.velocity.y, 0));
+        if (!enemyGanchoController.enganchado)
+        {
+            rigidbody.velocity =
+                transform.TransformDirection(new Vector3(horizontalvelocity, rigidbody.velocity.y, 0));
+        }
+        else
+        {
+            transform.Translate(movement * Time.deltaTime * speed);
+        }
 
         animator.SetBool("run", true);
     }
@@ -341,7 +325,6 @@ public class EnemyMovement : MonoBehaviour
         speed = minSpeed;
     }
 
-
     public void saltar(float fuerzaSalto)
     {
         rigidbody.AddForce(Vector2.up * fuerzaSalto, ForceMode2D.Impulse);
@@ -353,7 +336,6 @@ public class EnemyMovement : MonoBehaviour
         if (groundController.isGrounded)
         {
             rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            //Instantiate(marca, transform.position, Quaternion.identity);
             animator.SetTrigger("jump");
         }
 
@@ -365,7 +347,6 @@ public class EnemyMovement : MonoBehaviour
             speed = ultimaVelocidad;
         }
 
-        //Invoke("EjecutarSalto", 0.025f);
         playerPoints.jumpPoint[IJumpPoint] = Vector3.zero;
 
         if (IJumpPoint >= 10)
@@ -389,9 +370,6 @@ public class EnemyMovement : MonoBehaviour
 
             if (speed == 1.9f) speed = 2;
             else if (speed == 0.9f || speed == 1) speed = 1.3f;
-
-
-            //speed = 2;
 
             pararse = true;
             canJumpWall = true;
@@ -424,9 +402,7 @@ public class EnemyMovement : MonoBehaviour
 
 
     }
-
-    
-
+ 
     public void actualizarEstamina()
     {
         if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)

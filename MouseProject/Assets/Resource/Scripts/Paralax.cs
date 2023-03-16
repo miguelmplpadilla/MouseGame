@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Paralax : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField] private Vector2 velocidadMovimiento;
 
     private Vector2 offset;
@@ -21,7 +20,6 @@ public class Paralax : MonoBehaviour
         rb2D = player.GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         offset = (rb2D.velocity.x * 0.1f) * velocidadMovimiento * Time.deltaTime;

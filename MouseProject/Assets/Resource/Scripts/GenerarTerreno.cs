@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class GenerarTerreno : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject player;
-
-    public GameObject segundoSuelo;
-
+    private GameObject player;
+    private GameObject segundoSuelo;
     public GameObject sueloPrefab;
 
     public float distance;
@@ -16,27 +13,20 @@ public class GenerarTerreno : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-
         segundoSuelo = GameObject.Find("SueloReal");
     }
 
-    // Update is called once per frame
     void Update()
     {
 
         distance = Vector3.Distance(player.transform.position, segundoSuelo.transform.position);
 
-        if (distance < 4)
+        if (distance < 100)
         {
-
             GameObject instancia = Instantiate(sueloPrefab, segundoSuelo.transform.position + new Vector3(-0.1f,2,0), Quaternion.identity);
             Suelo instanciaScript = instancia.GetComponent<Suelo>();
             ActualizarTarget(instanciaScript.hijo);
-
         }
-
-
-
     }
 
     public void ActualizarTarget(GameObject newTarget)

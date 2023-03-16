@@ -25,8 +25,8 @@ public class Puntuacion : MonoBehaviour
     {
         player = GameObject.Find("Player");
 
-        puntuacionTxtGO = GameObject.Find("PuntuacionTXT");
-        puntuacionTxt = puntuacionTxtGO.GetComponent<TextMeshProUGUI>();
+        //puntuacionTxtGO = GameObject.Find("PuntuacionTXT");
+        //puntuacionTxt = puntuacionTxtGO.GetComponent<TextMeshProUGUI>();
 
         recordTxtGO = GameObject.Find("RecordTXT");
         recordTxt = recordTxtGO.GetComponent<TextMeshProUGUI>();

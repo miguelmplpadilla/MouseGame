@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerPoints : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public bool visualMarks;
+
     public GameObject marca;
 
      public PlayerGroundController groundController;
@@ -22,9 +23,13 @@ public class PlayerPoints : MonoBehaviour
     public Vector3[] runPoint;
     public int IrunPoint;
 
-    public Vector3 walkPoint;
+    public Vector3[] ganchoPoint;
+    public int IganchoPoint;
 
-    public bool visualMarks;
+    public Vector3[] breackGanchoPoint;
+    public int IbreackGanchoPoint;
+
+    public Vector3 walkPoint;
 
 
     void Awake()
@@ -34,14 +39,15 @@ public class PlayerPoints : MonoBehaviour
         runPoint = new Vector3[10];
         deslizarPoint = new Vector3[10];
 
+        ganchoPoint = new Vector3[10];
+        breackGanchoPoint = new Vector3[10];
+
         groundController = GetComponentInChildren<PlayerGroundController>();
         playerScript = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-
-
         if (Input.GetButtonDown("Fire1"))
         {
             if (playerScript.estamina > 0)
@@ -53,19 +59,14 @@ public class PlayerPoints : MonoBehaviour
         {
             MakeWalkPoint();
         }
-
-
-
     }
 
     public void MakeDeslizarPoint()
     {
-
         deslizarPoint[IdeslizarPoint] = transform.position;
         IdeslizarPoint++;
         if (IdeslizarPoint >= 10) { IdeslizarPoint = 0; }
         CrearMarca();
-
     }
 
     public void MakeJumpPoint()
@@ -74,7 +75,6 @@ public class PlayerPoints : MonoBehaviour
         IJumpPoint++;
         if (IJumpPoint >= 10) { IJumpPoint = 0; }
         CrearMarca();
-
     }
 
     public void MakeJumpWallPoint()
@@ -99,11 +99,27 @@ public class PlayerPoints : MonoBehaviour
         CrearMarca();
     }
 
+    public void MakeGanchoPoint()
+    {
+        ganchoPoint[IganchoPoint] = transform.position;
+        IganchoPoint++;
+        if (IganchoPoint >= 10) { IganchoPoint = 0; }
+        CrearMarca();
+    }
+
+    public void MakeBreackGanchoPoint()
+    {
+        breackGanchoPoint[IbreackGanchoPoint] = transform.position;
+        IbreackGanchoPoint++;
+        if (IbreackGanchoPoint >= 10) { IbreackGanchoPoint = 0; }
+        CrearMarca();
+    }
+
     public void CrearMarca()
     {
         if (visualMarks)
         {
-            Instantiate(marca, transform.position, Quaternion.identity);
+            if (marca != null) Instantiate(marca, transform.position, Quaternion.identity);
         }
     }
 }

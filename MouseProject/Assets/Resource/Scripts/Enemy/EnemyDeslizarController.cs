@@ -10,12 +10,13 @@ public class EnemyDeslizarController : MonoBehaviour
     private PlayerPoints playerPoints;
     private Animator animator;
 
+    public GameObject puntoRayCast;
+
     public bool deslizandoSuelo = false;
     public bool paredSuperior = false;
 
     public int IDeslizarPoint;
 
-    /////
 
     private void Awake()
     {
@@ -36,19 +37,33 @@ public class EnemyDeslizarController : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
 
-                float distanciaFor = Vector3.Distance(playerPoints.deslizarPoint[i], transform.position);
-                if (distanciaFor < distanciaMinima)
-                {
-                    IJumpPointMasCercano = i;
-                    distanciaMinima = distanciaFor;
-                }
+            float distanciaFor = Vector3.Distance(playerPoints.deslizarPoint[i], transform.position);
 
-
+            if (distanciaFor < distanciaMinima)
+            {
+                IJumpPointMasCercano = i;
+                distanciaMinima = distanciaFor;
+            }
         }
 
         IDeslizarPoint = IJumpPointMasCercano;
 
+        ///////////////
 
+        Vector2 direccionRay = new Vector2(transform.localScale.x, 0);
+
+        RaycastHit2D hitInfo = Physics2D.Raycast(puntoRayCast.transform.position, direccionRay, 0.01f, 1 << 6);
+
+        Debug.DrawRay(puntoRayCast.transform.position, direccionRay, Color.red);
+
+        if (hitInfo.collider != null && hitInfo.collider.tag.Equals("Ground"))
+        {
+            if (!paredSuperior)
+            {
+                deslizandoSuelo = false;
+                animator.SetBool("deslizandoSuelo", false);
+            }
+        }
     }
 
     void Update()
@@ -58,14 +73,14 @@ public class EnemyDeslizarController : MonoBehaviour
 
         if ((distancia < 0.03) || (distancia < 0.7 && playerPoints.deslizarPoint[IDeslizarPoint].x < transform.position.x))
         {
-            if (!deslizandoSuelo)
-            {
-                playerPoints.deslizarPoint[IDeslizarPoint] = Vector3.zero;
-                //movementScript.speed = 1;
-                StartCoroutine("resetearDeslizar");
-                animator.SetBool("deslizandoSuelo", true);
-                deslizandoSuelo = true;
-            }
+
+                if (!deslizandoSuelo)
+                {
+                    playerPoints.deslizarPoint[IDeslizarPoint] = Vector3.zero;
+                    StartCoroutine("resetearDeslizar");
+                    animator.SetBool("deslizandoSuelo", true);
+                    deslizandoSuelo = true;
+                }
         }
     }
 

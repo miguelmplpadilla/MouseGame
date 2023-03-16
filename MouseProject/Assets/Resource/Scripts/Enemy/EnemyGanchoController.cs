@@ -1,22 +1,20 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGanchoController : MonoBehaviour
+public class EnemyGanchoController : MonoBehaviour
 {
-
     public bool ganchoLanzado = false;
     public bool enganchado = false;
     public bool puedeDispararGancho = false;
 
     public GameObject puntoLanzamientoGancho;
     public GameObject gancho;
-    private GameObject puntoEngancheVirtual;
+    public GameObject puntoEngancheVirtual;
     private LineRenderer ganchoLineRenderer;
 
     private PlayerGroundController groundController;
-    private PlayerMovement playerMovement;
+    private EnemyMovement enemyMovement;
     private DistanceJoint2D distanceJoint;
 
     public float speedGancho = 2;
@@ -25,88 +23,129 @@ public class PlayerGanchoController : MonoBehaviour
 
     private GameObject[] ganchosEscena;
     private GameObject ganchoCercano;
-    private GameObject clickDerechoGancho;
 
+    public GameObject player;
     public PlayerPoints playerPoints;
+
+    public int IGanchoPoint;
+    public int IBreackGanchoPoint;
 
     private void Awake()
     {
+
+        player = GameObject.Find("Player");
+        playerPoints = player.GetComponent<PlayerPoints>();
         groundController = GetComponentInChildren<PlayerGroundController>();
-        playerMovement = GetComponent<PlayerMovement>();
+        enemyMovement = GetComponent<EnemyMovement>();
         distanceJoint = GetComponent<DistanceJoint2D>();
 
-        playerPoints = GetComponent<PlayerPoints>();
     }
 
     private void Start()
     {
+
         ganchoLineRenderer = gancho.GetComponent<LineRenderer>();
-        
-        puntoEngancheVirtual = GameObject.Find("PuntoEngancheVirtual");
-        
+        puntoEngancheVirtual = GameObject.Find("PuntoEngancheVirtualEnemy");
         distanceJoint.connectedBody = puntoEngancheVirtual.GetComponent<Rigidbody2D>();
-        
-        clickDerechoGancho = GameObject.Find("ClickDerechoGancho");
+
     }
 
     void Update()
     {
+
         Vector2 direccionRay = new Vector2(1, 0.6f);
-        
-        if (!groundController.isGrounded && !playerMovement.aireSaltandoPared && puedeDispararGancho)
+
+        if (!groundController.isGrounded && !enemyMovement.aireSaltandoPared && puedeDispararGancho)
         {
             if (!ganchoLanzado && !enganchado)
             {
-                if (Input.GetButtonDown("Jump"))
+                if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.04f)
                 {
+                    playerPoints.ganchoPoint[IGanchoPoint] = Vector3.zero;
                     StartCoroutine("tiempoGanchoLanzado");
-                    hitInfo = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
-                    playerMovement.speed = 2;
+                    hitInfo = Physics2D.Raycast(transform.position, direccionRay, 10000, 1 << 6);
+                    enemyMovement.speed = 2;
                     puntoEngancheVirtual.transform.position = hitInfo.point;
-                    
-                    ganchoLanzado = true;
 
-                    playerPoints.MakeGanchoPoint();
+                    ganchoLanzado = true;
                 }
             }
         }
 
-        
+
         Debug.DrawRay(transform.position, direccionRay, Color.red);
-        
+
         if (enganchado)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.06f)
             {
+
+                playerPoints.breackGanchoPoint[IBreackGanchoPoint] = Vector3.zero;
                 gancho.transform.parent = transform;
                 gancho.transform.position = puntoLanzamientoGancho.transform.position;
-                
-                distanceJoint.enabled = false;
-                
-                playerMovement.saltar(playerMovement.jumpForce);
-                
-                enganchado = false;
 
-                playerPoints.MakeBreackGanchoPoint();
+                distanceJoint.enabled = false;
+
+                enemyMovement.saltar(enemyMovement.jumpForce);
+
+                enganchado = false;
             }
         }
+
+        float distanciaMinimaGancho = 99999;
+
+        int IGanchoPointMasCercano = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+
+            float distanciaFor = Vector3.Distance(playerPoints.ganchoPoint[i], transform.position);
+            if (distanciaFor < distanciaMinimaGancho)
+            {
+                IGanchoPointMasCercano = i;
+                distanciaMinimaGancho = distanciaFor;
+            }
+
+
+        }
+
+        IGanchoPoint = IGanchoPointMasCercano;
+
+        ///////////////////////
+
+        float distanciaMinimaBreakGancho = 99999;
+
+        int IBreakGanchoPointMasCercano = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+
+            float distanciaFor = Vector3.Distance(playerPoints.breackGanchoPoint[i], transform.position);
+            if (distanciaFor < distanciaMinimaBreakGancho)
+            {
+                IBreakGanchoPointMasCercano = i;
+                distanciaMinimaBreakGancho = distanciaFor;
+            }
+
+        }
+
+        IBreackGanchoPoint = IBreakGanchoPointMasCercano;
     }
 
     private void FixedUpdate()
     {
+
         if (ganchoLanzado)
         {
             gancho.transform.parent = null;
-            gancho.transform.position = Vector3.MoveTowards( gancho.transform.position, hitInfo.point, speedGancho * Time.deltaTime);
+            gancho.transform.position = Vector3.MoveTowards(gancho.transform.position, hitInfo.point, speedGancho * Time.deltaTime);
 
             float distanciaGanchoEnganche = Vector2.Distance(gancho.transform.position, hitInfo.point);
-            
+
             if (distanciaGanchoEnganche < 0.05f)
             {
                 if (hitInfo.collider.tag.Equals("Enganche"))
                 {
-                    //puntoEngancheVirtual.transform.position = hitInfo.point;
-                    
                     distanceJoint.enabled = true;
 
                     enganchado = true;
@@ -116,27 +155,23 @@ public class PlayerGanchoController : MonoBehaviour
                     gancho.transform.parent = transform;
                     gancho.transform.position = puntoLanzamientoGancho.transform.position;
                 }
-                
+
                 ganchoLanzado = false;
             }
         }
-        
+
         Vector2 direccionRay = new Vector2(1, 0.6f);
-        RaycastHit2D hitInfoComprobar = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
+        RaycastHit2D hitInfoComprobar = Physics2D.Raycast(transform.position, direccionRay, 10000, 1 << 6);
 
         if (hitInfoComprobar.collider != null && hitInfoComprobar.collider.tag.Equals("Enganche"))
         {
-            clickDerechoGancho.transform.localScale = new Vector3(1, 1, 1);
-            clickDerechoGancho.transform.position = hitInfoComprobar.point;
-            
             puedeDispararGancho = true;
         }
         else
         {
-            clickDerechoGancho.transform.localScale = new Vector3(0,0,0);
             puedeDispararGancho = false;
         }
-        
+
         ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
         ganchoLineRenderer.SetPosition(1, gancho.transform.position);
     }
@@ -149,7 +184,7 @@ public class PlayerGanchoController : MonoBehaviour
         {
             gancho.transform.parent = transform;
             gancho.transform.position = puntoLanzamientoGancho.transform.position;
-                
+
             enganchado = false;
             ganchoLanzado = false;
         }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Autor: Miguel Padilla Lillo
 public class PlayerMovement : MonoBehaviour
 {
     private Vector2 movement;

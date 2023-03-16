@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 1519455164}
   - component: {fileID: 1519455166}
   - component: {fileID: 1519455165}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PlayerDeslizar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 4108763547660964269}
   - component: {fileID: 5139380261324194764}
   - component: {fileID: 1282401570}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Borde
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8005716046413323614}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PuntoLanzamientoGancho
   m_TagString: Untagged
   m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 1325483811}
   - component: {fileID: 1531493436}
   - component: {fileID: 1325483814}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -488,7 +488,7 @@ GameObject:
   - component: {fileID: 4601852592192377510}
   - component: {fileID: 4601852592192377511}
   - component: {fileID: 4601852592192377504}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: GroundController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: 6424024051543308033}
   - component: {fileID: 5767963916474404516}
   - component: {fileID: 1852489439}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Gancho
   m_TagString: Untagged
   m_Icon: {fileID: 0}

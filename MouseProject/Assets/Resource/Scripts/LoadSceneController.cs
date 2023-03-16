@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+// Autor: Miguel Padilla Lillo
 public class LoadSceneController : MonoBehaviour
 {
     private void Start()

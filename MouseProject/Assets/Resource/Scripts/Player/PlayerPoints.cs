@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Autor: Miguel Padilla Lillo
 public class PlayerPoints : MonoBehaviour
 {
     // Start is called before the first frame update

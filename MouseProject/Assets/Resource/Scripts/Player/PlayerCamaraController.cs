@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
+// Autor: Miguel Padilla Lillo
 public class PlayerCamaraController : MonoBehaviour
 {
 

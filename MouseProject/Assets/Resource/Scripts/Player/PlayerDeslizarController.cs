@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+
+// Autor: Miguel Padilla Lillo
 public class PlayerDeslizarController : MonoBehaviour
 {
 

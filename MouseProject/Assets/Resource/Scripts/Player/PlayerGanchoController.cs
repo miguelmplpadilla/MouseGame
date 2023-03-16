@@ -48,7 +48,7 @@ public class PlayerGanchoController : MonoBehaviour
 
     void Update()
     {
-        Vector2 direccionRay = new Vector2(1, 0.6f);
+        Vector2 direccionRay = new Vector2(1, 0.5f);
         
         if (!groundController.isGrounded && !playerMovement.aireSaltandoPared && puedeDispararGancho)
         {
@@ -114,7 +114,7 @@ public class PlayerGanchoController : MonoBehaviour
             }
         }
         
-        Vector2 direccionRay = new Vector2(1, 0.6f);
+        Vector2 direccionRay = new Vector2(1, 0.5f);
         RaycastHit2D hitInfoComprobar = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
 
         if (hitInfoComprobar.collider != null && hitInfoComprobar.collider.tag.Equals("Enganche"))

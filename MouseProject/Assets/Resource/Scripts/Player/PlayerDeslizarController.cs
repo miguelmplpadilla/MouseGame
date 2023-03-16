@@ -26,8 +26,6 @@ public class PlayerDeslizarController : MonoBehaviour
         playerMovement = GetComponentInParent<PlayerMovement>();
         animator = GetComponentInParent<Animator>();
 
-        //
-
         playerPoints = GetComponentInParent<PlayerPoints>();
     }
 

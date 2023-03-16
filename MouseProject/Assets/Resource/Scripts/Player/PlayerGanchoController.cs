@@ -19,6 +19,7 @@ public class PlayerGanchoController : MonoBehaviour
     private PlayerGroundController groundController;
     private PlayerMovement playerMovement;
     private DistanceJoint2D distanceJoint;
+    private PlayerDeslizarController playerDeslizarController;
 
     public float speedGancho = 2;
 
@@ -33,22 +34,35 @@ public class PlayerGanchoController : MonoBehaviour
         groundController = GetComponentInChildren<PlayerGroundController>();
         playerMovement = GetComponent<PlayerMovement>();
         distanceJoint = GetComponent<DistanceJoint2D>();
+        playerDeslizarController = GetComponentInChildren<PlayerDeslizarController>();
     }
 
     private void Start()
     {
         ganchoLineRenderer = gancho.GetComponent<LineRenderer>();
-        
         puntoEngancheVirtual = GameObject.Find("PuntoEngancheVirtual");
-        
         distanceJoint.connectedBody = puntoEngancheVirtual.GetComponent<Rigidbody2D>();
-        
         clickDerechoGancho = GameObject.Find("ClickDerechoGancho");
     }
 
     void Update()
     {
-        Vector2 direccionRay = new Vector2(1, 0.5f);
+        if (!puedeDispararGancho)
+        {
+            if (enganchado)
+            {
+                distanceJoint.autoConfigureDistance = true;
+                distanceJoint.enabled = false;
+                
+                gancho.transform.parent = transform;
+                gancho.transform.position = puntoLanzamientoGancho.transform.position;
+
+                enganchado = false;
+                ganchoLanzado = false;
+            }
+        }
+        
+        Vector2 direccionRay = new Vector2(1, 0.6f);
         
         if (!groundController.isGrounded && !playerMovement.aireSaltandoPared && puedeDispararGancho)
         {
@@ -76,6 +90,7 @@ public class PlayerGanchoController : MonoBehaviour
                 gancho.transform.parent = transform;
                 gancho.transform.position = puntoLanzamientoGancho.transform.position;
                 
+                distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
                 
                 playerMovement.saltar(playerMovement.jumpForce);
@@ -98,9 +113,9 @@ public class PlayerGanchoController : MonoBehaviour
             {
                 if (hitInfo.collider.tag.Equals("Enganche"))
                 {
-                    //puntoEngancheVirtual.transform.position = hitInfo.point;
-                    
                     distanceJoint.enabled = true;
+
+                    distanceJoint.autoConfigureDistance = false;
 
                     enganchado = true;
                 }
@@ -114,9 +129,23 @@ public class PlayerGanchoController : MonoBehaviour
             }
         }
         
-        Vector2 direccionRay = new Vector2(1, 0.5f);
+        comprobarLanzarGancho();
+        
+        ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
+        ganchoLineRenderer.SetPosition(1, gancho.transform.position);
+    }
+
+    private void comprobarLanzarGancho()
+    {
+        Vector2 direccionRay = new Vector2(1, 0.6f);
         RaycastHit2D hitInfoComprobar = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
 
+        float distanciaGancho = Vector2.Distance(hitInfoComprobar.point, transform.position);
+
+        RaycastHit2D hitInfoComprobarPared = Physics2D.Raycast(playerDeslizarController.puntoRayCast.transform.position, Vector2.left,0.01f, 1 << 6);
+
+        Debug.DrawRay(transform.position, Vector2.left, Color.red);
+        
         if (hitInfoComprobar.collider != null && hitInfoComprobar.collider.tag.Equals("Enganche"))
         {
             clickDerechoGancho.transform.localScale = new Vector3(1, 1, 1);
@@ -130,8 +159,16 @@ public class PlayerGanchoController : MonoBehaviour
             puedeDispararGancho = false;
         }
         
-        ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
-        ganchoLineRenderer.SetPosition(1, gancho.transform.position);
+        if (groundController.isGrounded || 
+            (hitInfoComprobarPared.collider != null && hitInfoComprobarPared.collider.tag.Equals("Ground")))
+        {
+            puedeDispararGancho = false;
+        }
+
+        if (!groundController.isGrounded && distanciaGancho >= 2f && !enganchado)
+        {
+            puedeDispararGancho = false;
+        }
     }
 
     private IEnumerator tiempoGanchoLanzado()
@@ -140,6 +177,7 @@ public class PlayerGanchoController : MonoBehaviour
 
         if (!enganchado)
         {
+            distanceJoint.autoConfigureDistance = true;
             gancho.transform.parent = transform;
             gancho.transform.position = puntoLanzamientoGancho.transform.position;
                 

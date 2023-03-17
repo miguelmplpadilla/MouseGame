@@ -93,6 +93,11 @@ public class PlayerGanchoController : MonoBehaviour
         
         if (enganchado)
         {
+            
+            var dir = puntoEngancheVirtual.transform.position - transform.position;
+            var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
+            
             if (Input.GetButtonDown("Jump"))
             {
                 gancho.transform.parent = transform;
@@ -101,13 +106,22 @@ public class PlayerGanchoController : MonoBehaviour
                 distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
                 
+                
+                
                 playerMovement.saltar(playerMovement.jumpForce);
                 
                 enganchado = false;
             }
         }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0,0,0);
+        }
         
         animator.SetBool("enganchado", enganchado);
+        
+        ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
+        ganchoLineRenderer.SetPosition(1, gancho.transform.position);
     }
 
     private void FixedUpdate()
@@ -140,9 +154,6 @@ public class PlayerGanchoController : MonoBehaviour
         }
         
         comprobarLanzarGancho();
-        
-        ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
-        ganchoLineRenderer.SetPosition(1, gancho.transform.position);
     }
 
     private void comprobarLanzarGancho()

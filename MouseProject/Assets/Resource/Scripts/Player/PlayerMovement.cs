@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void movimiento()
     {
-        if (!aireSaltandoPared)
+        if (!aireSaltandoPared && !playerGanchoController.enganchado)
         {
             if (groundController.isGrounded && !playerDeslizarController.deslizandoSuelo)
             {

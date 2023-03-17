@@ -20,6 +20,9 @@ public class PlayerGanchoController : MonoBehaviour
     private PlayerMovement playerMovement;
     private DistanceJoint2D distanceJoint;
     private PlayerDeslizarController playerDeslizarController;
+    
+    private Animator animator;
+    private Rigidbody2D rigidbody;
 
     public float speedGancho = 2;
 
@@ -35,6 +38,8 @@ public class PlayerGanchoController : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         distanceJoint = GetComponent<DistanceJoint2D>();
         playerDeslizarController = GetComponentInChildren<PlayerDeslizarController>();
+        animator = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -47,6 +52,8 @@ public class PlayerGanchoController : MonoBehaviour
 
     void Update()
     {
+        animator.SetFloat("velocidadHorizontal", rigidbody.velocity.x);
+        
         if (!puedeDispararGancho)
         {
             if (enganchado)
@@ -61,7 +68,7 @@ public class PlayerGanchoController : MonoBehaviour
                 ganchoLanzado = false;
             }
         }
-        
+
         Vector2 direccionRay = new Vector2(1, 0.6f);
         
         if (!groundController.isGrounded && !playerMovement.aireSaltandoPared && puedeDispararGancho)
@@ -70,6 +77,7 @@ public class PlayerGanchoController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Jump"))
                 {
+                    animator.SetTrigger("lanzarGancho");
                     StartCoroutine("tiempoGanchoLanzado");
                     hitInfo = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
                     
@@ -98,6 +106,8 @@ public class PlayerGanchoController : MonoBehaviour
                 enganchado = false;
             }
         }
+        
+        animator.SetBool("enganchado", enganchado);
     }
 
     private void FixedUpdate()

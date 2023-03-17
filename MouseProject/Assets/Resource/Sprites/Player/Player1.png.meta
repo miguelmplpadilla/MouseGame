@@ -124,8 +124,8 @@ TextureImporter:
         y: 704
         width: 69
         height: 44
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -2264,9 +2264,9 @@ TextureImporter:
       Player1_3: -912603900
       Player1_41: 1234721805
       Player1_44: -996087944
-      Player1_97: 565869722
-      Player1_90: -229294084
       Player1_67: 626809121
+      Player1_90: -229294084
+      Player1_97: 565869722
       Player1_34: -1144186722
       Player1_29: -422026494
       Player1_59: 2136162013

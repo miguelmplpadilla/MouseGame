@@ -1023,11 +1023,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.552015
+      value: 2.5520217
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05399984
+      value: 0.053999815
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1039,15 +1039,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -1.2157616e-20
+      value: 8.784976e-20
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000754561
+      value: -0.0000010831529
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000011771002
+      value: -0.000000016897182
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2199,6 +2199,10 @@ PrefabInstance:
     - target: {fileID: 1573489937602674188, guid: 56cc01815c57e1f42babb7956e7dc581, type: 3}
       propertyPath: m_Name
       value: SueloGenerar
+      objectReference: {fileID: 0}
+    - target: {fileID: 2409554839168843762, guid: 56cc01815c57e1f42babb7956e7dc581, type: 3}
+      propertyPath: tutorial
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3124965255771063801, guid: 56cc01815c57e1f42babb7956e7dc581, type: 3}
       propertyPath: m_Enabled

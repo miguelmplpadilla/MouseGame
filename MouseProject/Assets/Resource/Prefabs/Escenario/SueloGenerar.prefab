@@ -4915,7 +4915,7 @@ MonoBehaviour:
   escenarioTutorial: {fileID: 6788533143727366364}
   escenaPostTutorial: {fileID: 794886182187537073}
   random: 0
-  generarTerreno: 0
+  generarTerreno: 1
   tutorial: 0
   postTutorial: 0
 --- !u!1 &1650181210117811039
@@ -18424,7 +18424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7897209998752522580
 Transform:
   m_ObjectHideFlags: 0

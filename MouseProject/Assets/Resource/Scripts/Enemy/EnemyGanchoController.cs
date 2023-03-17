@@ -55,11 +55,10 @@ public class EnemyGanchoController : MonoBehaviour
 
         Vector2 direccionRay = new Vector2(1, 0.6f);
 
-        if (!groundController.isGrounded && !enemyMovement.aireSaltandoPared && puedeDispararGancho)
-        {
+
             if (!ganchoLanzado && !enganchado)
             {
-                if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.06f)
+                if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.1f)
                 {
                     playerPoints.ganchoPoint[IGanchoPoint] = Vector3.zero;
                     StartCoroutine("tiempoGanchoLanzado");
@@ -70,14 +69,13 @@ public class EnemyGanchoController : MonoBehaviour
                     ganchoLanzado = true;
                 }
             }
-        }
 
 
         Debug.DrawRay(transform.position, direccionRay, Color.red);
 
         if (enganchado)
         {
-            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.07f)
+            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.12f)
             {
 
                 playerPoints.breackGanchoPoint[IBreackGanchoPoint] = Vector3.zero;
@@ -191,7 +189,7 @@ public class EnemyGanchoController : MonoBehaviour
 
     private IEnumerator tiempoGanchoLanzado()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.7f);
 
         if (!enganchado)
         {

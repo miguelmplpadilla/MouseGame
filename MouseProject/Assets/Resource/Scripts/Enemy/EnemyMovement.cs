@@ -71,6 +71,7 @@ public class EnemyMovement : MonoBehaviour
 
         animator.SetBool("run", true);
 
+
     }
 
     void Update()
@@ -86,13 +87,15 @@ public class EnemyMovement : MonoBehaviour
 
         
 
-        if (distanciaSalto < 0.05 && (speed == 1.9f || speed == 2)) //SALTAR
+        if (distanciaSalto < 0.04 && (speed == 1.9f || speed == 2)) //SALTAR
         {
+            jumpForce = 3.1f;
             EjecutarSalto();
 
         }
         else if (distanciaSalto < 0.02 && (speed == 0.9f || speed == 1))
         {
+            jumpForce = 3.1f;
             EjecutarSalto();
         }
         else if (distanciaSalto < 0.05 && playerPoints.jumpPoint[IJumpPoint].x < transform.position.x )
@@ -130,7 +133,13 @@ public class EnemyMovement : MonoBehaviour
         comprobarPared();
         EncontrarPuntosCercanos();
 
-        if (transform.position == ultimaPosicion && groundController.isGrounded && !tutorial) EjecutarSalto();
+        if (transform.position == ultimaPosicion && groundController.isGrounded && !tutorial)
+        {
+            if (player.transform.position.x + 0.5f > transform.position.x)
+            {
+                EjecutarSalto();
+            }
+        }
         else ultimaPosicion = transform.position;
 
     }
@@ -143,7 +152,7 @@ public class EnemyMovement : MonoBehaviour
         if (!tutorial)
         {
 
-            if (distancia > 6f || player.transform.position.x + 3 < transform.position.x)
+            if (distancia > 5.5f || player.transform.position.x + 3 < transform.position.x)
             {
 
                 transform.position = player.transform.position - new Vector3(3.5f, 0, 0);
@@ -188,10 +197,13 @@ public class EnemyMovement : MonoBehaviour
                 else if (speed == 0.9f && recuperandoPosicion == false) { speed = 1f; };
             }
 
-            if (distancia > distanciaInicial + 2)
+            //if (distancia > distanciaInicial + 3)
+            if (transform.position.x < player.transform.position.x - 2.5 && recuperandoPosicion == false)
             {
-                speed = 1.9f;
+                ultimaVelocidad = speed;
+                speed = 2f;
                 recuperandoPosicion = true;
+                
             }
 
             if (recuperandoPosicion == true)
@@ -219,7 +231,8 @@ public class EnemyMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        actualizarEstamina();
+        //actualizarEstamina();
+        estamina = 150;
     }
 
     public void EncontrarPuntosCercanos()
@@ -335,11 +348,13 @@ public class EnemyMovement : MonoBehaviour
         print("EnemyRun");
         speed = maxSpeed;
         speed = 2;
+        recuperandoPosicion = false;
     }
 
     public void SetWalk()
     {
         speed = minSpeed;
+        recuperandoPosicion = false;
     }
 
     public void saltar(float fuerzaSalto)
@@ -462,7 +477,7 @@ public class EnemyMovement : MonoBehaviour
     {
         Vector2 direccionRay = new Vector2(transform.localScale.x, 0);
 
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, direccionRay, 0.16f, 1 << 6);
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, direccionRay, 0.2f, 1 << 6);
 
         Debug.DrawRay(transform.position, direccionRay, Color.red);
 

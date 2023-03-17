@@ -8,6 +8,8 @@ public class GenerarTerreno : MonoBehaviour
     private GameObject segundoSuelo;
     public GameObject sueloPrefab;
 
+    public bool tutorial;
+
     public float distance;
 
     void Start()
@@ -23,10 +25,31 @@ public class GenerarTerreno : MonoBehaviour
 
         if (distance < 4)
         {
-            GameObject instancia = Instantiate(sueloPrefab, segundoSuelo.transform.position + new Vector3(-0.1f,2,0), Quaternion.identity);
-            Suelo instanciaScript = instancia.GetComponent<Suelo>();
-            ActualizarTarget(instanciaScript.hijo);
+
+            if (!tutorial)
+            {
+                GenerarSuelo(2);
+            }
+            else
+            {
+                GenerarSuelo(0);
+            }
+           
         }
+    }
+
+    public void GenerarSuelo(float altura)
+    {
+        GameObject instancia = Instantiate(sueloPrefab, segundoSuelo.transform.position + new Vector3(-0.1f, altura, 0), Quaternion.identity);
+        Suelo instanciaScript = instancia.GetComponent<Suelo>();
+        ActualizarTarget(instanciaScript.hijo);
+
+        if (tutorial)
+        {
+            instanciaScript.postTutorial = true;
+            tutorial = false;
+        }
+
     }
 
     public void ActualizarTarget(GameObject newTarget)

@@ -28,6 +28,6 @@ public class VolumenController : MonoBehaviour
 
     public void guardarVolumen()
     {
-        PlayerPrefs.SetFloat("VolumenMusica", audioSource.volume);
+        PlayerPrefs.SetFloat("VolumenMusica", sliderVolumen.value);
     }
 }

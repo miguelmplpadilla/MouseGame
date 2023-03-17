@@ -296,7 +296,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 478657361, guid: cddcd9e15da4d7846aa59b86eccf27c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -348,6 +348,7 @@ MonoBehaviour:
   puntoLanzamientoGancho: {fileID: 3428624153170672748}
   gancho: {fileID: 8636885761001590749}
   speedGancho: 10
+  playerPoints: {fileID: 0}
 --- !u!61 &4601852592093646374
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -449,7 +450,7 @@ DistanceJoint2D:
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
+  m_AutoConfigureDistance: 1
   m_Distance: 1.2
   m_MaxDistanceOnly: 0
 --- !u!114 &1325483814
@@ -464,6 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 233b170d396438f4180854e4b46fcc63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visualMarks: 0
   marca: {fileID: 0}
   groundController: {fileID: 0}
   playerScript: {fileID: 0}
@@ -475,8 +477,15 @@ MonoBehaviour:
   IJumpPoint: 0
   runPoint: []
   IrunPoint: 0
-  walkPoint: {x: 0, y: 0, z: 0}
-  visualMarks: 0
+  ganchoPoint: []
+  IganchoPoint: 0
+  breackGanchoPoint: []
+  IbreackGanchoPoint: 0
+  walkPoint:
+  - {x: 2.459349e-28, y: 6.9e-43, z: 0.0000001697088}
+  - {x: 0.00000021440864, y: 1.1621314e+20, z: 6.9e-43}
+  - {x: 4.6e-44, y: 0.00000004246557, z: 2.459349e-28}
+  IwalkPoint: 0
 --- !u!1 &4601852592192377509
 GameObject:
   m_ObjectHideFlags: 0

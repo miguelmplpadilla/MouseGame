@@ -40,6 +40,7 @@ public class EnemyMovement : MonoBehaviour
     public int IparedJumpPoint;
     public int IJumpPoint;
     public int IRunPoint;
+    public int IWalkPoint;
 
     public bool recuperandoPosicion;
 
@@ -85,8 +86,6 @@ public class EnemyMovement : MonoBehaviour
 
         float distanciaSalto = Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position);
 
-        
-
         if (distanciaSalto < 0.04 && (speed == 1.9f || speed == 2)) //SALTAR
         {
             jumpForce = 3.1f;
@@ -98,10 +97,7 @@ public class EnemyMovement : MonoBehaviour
             jumpForce = 3.1f;
             EjecutarSalto();
         }
-        else if (distanciaSalto < 0.05 && playerPoints.jumpPoint[IJumpPoint].x < transform.position.x )
-        {
-            //EjecutarSalto();
-        }
+
 
         animator.SetFloat("verticalVelocity", rigidbody.velocity.y);
         animator.SetBool("deslizando", saltandoParedes);
@@ -122,6 +118,22 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        float distanciaSalto = Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position);
+
+        if (distanciaSalto < 0.04 && (speed == 1.9f || speed == 2)) //SALTAR
+        {
+            jumpForce = 3.1f;
+            EjecutarSalto();
+
+        }
+        else if (distanciaSalto < 0.02 && (speed == 0.9f || speed == 1))
+        {
+            jumpForce = 3.1f;
+            EjecutarSalto();
+        }
+
+
         if (groundController.isGrounded)
         {
             aireSaltandoPared = false;
@@ -297,7 +309,27 @@ public class EnemyMovement : MonoBehaviour
 
         IRunPoint = IRunPointMasCercano;
 
+        //
 
+        //
+
+        float distanciaMinimaWalk = 99999;
+
+        int IWalkPointMasCercano = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+
+            float distanciaFor = Vector3.Distance(playerPoints.walkPoint[i], transform.position);
+            if (distanciaFor < distanciaMinimaWalk)
+            {
+                IWalkPointMasCercano = i;
+                distanciaMinimaWalk = distanciaFor;
+            }
+
+        }
+
+        IWalkPoint = IWalkPointMasCercano;
     }
 
     public void movimiento()
@@ -308,7 +340,7 @@ public class EnemyMovement : MonoBehaviour
                 SetRun();
                 playerPoints.runPoint[IRunPoint] = Vector3.zero;
         }
-        else if (Vector3.Distance(playerPoints.walkPoint, transform.position) < 0.03)
+        else if (Vector3.Distance(playerPoints.walkPoint[IWalkPoint], transform.position) < 0.03)
         {
             if (groundController.isGrounded)
             {
@@ -319,7 +351,7 @@ public class EnemyMovement : MonoBehaviour
                 pararse = true;
             }
 
-             playerPoints.walkPoint = Vector3.zero;
+             playerPoints.walkPoint[IWalkPoint] = Vector3.zero;
         }
 
         if (pararse == true && groundController.isGrounded && saltandoParedes == false && aireSaltandoPared == false)

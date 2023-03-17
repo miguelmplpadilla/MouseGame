@@ -29,7 +29,8 @@ public class PlayerPoints : MonoBehaviour
     public Vector3[] breackGanchoPoint;
     public int IbreackGanchoPoint;
 
-    public Vector3 walkPoint;
+    public Vector3[] walkPoint;
+    public int IwalkPoint;
 
 
     void Awake()
@@ -38,6 +39,7 @@ public class PlayerPoints : MonoBehaviour
         jumpPoint = new Vector3[10];
         runPoint = new Vector3[10];
         deslizarPoint = new Vector3[10];
+        walkPoint = new Vector3[10];
 
         ganchoPoint = new Vector3[10];
         breackGanchoPoint = new Vector3[10];
@@ -95,7 +97,9 @@ public class PlayerPoints : MonoBehaviour
 
     public void MakeWalkPoint()
     {
-        walkPoint = transform.position;
+        walkPoint[IwalkPoint] = transform.position;
+        IwalkPoint++;
+        if (IwalkPoint >= 10) { IwalkPoint = 0; }
         CrearMarca();
     }
 

@@ -918,7 +918,7 @@ PrefabInstance:
       objectReference: {fileID: 4867439314934714167, guid: e6be8e311706a5f47871f94c8eaad905, type: 3}
     - target: {fileID: 1325483814, guid: fb0988d71f4297841a22f5438260d0bd, type: 3}
       propertyPath: visualMarks
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1519455163, guid: fb0988d71f4297841a22f5438260d0bd, type: 3}
       propertyPath: m_Layer
@@ -1023,11 +1023,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5520144
+      value: 2.552015
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.053999845
+      value: 0.05399984
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1039,15 +1039,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -1.943846e-20
+      value: -1.2157616e-20
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0000007107463
+      value: -0.000000754561
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000011087549
+      value: -0.000000011771002
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1981,6 +1981,7 @@ MonoBehaviour:
   IparedJumpPoint: 0
   IJumpPoint: 0
   IRunPoint: 0
+  IWalkPoint: 0
   recuperandoPosicion: 0
   estamina: 0
   canJumpWall: 0

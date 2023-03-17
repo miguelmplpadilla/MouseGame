@@ -5,22 +5,37 @@ using UnityEngine;
 public class Suelo : MonoBehaviour
 {
     public GameObject hijo;
-
     public GameObject[] escenarios;
+    public GameObject escenarioTutorial;
+    public GameObject escenaPostTutorial;
 
     public int random;
-
     public bool generarTerreno;
+    public bool tutorial;
+    public bool postTutorial;
 
-    void Awake()
+    void Start()
     {
         if (generarTerreno == true)
         {
-            Invoke("DestroyObj", 50);
+            if (!tutorial && !postTutorial)
+            {
+                Invoke("DestroyObj", 50);
 
-            random = Random.Range(0, escenarios.Length);
+                random = Random.Range(0, escenarios.Length);
 
-            escenarios[random].SetActive(true);
+                escenarios[random].SetActive(true);
+            }
+            else if (tutorial)
+            {
+                escenarioTutorial.SetActive(true);
+                Invoke("DestroyObj", 200);
+            }
+            else if (postTutorial)
+            {
+                escenaPostTutorial.SetActive(true);
+                Invoke("DestroyObj", 50);
+            }
         }
 
     }

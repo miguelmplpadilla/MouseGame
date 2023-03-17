@@ -5,7 +5,8 @@ using UnityEngine;
 // Autor: Miguel Padilla Lillo
 public class PlayerPoints : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public bool visualMarks;
+
     public GameObject marca;
 
      public PlayerGroundController groundController;
@@ -23,9 +24,14 @@ public class PlayerPoints : MonoBehaviour
     public Vector3[] runPoint;
     public int IrunPoint;
 
-    public Vector3 walkPoint;
+    public Vector3[] ganchoPoint;
+    public int IganchoPoint;
 
-    public bool visualMarks;
+    public Vector3[] breackGanchoPoint;
+    public int IbreackGanchoPoint;
+
+    public Vector3[] walkPoint;
+    public int IwalkPoint;
 
 
     void Awake()
@@ -34,6 +40,10 @@ public class PlayerPoints : MonoBehaviour
         jumpPoint = new Vector3[10];
         runPoint = new Vector3[10];
         deslizarPoint = new Vector3[10];
+        walkPoint = new Vector3[10];
+
+        ganchoPoint = new Vector3[10];
+        breackGanchoPoint = new Vector3[10];
 
         groundController = GetComponentInChildren<PlayerGroundController>();
         playerScript = GetComponent<PlayerMovement>();
@@ -41,8 +51,6 @@ public class PlayerPoints : MonoBehaviour
 
     void Update()
     {
-
-
         if (Input.GetButtonDown("Fire1"))
         {
             if (playerScript.estamina > 0)
@@ -54,19 +62,14 @@ public class PlayerPoints : MonoBehaviour
         {
             MakeWalkPoint();
         }
-
-
-
     }
 
     public void MakeDeslizarPoint()
     {
-
         deslizarPoint[IdeslizarPoint] = transform.position;
         IdeslizarPoint++;
         if (IdeslizarPoint >= 10) { IdeslizarPoint = 0; }
         CrearMarca();
-
     }
 
     public void MakeJumpPoint()
@@ -75,7 +78,6 @@ public class PlayerPoints : MonoBehaviour
         IJumpPoint++;
         if (IJumpPoint >= 10) { IJumpPoint = 0; }
         CrearMarca();
-
     }
 
     public void MakeJumpWallPoint()
@@ -96,7 +98,25 @@ public class PlayerPoints : MonoBehaviour
 
     public void MakeWalkPoint()
     {
-        walkPoint = transform.position;
+        walkPoint[IwalkPoint] = transform.position;
+        IwalkPoint++;
+        if (IwalkPoint >= 10) { IwalkPoint = 0; }
+        CrearMarca();
+    }
+
+    public void MakeGanchoPoint()
+    {
+        ganchoPoint[IganchoPoint] = transform.position;
+        IganchoPoint++;
+        if (IganchoPoint >= 10) { IganchoPoint = 0; }
+        CrearMarca();
+    }
+
+    public void MakeBreackGanchoPoint()
+    {
+        breackGanchoPoint[IbreackGanchoPoint] = transform.position;
+        IbreackGanchoPoint++;
+        if (IbreackGanchoPoint >= 10) { IbreackGanchoPoint = 0; }
         CrearMarca();
     }
 
@@ -104,7 +124,7 @@ public class PlayerPoints : MonoBehaviour
     {
         if (visualMarks)
         {
-            Instantiate(marca, transform.position, Quaternion.identity);
+            if (marca != null) Instantiate(marca, transform.position, Quaternion.identity);
         }
     }
 }

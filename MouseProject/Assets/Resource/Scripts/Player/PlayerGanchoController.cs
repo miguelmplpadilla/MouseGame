@@ -32,6 +32,8 @@ public class PlayerGanchoController : MonoBehaviour
     private GameObject ganchoCercano;
     private GameObject clickDerechoGancho;
 
+    public PlayerPoints playerPoints;
+
     private void Awake()
     {
         groundController = GetComponentInChildren<PlayerGroundController>();
@@ -40,6 +42,8 @@ public class PlayerGanchoController : MonoBehaviour
         playerDeslizarController = GetComponentInChildren<PlayerDeslizarController>();
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
+
+        playerPoints = GetComponent<PlayerPoints>();
     }
 
     private void Start()
@@ -80,10 +84,12 @@ public class PlayerGanchoController : MonoBehaviour
                     animator.SetTrigger("lanzarGancho");
                     StartCoroutine("tiempoGanchoLanzado");
                     hitInfo = Physics2D.Raycast(transform.position, direccionRay,10000, 1 << 6);
-                    
+                    playerMovement.speed = 2;
                     puntoEngancheVirtual.transform.position = hitInfo.point;
                     
                     ganchoLanzado = true;
+
+                    playerPoints.MakeGanchoPoint();
                 }
             }
         }
@@ -111,6 +117,8 @@ public class PlayerGanchoController : MonoBehaviour
                 playerMovement.saltar(playerMovement.jumpForce);
                 
                 enganchado = false;
+
+                playerPoints.MakeBreackGanchoPoint();
             }
         }
         else

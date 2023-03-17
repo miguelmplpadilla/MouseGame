@@ -48,7 +48,7 @@ public class PruebaMovimiento : MonoBehaviour
     public void Saltar()
     {
 
-        rb.AddForce(transform.up * 10);
+        rb.AddForce(transform.up * 20);
 
     }
 }

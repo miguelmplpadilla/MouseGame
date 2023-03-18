@@ -80,7 +80,7 @@ public class PlayerPoints : MonoBehaviour
         IdeslizarPoint++;
         if (IdeslizarPoint >= 10) { IdeslizarPoint = 0; }
 
-        if (marca != null) Instantiate(marca, transform.position - new Vector3(0.6f, 0, 0), Quaternion.identity);
+        if (marca != null && visualMarks) Instantiate(marca, transform.position - new Vector3(0.6f, 0, 0), Quaternion.identity);
     }
 
     public void MakeBreakDeslizarPoint()

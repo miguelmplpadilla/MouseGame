@@ -18,4 +18,9 @@ public class OpcionesController : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void volverMenuInicio()
+    {
+        LoadSceneController.cargarEscena("MenuInicio");
+    }
 }

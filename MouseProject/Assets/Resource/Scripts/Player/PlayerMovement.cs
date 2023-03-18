@@ -158,6 +158,11 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             speed = maxSpeed;
+
+            if (playerGanchoController.enganchado)
+            {
+                speed = minSpeed;
+            }
         }
 
         float horizontalvelocity = movement.normalized.x * speed;

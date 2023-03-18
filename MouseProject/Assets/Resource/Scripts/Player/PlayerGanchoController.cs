@@ -56,9 +56,13 @@ public class PlayerGanchoController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (ganchoLanzado || enganchado)
         {
-            Time.timeScale = 0.2f;
+            gancho.GetComponent<SpriteRenderer>().enabled = true;
+        }
+        else
+        {
+            gancho.GetComponent<SpriteRenderer>().enabled = false;
         }
         
         animator.SetFloat("velocidadHorizontal", rigidbody.velocity.x);
@@ -67,13 +71,12 @@ public class PlayerGanchoController : MonoBehaviour
         {
             if (enganchado)
             {
+                
                 distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
                 
                 gancho.transform.parent = transform;
                 gancho.transform.position = puntoLanzamientoGancho.transform.position;
-                
-                Debug.Log("He entrado !puedeDispararGancho");
 
                 enganchado = false;
                 ganchoLanzado = false;
@@ -112,17 +115,15 @@ public class PlayerGanchoController : MonoBehaviour
             
             if (Input.GetButtonDown("Jump"))
             {
+                playerMovement.speed = 3;
+                
                 gancho.transform.parent = transform;
                 gancho.transform.position = puntoLanzamientoGancho.transform.position;
                 
                 distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
-                
-                
-                
-                playerMovement.saltar(playerMovement.jumpForce);
-                
-                Debug.Log("He entrado Jump2");
+
+                //playerMovement.saltar(playerMovement.jumpForce);
                 
                 enganchado = false;
 
@@ -153,7 +154,6 @@ public class PlayerGanchoController : MonoBehaviour
             {
                 if (hitInfo.collider.tag.Equals("Enganche"))
                 {
-                    Debug.Log("Se ha enganchado");
                     distanceJoint.enabled = true;
 
                     distanceJoint.autoConfigureDistance = false;
@@ -162,7 +162,6 @@ public class PlayerGanchoController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("No se ha enganchado");
                     gancho.transform.parent = transform;
                     gancho.transform.position = puntoLanzamientoGancho.transform.position;
                 }
@@ -196,8 +195,6 @@ public class PlayerGanchoController : MonoBehaviour
             }
             else
             {
-                Debug.Log("Puede disparar false 1: "+hitInfoComprobar.collider);
-            
                 clickDerechoGancho.transform.localScale = new Vector3(0,0,0);
                 if (!ganchoLanzado)
                 {
@@ -209,17 +206,13 @@ public class PlayerGanchoController : MonoBehaviour
         if (groundController.isGrounded || 
             (hitInfoComprobarPared.collider != null && hitInfoComprobarPared.collider.tag.Equals("Ground")))
         {
-            Debug.Log("Puede disparar false 2");
             puedeDispararGancho = false;
         }
 
         if (ganchoLanzado)
         {
-            Debug.Log(distanciaGancho);
-            
             if (!groundController.isGrounded && distanciaGancho >= 2f && !enganchado)
             {
-                Debug.Log("Puede disparar false 3");
                 puedeDispararGancho = false;
             }
         }
@@ -231,7 +224,6 @@ public class PlayerGanchoController : MonoBehaviour
 
         if (!enganchado)
         {
-            Debug.Log("He entrado tiempoGanchoLanzado()");
             distanceJoint.autoConfigureDistance = true;
             gancho.transform.parent = transform;
             gancho.transform.position = puntoLanzamientoGancho.transform.position;

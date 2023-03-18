@@ -17,6 +17,7 @@ public class OpcionesController : MonoBehaviour
 
     public void botonPlay()
     {
+        esconderCursor();
         LoadSceneController.cargarEscena("EscenaMiguel");
     }
 
@@ -28,5 +29,10 @@ public class OpcionesController : MonoBehaviour
     public void volverMenuInicio()
     {
         LoadSceneController.cargarEscena("MenuInicio");
+    }
+
+    public void esconderCursor()
+    {
+        Cursor.visible = false;
     }
 }

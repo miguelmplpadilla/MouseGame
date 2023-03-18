@@ -40,11 +40,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerPoints playerPoints;
 
     public bool desbloquearVar = false;
-
     
-
-
-
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -60,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
         {
             gameObject.BroadcastMessage("desbloquearVariables");
         }
+
+        Cursor.visible = false;
     }
 
     private void Start()

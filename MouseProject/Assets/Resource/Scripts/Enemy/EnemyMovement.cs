@@ -56,6 +56,8 @@ public class EnemyMovement : MonoBehaviour
     public bool tutorial;
     public bool quieto;
 
+    private GameObject puntuacion;
+
 
     private void Awake()
     {
@@ -76,6 +78,8 @@ public class EnemyMovement : MonoBehaviour
         animator.SetBool("run", true);
 
         tutorial = !PlayerPrefs.HasKey("TutorialTerminado");
+        
+        puntuacion = GameObject.Find("ManagerPuntuacion");
 
     }
 
@@ -191,10 +195,12 @@ public class EnemyMovement : MonoBehaviour
 
             if (distancia < 0.2)
             {
+                puntuacion.SendMessage("guardarPuntuacion");
+                LoadSceneController.cargarEscena("Dead");
+                
                 print("Te han pillado");
                 //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 SceneManager.LoadScene("Dead");
-
             }
             else if (distancia < 0.5 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
             {

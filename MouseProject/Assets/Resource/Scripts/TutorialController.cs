@@ -45,20 +45,14 @@ public class TutorialController : MonoBehaviour
                     {
                         bloquearTutorial = true;
                         Time.timeScale = 1;
-                    
-                        player.BroadcastMessage("desbloquear"+teclaTutorial);
-                        //player.SendMessage("desbloquear"+teclaTutorial);
                     }
                 }
                 else
                 {
                     if (Input.GetButtonDown(teclaTutorial))
                     {
-                        player.SendMessage("desbloquear" + teclaTutorial);
                         bloquearTutorial = true;
                         Time.timeScale = 1;
-                    
-                        
                     }
                 }
             }
@@ -69,6 +63,8 @@ public class TutorialController : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            player.BroadcastMessage("desbloquear" + teclaTutorial);
+
             gameObjectTeclaTutorial.GetComponent<SpriteRenderer>().enabled = true;
             canvas.GetComponent<Canvas>().enabled = true;
             empezarTutorial = true;

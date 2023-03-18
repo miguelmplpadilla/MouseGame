@@ -8,15 +8,26 @@ public class GenerarTerreno : MonoBehaviour
     private GameObject segundoSuelo;
     public GameObject sueloPrefab;
 
+    public GameObject primerSuelo;
+    public Suelo scriptSuelo;
+
     public bool tutorial;
 
     public float distance;
 
-    void Start()
+    private void Awake()
     {
         player = GameObject.Find("Player");
         segundoSuelo = GameObject.Find("SueloReal");
+
+        scriptSuelo = primerSuelo.GetComponent<Suelo>();
+        //PlayerPrefs.SetInt("TutorialTerminado", 0);
+
+        tutorial = !PlayerPrefs.HasKey("TutorialTerminado");
+
+        scriptSuelo.tutorial = tutorial;
     }
+
 
     void Update()
     {

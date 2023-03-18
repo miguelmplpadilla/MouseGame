@@ -82,6 +82,7 @@ public class EnemyDeslizarController : MonoBehaviour
                 deslizandoSuelo = true;
 
         }
+
     }
 
     IEnumerator resetearDeslizar()

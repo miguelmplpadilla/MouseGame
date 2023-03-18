@@ -32,6 +32,8 @@ public class Suelo : MonoBehaviour
         if (!postTutorial && !tutorial)
         {
             enemyScript.tutorial = false;
+            PlayerPrefs.SetInt("TutorialTerminado", 1);
+            print("guardar");
         }
 
         if (generarTerreno == true)

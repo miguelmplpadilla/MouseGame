@@ -75,6 +75,7 @@ public class EnemyMovement : MonoBehaviour
 
         animator.SetBool("run", true);
 
+        tutorial = !PlayerPrefs.HasKey("TutorialTerminado");
 
     }
 
@@ -155,7 +156,7 @@ public class EnemyMovement : MonoBehaviour
             animator.SetBool("deslizandoSuelo", false);
             if (player.transform.position.x + 0.5f > transform.position.x && playerDeslizarController.distancia > 1)
             {
-                //EjecutarSalto();
+                EjecutarSalto();
             }
         }
         else ultimaPosicion = transform.position;
@@ -191,8 +192,8 @@ public class EnemyMovement : MonoBehaviour
             if (distancia < 0.2)
             {
                 print("Te han pillado");
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-                //SceneManager.LoadScene("Dead");
+                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene("Dead");
 
             }
             else if (distancia < 0.5 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
@@ -225,7 +226,7 @@ public class EnemyMovement : MonoBehaviour
             }
 
             //if (distancia > distanciaInicial + 3)
-            if (transform.position.x < player.transform.position.x - 2.5 && recuperandoPosicion == false)
+            if (transform.position.x < player.transform.position.x - 2 && recuperandoPosicion == false)
             {
                 ultimaVelocidad = speed;
                 speed = 2f;
@@ -349,6 +350,11 @@ public class EnemyMovement : MonoBehaviour
 
     public void movimiento()
     {
+
+        if (groundController.isGrounded)
+        {
+            if (speed == 3) speed = enemyGanchoController.ultimaVelocidad;
+        }
 
         if (Vector3.Distance(playerPoints.runPoint[IRunPoint], transform.position) < 0.03)
         {

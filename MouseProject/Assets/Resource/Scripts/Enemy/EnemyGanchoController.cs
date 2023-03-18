@@ -34,6 +34,8 @@ public class EnemyGanchoController : MonoBehaviour
     public int IGanchoPoint;
     public int IBreackGanchoPoint;
 
+    public float ultimaVelocidad;
+
     private void Awake()
     {
 
@@ -74,8 +76,10 @@ public class EnemyGanchoController : MonoBehaviour
                     animator.SetTrigger("lanzarGancho");
                     StartCoroutine("tiempoGanchoLanzado");
                     hitInfo = Physics2D.Raycast(transform.position, direccionRay, 10000, 1 << 6);
-                    enemyMovement.speed = 2;
+                    ultimaVelocidad = enemyMovement.speed;
+                    enemyMovement.speed = 1;
                     puntoEngancheVirtual.transform.position = hitInfo.point;
+
 
                     ganchoLanzado = true;
                 }
@@ -98,10 +102,13 @@ public class EnemyGanchoController : MonoBehaviour
                 gancho.transform.parent = transform;
                 gancho.transform.position = puntoLanzamientoGancho.transform.position;
 
+                enemyMovement.speed = 3;
+
+
                 distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
 
-                enemyMovement.saltar(enemyMovement.jumpForce);
+                //enemyMovement.saltar(enemyMovement.jumpForce);
 
                 enganchado = false;
             }

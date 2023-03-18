@@ -123,9 +123,9 @@ public class PlayerGanchoController : MonoBehaviour
                 distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
 
+                playerMovement.speed = 3;
 
-
-                playerMovement.saltar(playerMovement.jumpForce);
+                //playerMovement.saltar(playerMovement.jumpForce);
 
                 enganchado = false;
 

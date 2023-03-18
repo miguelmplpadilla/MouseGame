@@ -41,6 +41,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool desbloquearVar = false;
 
+    
+
+
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
@@ -52,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
 
         playerPoints = GetComponent<PlayerPoints>();
 
-        if (desbloquearVar)
+        if (desbloquearVar || PlayerPrefs.HasKey("TutorialTerminado"))
         {
             gameObject.BroadcastMessage("desbloquearVariables");
         }

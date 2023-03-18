@@ -14,8 +14,28 @@ public class Suelo : MonoBehaviour
     public bool tutorial;
     public bool postTutorial;
 
+    GameObject enemyGO;
+
+    EnemyMovement enemyScript;
+
+    private void Awake()
+    {
+        enemyGO = GameObject.Find("Enemy");
+        enemyScript = enemyGO.GetComponent<EnemyMovement>();
+
+        
+    }
+
     void Start()
     {
+
+        if (!postTutorial && !tutorial)
+        {
+            enemyScript.tutorial = false;
+            PlayerPrefs.SetInt("TutorialTerminado", 1);
+            print("guardar");
+        }
+
         if (generarTerreno == true)
         {
             if (!tutorial && !postTutorial)

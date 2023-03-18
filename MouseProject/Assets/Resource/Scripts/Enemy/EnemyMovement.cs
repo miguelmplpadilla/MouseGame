@@ -20,7 +20,6 @@ public class EnemyMovement : MonoBehaviour
 
     public bool saltandoParedes = false;
     public bool aireSaltandoPared = false;
-
     public float distanciaInicial;
     public float distancia;
 
@@ -52,7 +51,11 @@ public class EnemyMovement : MonoBehaviour
     public float ultimaVelocidad;
     public Vector3 ultimaPosicion;
 
+    public bool extendiendoManos;
+
     public bool tutorial;
+    public bool quieto;
+
 
     private void Awake()
     {
@@ -72,6 +75,7 @@ public class EnemyMovement : MonoBehaviour
 
         animator.SetBool("run", true);
 
+        tutorial = !PlayerPrefs.HasKey("TutorialTerminado");
 
     }
 
@@ -101,6 +105,7 @@ public class EnemyMovement : MonoBehaviour
 
         animator.SetFloat("verticalVelocity", rigidbody.velocity.y);
         animator.SetBool("deslizando", saltandoParedes);
+        animator.SetBool("JugadorCerca", extendiendoManos);
         animator.SetFloat("speed", speed);
 
         if (speed == maxSpeed)
@@ -147,7 +152,9 @@ public class EnemyMovement : MonoBehaviour
 
         if (transform.position == ultimaPosicion && groundController.isGrounded && !tutorial)
         {
-            if (player.transform.position.x + 0.5f > transform.position.x)
+            playerDeslizarController.deslizandoSuelo = false;
+            animator.SetBool("deslizandoSuelo", false);
+            if (player.transform.position.x + 0.5f > transform.position.x && playerDeslizarController.distancia > 1)
             {
                 EjecutarSalto();
             }
@@ -163,6 +170,15 @@ public class EnemyMovement : MonoBehaviour
 
         if (!tutorial)
         {
+
+            if (distancia<1)
+            {
+                extendiendoManos = true;
+            }
+            else
+            {
+                extendiendoManos = false;
+            }
 
             if (distancia > 5.5f || player.transform.position.x + 3 < transform.position.x)
             {
@@ -210,7 +226,7 @@ public class EnemyMovement : MonoBehaviour
             }
 
             //if (distancia > distanciaInicial + 3)
-            if (transform.position.x < player.transform.position.x - 2.5 && recuperandoPosicion == false)
+            if (transform.position.x < player.transform.position.x - 2 && recuperandoPosicion == false)
             {
                 ultimaVelocidad = speed;
                 speed = 2f;
@@ -335,10 +351,15 @@ public class EnemyMovement : MonoBehaviour
     public void movimiento()
     {
 
+        if (groundController.isGrounded)
+        {
+            if (speed == 3) speed = enemyGanchoController.ultimaVelocidad;
+        }
+
         if (Vector3.Distance(playerPoints.runPoint[IRunPoint], transform.position) < 0.03)
         {
-                SetRun();
-                playerPoints.runPoint[IRunPoint] = Vector3.zero;
+           SetRun();
+           playerPoints.runPoint[IRunPoint] = Vector3.zero;
         }
         else if (Vector3.Distance(playerPoints.walkPoint[IWalkPoint], transform.position) < 0.03)
         {
@@ -402,13 +423,15 @@ public class EnemyMovement : MonoBehaviour
             rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             animator.SetTrigger("jump");
 
-        if (speed == 1.9f) { speed = 2; }
-        if (speed == 0.9f) { speed = 1; }
-
-        if (jugadorCerca == true)
+        if (jugadorCerca)
         {
             speed = ultimaVelocidad;
         }
+
+        if (speed == 1.9f) { speed = 2; }
+        if (speed == 0.9f) { speed = 1; }
+
+
 
         if (IJumpPoint >= 10)
         {

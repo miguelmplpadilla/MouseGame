@@ -13,16 +13,31 @@ public class Paralax : MonoBehaviour
     public GameObject player;
     private Rigidbody2D rb2D;
 
+    public bool menuInicio;
+
     private void Awake()
     {
+
         material = GetComponent<SpriteRenderer>().material;
-        player = GameObject.Find("Player");
-        rb2D = player.GetComponent<Rigidbody2D>();
+
+        if (!menuInicio)
+        {  
+            player = GameObject.Find("Player");
+            rb2D = player.GetComponent<Rigidbody2D>();
+        }
     }
 
     void Update()
     {
-        offset = (rb2D.velocity.x * 0.1f) * velocidadMovimiento * Time.deltaTime;
-        material.mainTextureOffset += offset;
+        if (!menuInicio)
+        {
+            offset = (rb2D.velocity.x * 0.1f) * velocidadMovimiento * Time.deltaTime;
+            material.mainTextureOffset += offset;
+        }
+        else
+        {
+            offset = velocidadMovimiento * 0.1f * Time.deltaTime;
+            material.mainTextureOffset += offset;
+        }
     }
 }

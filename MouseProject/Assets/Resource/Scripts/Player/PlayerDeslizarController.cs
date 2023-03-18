@@ -60,6 +60,7 @@ public class PlayerDeslizarController : MonoBehaviour
             {
                 deslizandoSuelo = false;
                 animator.SetBool("deslizandoSuelo", false);
+                playerPoints.MakeBreakDeslizarPoint();
             }
         }
 
@@ -73,6 +74,7 @@ public class PlayerDeslizarController : MonoBehaviour
 
             if (!paredSuperior)
             {
+                if (deslizandoSuelo) playerPoints.MakeBreakDeslizarPoint();
                 deslizandoSuelo = false;
                 animator.SetBool("deslizandoSuelo", false);
                 break;

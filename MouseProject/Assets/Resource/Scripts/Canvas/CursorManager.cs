@@ -6,14 +6,15 @@ public class CursorManager : MonoBehaviour
 {
 
     public Texture2D cursor_OnButton;
-     Vector2 normalCursorSpot;
+    public Vector2 normalCursorSpot;
 
     public Texture2D cursor_Normal;
-     Vector2 onButtonCursorHotSpot;
+    public Vector2 onButtonCursorHotSpot;
 
     void Start()
     {
         onButtonCursorHotSpot = new Vector2(1, 0);
+        normalCursorSpot = new Vector2(1, 0);
     }
 
     void Update()

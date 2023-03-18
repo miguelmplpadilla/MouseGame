@@ -28,6 +28,7 @@ public class EnemyDeslizarController : MonoBehaviour
         movementScript = GetComponentInParent<EnemyMovement>();
         player = GameObject.Find("Player");
         playerPoints = player.GetComponent<PlayerPoints>();
+
     }
 
     private void FixedUpdate()
@@ -66,6 +67,18 @@ public class EnemyDeslizarController : MonoBehaviour
                 animator.SetBool("deslizandoSuelo", false);
             }
         }
+
+        distancia = (Vector3.Distance(playerPoints.deslizarPoint[IDeslizarPoint], transform.position));
+
+        if ((distancia < 0.2) || (distancia < 0.7 && playerPoints.deslizarPoint[IDeslizarPoint].x < transform.position.x))
+        {
+            print("Punto deslizar");
+            playerPoints.deslizarPoint[IDeslizarPoint] = Vector3.zero;
+            StartCoroutine("resetearDeslizar");
+            animator.SetBool("deslizandoSuelo", true);
+            deslizandoSuelo = true;
+            movementScript.speed = 2;
+        }
     }
 
     void Update()
@@ -75,12 +88,12 @@ public class EnemyDeslizarController : MonoBehaviour
 
         if ((distancia < 0.2) || (distancia < 0.7 && playerPoints.deslizarPoint[IDeslizarPoint].x < transform.position.x))
         {
-                print("Punto deslizar");
-                playerPoints.deslizarPoint[IDeslizarPoint] = Vector3.zero;
-                StartCoroutine("resetearDeslizar");
-                animator.SetBool("deslizandoSuelo", true);
-                deslizandoSuelo = true;
-
+            print("Punto deslizar");
+            playerPoints.deslizarPoint[IDeslizarPoint] = Vector3.zero;
+            StartCoroutine("resetearDeslizar");
+            animator.SetBool("deslizandoSuelo", true);
+            deslizandoSuelo = true;
+            movementScript.speed = 2;
         }
 
     }
@@ -89,7 +102,7 @@ public class EnemyDeslizarController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(1);
 
             if (!paredSuperior)
             {

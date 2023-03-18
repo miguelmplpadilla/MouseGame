@@ -54,10 +54,11 @@ public class TutorialController : MonoBehaviour
                 {
                     if (Input.GetButtonDown(teclaTutorial))
                     {
+                        player.SendMessage("desbloquear" + teclaTutorial);
                         bloquearTutorial = true;
                         Time.timeScale = 1;
                     
-                        player.SendMessage("desbloquear"+teclaTutorial);
+                        
                     }
                 }
             }

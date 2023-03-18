@@ -17,6 +17,8 @@ public class EnemyDeslizarController : MonoBehaviour
 
     public int IDeslizarPoint;
 
+    public float distancia;
+
 
     private void Awake()
     {
@@ -69,18 +71,16 @@ public class EnemyDeslizarController : MonoBehaviour
     void Update()
     {
 
-        float distancia = (Vector3.Distance(playerPoints.deslizarPoint[IDeslizarPoint], transform.position));
+        distancia = (Vector3.Distance(playerPoints.deslizarPoint[IDeslizarPoint], transform.position));
 
-        if ((distancia < 0.03) || (distancia < 0.7 && playerPoints.deslizarPoint[IDeslizarPoint].x < transform.position.x))
+        if ((distancia < 0.2) || (distancia < 0.7 && playerPoints.deslizarPoint[IDeslizarPoint].x < transform.position.x))
         {
+                print("Punto deslizar");
+                playerPoints.deslizarPoint[IDeslizarPoint] = Vector3.zero;
+                StartCoroutine("resetearDeslizar");
+                animator.SetBool("deslizandoSuelo", true);
+                deslizandoSuelo = true;
 
-                if (!deslizandoSuelo)
-                {
-                    playerPoints.deslizarPoint[IDeslizarPoint] = Vector3.zero;
-                    StartCoroutine("resetearDeslizar");
-                    animator.SetBool("deslizandoSuelo", true);
-                    deslizandoSuelo = true;
-                }
         }
     }
 
@@ -88,10 +88,11 @@ public class EnemyDeslizarController : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.42f);
+            yield return new WaitForSeconds(0.4f);
 
             if (!paredSuperior)
             {
+                print("Break corrutina");
                 deslizandoSuelo = false;
                 animator.SetBool("deslizandoSuelo", false);
                 break;

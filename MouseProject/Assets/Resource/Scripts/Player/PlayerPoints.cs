@@ -18,6 +18,9 @@ public class PlayerPoints : MonoBehaviour
     public Vector3[] deslizarPoint;
     public int IdeslizarPoint;
 
+    public Vector3[] breakDeslizarPoint;
+    public int IBreakDeslizarPoint;
+
     public Vector3[] jumpPoint;
     public int IJumpPoint;
 
@@ -33,6 +36,7 @@ public class PlayerPoints : MonoBehaviour
     public Vector3[] walkPoint;
     public int IwalkPoint;
 
+    public bool run;
 
     void Awake()
     {
@@ -41,6 +45,7 @@ public class PlayerPoints : MonoBehaviour
         runPoint = new Vector3[10];
         deslizarPoint = new Vector3[10];
         walkPoint = new Vector3[10];
+        breakDeslizarPoint = new Vector3[10];
 
         ganchoPoint = new Vector3[10];
         breackGanchoPoint = new Vector3[10];
@@ -62,14 +67,28 @@ public class PlayerPoints : MonoBehaviour
         {
             MakeWalkPoint();
         }
+
     }
+
+
 
     public void MakeDeslizarPoint()
     {
-        deslizarPoint[IdeslizarPoint] = transform.position;
+        if (run) deslizarPoint[IdeslizarPoint] = transform.position;
+        else deslizarPoint[IdeslizarPoint] = transform.position - new Vector3(0.6f,0,0);
+
         IdeslizarPoint++;
         if (IdeslizarPoint >= 10) { IdeslizarPoint = 0; }
-        CrearMarca();
+
+        if (marca != null) Instantiate(marca, transform.position - new Vector3(0.6f, 0, 0), Quaternion.identity);
+    }
+
+    public void MakeBreakDeslizarPoint()
+    {
+        breakDeslizarPoint[IBreakDeslizarPoint] = transform.position;
+        IBreakDeslizarPoint++;
+        if (IBreakDeslizarPoint >= 10) { IBreakDeslizarPoint = 0; }
+        //CrearMarca();
     }
 
     public void MakeJumpPoint()

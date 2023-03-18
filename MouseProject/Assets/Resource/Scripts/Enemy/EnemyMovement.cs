@@ -56,6 +56,8 @@ public class EnemyMovement : MonoBehaviour
     public bool tutorial;
     public bool quieto;
 
+    public float speedAlCaer;
+
 
     private void Awake()
     {
@@ -90,7 +92,7 @@ public class EnemyMovement : MonoBehaviour
 
         float distanciaSalto = Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position);
 
-        if (distanciaSalto < 0.04 && (speed == 1.9f || speed == 2)) //SALTAR
+        if (distanciaSalto < 0.045 && (speed == 1.9f || speed >= 2)) //SALTAR
         {
             jumpForce = 3.1f;
             EjecutarSalto();
@@ -126,7 +128,7 @@ public class EnemyMovement : MonoBehaviour
 
         float distanciaSalto = Vector3.Distance(playerPoints.jumpPoint[IJumpPoint], transform.position);
 
-        if (distanciaSalto < 0.04 && (speed == 1.9f || speed == 2)) //SALTAR
+        if (distanciaSalto < 0.045 && (speed == 1.9f || speed >= 2)) //SALTAR
         {
             jumpForce = 3.1f;
             EjecutarSalto();
@@ -152,9 +154,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (transform.position == ultimaPosicion && groundController.isGrounded && !tutorial)
         {
-            playerDeslizarController.deslizandoSuelo = false;
-            animator.SetBool("deslizandoSuelo", false);
-            if (player.transform.position.x + 0.5f > transform.position.x && playerDeslizarController.distancia > 1)
+            if (player.transform.position.x + 0.5f > transform.position.x && playerDeslizarController.distancia > 1 && !animator.GetBool("deslizandoSuelo"))
             {
                 EjecutarSalto();
             }
@@ -180,14 +180,24 @@ public class EnemyMovement : MonoBehaviour
                 extendiendoManos = false;
             }
 
-            if (distancia > 5.5f || player.transform.position.x + 3 < transform.position.x)
+            if (player.transform.position.x - 4 > transform.position.x && !enemyGanchoController.enganchado)
+            {
+
+                transform.position = player.transform.position - new Vector3(3f, 0, 0);
+                speed = 3;
+                enemyGanchoController.SoltarseGanchoTeleport();
+
+            }
+            if (player.transform.position.x + 2 > transform.position.x)
             {
 
                 transform.position = player.transform.position - new Vector3(3.5f, 0, 0);
                 enemyGanchoController.SoltarseGanchoTeleport();
-                recuperandoPosicion = true;
+                speed = 3;
 
             }
+
+
 
             if (distancia < 0.2)
             {
@@ -214,47 +224,44 @@ public class EnemyMovement : MonoBehaviour
                 jugadorCerca = false;
             }
 
-            if (distancia < 0.8)
-            {
-                if (speed == 2) { speed = 1.9f; }
-                else if (speed == 1) { speed = 0.9f; };
-            }
-            else
-            {
-                if (speed == 1.9f) { speed = 2f; }
-                else if (speed == 0.9f && recuperandoPosicion == false) { speed = 1f; };
-            }
 
             //if (distancia > distanciaInicial + 3)
-            if (transform.position.x < player.transform.position.x - 2 && recuperandoPosicion == false)
+            if (transform.position.x < player.transform.position.x - 1.5 && !recuperandoPosicion)
             {
-                ultimaVelocidad = speed;
-                speed = 2f;
-                recuperandoPosicion = true;
+                if (!groundController.isGrounded && !enemyGanchoController.enganchado)
+                {
+                    ultimaVelocidad = speed;
+                    speed = 2.3f;
+                    recuperandoPosicion = true;
+                }
                 
             }
 
-            if (recuperandoPosicion == true)
-            {
-                maxSpeed = 2;
-                minSpeed = 1;
 
-                if (distancia > distanciaInicial)
-                {
-                    speed = maxSpeed;
-                }
-                else
-                {
-                    recuperandoPosicion = false;
-                }
+            if (distancia < 0.6 && groundController.isGrounded && ultimaVelocidad != 0)
+            {
+
+               recuperandoPosicion = false;
+               speed = ultimaVelocidad;
 
             }
+
+
+
+
         }
         else if (tutorial && speed != 0)
         {
             transform.position = new Vector3 (-10,0,0);
             speed = 0;
         }
+
+        if (groundController.isGrounded)
+        {
+            if (speed >= 3) speed = enemyGanchoController.ultimaVelocidad;
+            if (speedAlCaer != 0) speed = speedAlCaer; speedAlCaer = 0;
+        }
+
     }
 
     private void LateUpdate()
@@ -351,10 +358,6 @@ public class EnemyMovement : MonoBehaviour
     public void movimiento()
     {
 
-        if (groundController.isGrounded)
-        {
-            if (speed == 3) speed = enemyGanchoController.ultimaVelocidad;
-        }
 
         if (Vector3.Distance(playerPoints.runPoint[IRunPoint], transform.position) < 0.03)
         {
@@ -363,15 +366,8 @@ public class EnemyMovement : MonoBehaviour
         }
         else if (Vector3.Distance(playerPoints.walkPoint[IWalkPoint], transform.position) < 0.03)
         {
-            if (groundController.isGrounded)
-            {
-                SetWalk(); 
-            }
-            else
-            {
-                pararse = true;
-            }
 
+             SetWalk();
              playerPoints.walkPoint[IWalkPoint] = Vector3.zero;
         }
 
@@ -398,16 +394,45 @@ public class EnemyMovement : MonoBehaviour
 
     public void SetRun()
     {
-        print("EnemyRun");
-        speed = maxSpeed;
-        speed = 2;
-        recuperandoPosicion = false;
+        if (!recuperandoPosicion)
+        {
+            if (groundController.isGrounded)
+            {
+                speed = minSpeed;
+                speed = 2;
+            }
+            else
+            {
+                speedAlCaer = 2;
+            }
+            ultimaVelocidad = 2;
+        }
+        else
+        {
+            ultimaVelocidad = 2;
+        }
     }
 
     public void SetWalk()
     {
-        speed = minSpeed;
-        recuperandoPosicion = false;
+        if (!recuperandoPosicion)
+        {
+            if (groundController.isGrounded)
+            {
+                speed = minSpeed;
+                speed = 1;
+            }
+            else
+            {
+                speedAlCaer = 1;
+            }
+            ultimaVelocidad = 1;
+        }
+        else
+        {
+            ultimaVelocidad = 1;
+        }
+        
     }
 
     public void saltar(float fuerzaSalto)
@@ -423,12 +448,13 @@ public class EnemyMovement : MonoBehaviour
             rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             animator.SetTrigger("jump");
 
-        if (jugadorCerca)
+        if (jugadorCerca || recuperandoPosicion)
         {
             speed = ultimaVelocidad;
         }
 
-        if (speed == 1.9f) { speed = 2; }
+
+        if (speed == 1.9f || speed > 2) { speed = 2; }
         if (speed == 0.9f) { speed = 1; }
 
 
@@ -532,7 +558,7 @@ public class EnemyMovement : MonoBehaviour
     {
         Vector2 direccionRay = new Vector2(transform.localScale.x, 0);
 
-        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, direccionRay, 0.2f, 1 << 6);
+        RaycastHit2D hitInfo = Physics2D.Raycast(transform.position, direccionRay, 0.1f, 1 << 6);
 
         Debug.DrawRay(transform.position, direccionRay, Color.red);
 
@@ -560,9 +586,23 @@ public class EnemyMovement : MonoBehaviour
 
         if (jugadorCerca) speed = ultimaVelocidad;
 
+        speed = 2;
+
         rigidbody.AddForce(Vector2.up * jumpForcePared, ForceMode2D.Impulse);
         animator.SetTrigger("jump");
         playerBordeController.enganchadoBorde = false;
+    }
+
+    private void OnBecameInvisible()
+    {
+        if (player.transform.position.x < transform.position.x)
+        {
+
+            transform.position = player.transform.position - new Vector3(3.5f, 0, 0);
+            enemyGanchoController.SoltarseGanchoTeleport();
+            speed = 3;
+
+        }
     }
 
 }

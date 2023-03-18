@@ -181,17 +181,19 @@ public class PlayerMovement : MonoBehaviour
             transform.Translate(movement * Time.deltaTime * speed);
         }
         
-        direccionRay = new Vector2(transform.localScale.x, 0);
+        direccionRay = new Vector2(transform.localScale.x, 0.5f);
 
         hitInfo = Physics2D.Raycast(transform.position, direccionRay,0.01f, 1 << 6);
 
         if (groundController.isGrounded && hitInfo.collider != null && hitInfo.collider.tag.Equals("Ground"))
         {
             animator.SetBool("run", false);
+            playerPoints.run = false;
         }
         else
         {
             animator.SetBool("run", true);
+            playerPoints.run = true;
         }
     }
 

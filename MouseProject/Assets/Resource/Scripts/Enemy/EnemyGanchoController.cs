@@ -45,6 +45,8 @@ public class EnemyGanchoController : MonoBehaviour
         enemyMovement = GetComponent<EnemyMovement>();
         distanceJoint = GetComponent<DistanceJoint2D>();
 
+        enemyDeslizar = GetComponentInChildren<EnemyDeslizarController>();
+
         animator = GetComponent<Animator>();
         rigidbody = GetComponent<Rigidbody2D>();
 
@@ -67,9 +69,8 @@ public class EnemyGanchoController : MonoBehaviour
         Vector2 direccionRay = new Vector2(1, 0.6f);
         animator.SetFloat("velocidadHorizontal", rigidbody.velocity.x);
 
-        if (!ganchoLanzado && !enganchado)
-            {
-                if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.1f)
+
+                if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.12f)
                 {
                     gancho.SetActive(true);
                     playerPoints.ganchoPoint[IGanchoPoint] = Vector3.zero;
@@ -83,7 +84,7 @@ public class EnemyGanchoController : MonoBehaviour
 
                     ganchoLanzado = true;
                 }
-            }
+
 
 
         Debug.DrawRay(transform.position, direccionRay, Color.red);
@@ -95,20 +96,20 @@ public class EnemyGanchoController : MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.08f)
+            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.035f)
             {
                 gancho.SetActive(false);
                 playerPoints.breackGanchoPoint[IBreackGanchoPoint] = Vector3.zero;
                 gancho.transform.parent = transform;
                 gancho.transform.position = puntoLanzamientoGancho.transform.position;
 
-                enemyMovement.speed = 3;
+                enemyMovement.speed = 3.1f;
 
 
                 distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
 
-                //enemyMovement.saltar(enemyMovement.jumpForce);
+                //enemyMovement.saltar(2);
 
                 enganchado = false;
             }
@@ -158,12 +159,35 @@ public class EnemyGanchoController : MonoBehaviour
 
         IBreackGanchoPoint = IBreakGanchoPointMasCercano;
 
+        animator.SetBool("enganchado", enganchado);
+
         ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
         ganchoLineRenderer.SetPosition(1, gancho.transform.position);
     }
 
     private void FixedUpdate()
     {
+
+        Vector2 direccionRay2 = new Vector2(1, 0.6f);
+        animator.SetFloat("velocidadHorizontal", rigidbody.velocity.x);
+
+        if (!ganchoLanzado && !enganchado)
+        {
+            if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.1f)
+            {
+                gancho.SetActive(true);
+                playerPoints.ganchoPoint[IGanchoPoint] = Vector3.zero;
+                animator.SetTrigger("lanzarGancho");
+                StartCoroutine("tiempoGanchoLanzado");
+                hitInfo = Physics2D.Raycast(transform.position, direccionRay2, 10000, 1 << 6);
+                ultimaVelocidad = enemyMovement.speed;
+                enemyMovement.speed = 1;
+                puntoEngancheVirtual.transform.position = hitInfo.point;
+
+
+                ganchoLanzado = true;
+            }
+        }
 
         if (ganchoLanzado)
         {
@@ -271,7 +295,7 @@ public class EnemyGanchoController : MonoBehaviour
 
     private IEnumerator tiempoGanchoLanzado()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.95f);
 
         if (!enganchado)
         {
@@ -291,7 +315,8 @@ public class EnemyGanchoController : MonoBehaviour
 
             distanceJoint.enabled = false;
 
-            enemyMovement.saltar(enemyMovement.jumpForce);
+            //enemyMovement.saltar(enemyMovement.jumpForce);
+            enemyMovement.speed = 3.1f;
 
             enganchado = false;
         }

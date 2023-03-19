@@ -7,7 +7,7 @@ public class OpcionesController : MonoBehaviour
 {
     private void Awake()
     {
-        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void mostrarEsconderOpciones(Animator animatorPanel)
@@ -18,7 +18,7 @@ public class OpcionesController : MonoBehaviour
     public void botonPlay()
     {
         esconderCursor();
-        LoadSceneController.cargarEscena("EscenaMiguel");
+        LoadSceneController.cargarEscena("GameScene");
     }
 
     public void botonSalir()
@@ -33,6 +33,6 @@ public class OpcionesController : MonoBehaviour
 
     public void esconderCursor()
     {
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

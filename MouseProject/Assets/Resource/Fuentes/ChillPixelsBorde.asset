@@ -67,7 +67,7 @@ Material:
     - _OutlineSoftness: 0
     - _OutlineUVSpeedX: 0
     - _OutlineUVSpeedY: 0
-    - _OutlineWidth: 0
+    - _OutlineWidth: 0.126
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
     - _ScaleRatioA: 0.8333333
@@ -115,11 +115,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: ChillPixels-Maximal SDF
+  m_Name: ChillPixelsBorde
   m_EditorClassIdentifier: 
-  hashCode: -817068616
+  hashCode: 1766961191
   material: {fileID: -2192657576569764773}
-  materialHashCode: -716742504
+  materialHashCode: 2145754279
   m_Version: 1.1.0
   m_SourceFontFileGUID: d928b293b2d394e4e932497669c89b09
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: d928b293b2d394e4e932497669c89b09, type: 3}

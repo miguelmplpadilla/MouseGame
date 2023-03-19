@@ -36,6 +36,8 @@ public class EnemyGanchoController : MonoBehaviour
 
     public float ultimaVelocidad;
 
+    public float distanciaSaltarGancho;
+
     private void Awake()
     {
 
@@ -69,21 +71,21 @@ public class EnemyGanchoController : MonoBehaviour
         Vector2 direccionRay = new Vector2(1, 0.6f);
         animator.SetFloat("velocidadHorizontal", rigidbody.velocity.x);
 
+        distanciaSaltarGancho = Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position);
 
-                if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.12f)
-                {
-                    gancho.SetActive(true);
-                    playerPoints.ganchoPoint[IGanchoPoint] = Vector3.zero;
-                    animator.SetTrigger("lanzarGancho");
-                    StartCoroutine("tiempoGanchoLanzado");
-                    hitInfo = Physics2D.Raycast(transform.position, direccionRay, 10000, 1 << 6);
-                    ultimaVelocidad = enemyMovement.speed;
-                    enemyMovement.speed = 1;
-                    puntoEngancheVirtual.transform.position = hitInfo.point;
+        if (distanciaSaltarGancho < 0.15f)
+        {
+            gancho.SetActive(true);
+            playerPoints.ganchoPoint[IGanchoPoint] = Vector3.zero;
+            animator.SetTrigger("lanzarGancho");
+            StartCoroutine("tiempoGanchoLanzado");
+            hitInfo = Physics2D.Raycast(transform.position, direccionRay, 10000, 1 << 6);
+            ultimaVelocidad = enemyMovement.speed;
+            enemyMovement.speed = 1;
+            puntoEngancheVirtual.transform.position = hitInfo.point;
+            ganchoLanzado = true;
 
-
-                    ganchoLanzado = true;
-                }
+        }
 
 
 
@@ -96,7 +98,7 @@ public class EnemyGanchoController : MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.06f)
+            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.05f)
             {
                 gancho.SetActive(false);
                 playerPoints.breackGanchoPoint[IBreackGanchoPoint] = Vector3.zero;
@@ -108,7 +110,7 @@ public class EnemyGanchoController : MonoBehaviour
 
                 distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
-                enemyMovement.saltar(0.1f);
+                enemyMovement.saltar(0.6f);
                 //enemyMovement.saltar(2);
 
                 enganchado = false;
@@ -196,7 +198,7 @@ public class EnemyGanchoController : MonoBehaviour
 
             float distanciaGanchoEnganche = Vector2.Distance(gancho.transform.position, hitInfo.point);
 
-            if (distanciaGanchoEnganche < 0.1f)
+            if (distanciaGanchoEnganche < 0.2f)
             {
                 if (hitInfo.collider.tag.Equals("Enganche"))
                 {
@@ -295,7 +297,7 @@ public class EnemyGanchoController : MonoBehaviour
 
     private IEnumerator tiempoGanchoLanzado()
     {
-        yield return new WaitForSeconds(0.85f);
+        yield return new WaitForSeconds(0.8f);
 
         if (!enganchado)
         {
@@ -315,7 +317,7 @@ public class EnemyGanchoController : MonoBehaviour
 
             distanceJoint.enabled = false;
 
-            enemyMovement.saltar(0.1f);
+            enemyMovement.saltar(0.6f);
             enemyMovement.speed = 3.1f;
 
             enganchado = false;

@@ -153,6 +153,7 @@ MonoBehaviour:
   IGanchoPoint: 0
   IBreackGanchoPoint: 0
   ultimaVelocidad: 0
+  distanciaSaltarGancho: 0
 --- !u!1 &38663100
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,11 +496,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5525901
+      value: 2.5525916
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.053999815
+      value: 0.05399987
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.z
@@ -511,15 +512,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -1.7973808e-15
+      value: -1.8184904e-15
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000029489342
+      value: -0.0000295583
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000046034077
+      value: -0.00000046141824
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -706,7 +707,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4738903645511448467, guid: 2481cc02a2f02cc4996425e7cb1ca314, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.419
+      value: 5.043
       objectReference: {fileID: 0}
     - target: {fileID: 4738903645511448467, guid: 2481cc02a2f02cc4996425e7cb1ca314, type: 3}
       propertyPath: m_LocalPosition.y

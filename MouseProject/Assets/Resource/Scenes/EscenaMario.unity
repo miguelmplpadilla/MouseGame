@@ -439,11 +439,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5525942
+      value: 2.5526009
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.05399986
+      value: 0.053999834
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalPosition.z
@@ -455,15 +455,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -1.8609363e-15
+      value: -1.964011e-15
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00002969581
+      value: -0.000030023562
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000046356683
+      value: -0.00000046868797
       objectReference: {fileID: 0}
     - target: {fileID: 2053239389004156122, guid: 5feaf3299bf045944a1cdb4ff91fdb98, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -527,22 +527,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 219993090, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: d6908684cdf062d44a18023446b7a535, type: 2}
-    - target: {fileID: 219993090, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -2192657576569764773, guid: d6908684cdf062d44a18023446b7a535, type: 2}
-    - target: {fileID: 1758008676, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: d6908684cdf062d44a18023446b7a535, type: 2}
-    - target: {fileID: 1758008676, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -2192657576569764773, guid: d6908684cdf062d44a18023446b7a535, type: 2}
     - target: {fileID: 2774781893281203601, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -630,30 +614,6 @@ PrefabInstance:
     - target: {fileID: 2774781893281203613, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
       propertyPath: m_Name
       value: CanvasUIPlayer
-      objectReference: {fileID: 0}
-    - target: {fileID: 7292419519435761990, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5000001
-      objectReference: {fileID: 0}
-    - target: {fileID: 7292419519435761990, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.49999997
-      objectReference: {fileID: 0}
-    - target: {fileID: 7292419519435761990, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7292419519435761990, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7292419519435761990, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 304.20004
-      objectReference: {fileID: 0}
-    - target: {fileID: 7292419519435761990, guid: d8db2919e777dff4885b72060d7784ae, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 201.50002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8db2919e777dff4885b72060d7784ae, type: 3}

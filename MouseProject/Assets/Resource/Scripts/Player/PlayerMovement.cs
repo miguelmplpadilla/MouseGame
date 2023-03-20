@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         posicionAnteriro = transform.position;
         direccionRay = new Vector2(transform.localScale.x, 0);
 
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -312,5 +312,54 @@ public class PlayerMovement : MonoBehaviour
     {
         bloqueoSaltar = false;
         bloqueoSprint = false;
+    }
+    
+    public void saltarMovil()
+    {
+        if (!saltandoParedes)
+        {
+            if (!bloqueoSaltar)
+            {
+                if (groundController.isGrounded && !playerBordeController.enganchadoBorde &&
+                    !playerDeslizarController.deslizandoSuelo)
+                {
+                    saltar(jumpForce);
+                    playerPoints.MakeJumpPoint();
+                }
+            }
+        }
+
+        if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
+        {
+            if (!bloqueoSaltar)
+            {
+                if (saltandoParedes)
+                {
+                    playerPoints.MakeJumpWallPoint();
+                    rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
+                    saltar(jumpForcePared);
+                    movement = new Vector2(-movement.x, movement.y);
+                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y,
+                        transform.localScale.z);
+                }
+            }
+        }
+    }
+
+    public void correrMovil()
+    {
+        if (!aireSaltandoPared && !playerGanchoController.enganchado)
+        {
+            if (groundController.isGrounded && !playerDeslizarController.deslizandoSuelo)
+            {
+                if (estamina > 0)
+                {
+                    if (!bloqueoSprint)
+                    {
+                        speed = maxSpeed;
+                    }
+                }
+            }
+        }
     }
 }

@@ -92,22 +92,10 @@ public class PlayerGanchoController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Jump"))
                 {
-
-                    gancho.SetActive(true);
-
-                    animator.SetTrigger("lanzarGancho");
-                    StartCoroutine("tiempoGanchoLanzado");
-                    hitInfo = Physics2D.Raycast(transform.position, direccionRay, 10000, 1 << 6);
-                    playerMovement.speed = 2;
-                    puntoEngancheVirtual.transform.position = hitInfo.point;
-
-                    ganchoLanzado = true;
-
-                    playerPoints.MakeGanchoPoint();
+                    lanzarGancho();
                 }
             }
         }
-
 
         Debug.DrawRay(transform.position, direccionRay, Color.red);
 
@@ -119,19 +107,7 @@ public class PlayerGanchoController : MonoBehaviour
             
             if (Input.GetButtonDown("Jump"))
             {
-                playerMovement.speed = 3;
-                
-                gancho.transform.parent = transform;
-                gancho.transform.position = puntoLanzamientoGancho.transform.position;
-
-                distanceJoint.autoConfigureDistance = true;
-                distanceJoint.enabled = false;
-
-                //playerMovement.saltar(playerMovement.jumpForce);
-                
-                enganchado = false;
-
-                playerPoints.MakeBreackGanchoPoint();
+                soltarGancho();
             }
         }
         else
@@ -143,6 +119,40 @@ public class PlayerGanchoController : MonoBehaviour
 
         ganchoLineRenderer.SetPosition(0, puntoLanzamientoGancho.transform.position);
         ganchoLineRenderer.SetPosition(1, gancho.transform.position);
+    }
+
+    public void lanzarGancho()
+    {
+        Vector2 direccionRay = new Vector2(1, 0.6f);
+        
+        gancho.SetActive(true);
+
+        animator.SetTrigger("lanzarGancho");
+        StartCoroutine("tiempoGanchoLanzado");
+        hitInfo = Physics2D.Raycast(transform.position, direccionRay, 10000, 1 << 6);
+        playerMovement.speed = 2;
+        puntoEngancheVirtual.transform.position = hitInfo.point;
+
+        ganchoLanzado = true;
+
+        playerPoints.MakeGanchoPoint();
+    }
+
+    public void soltarGancho()
+    {
+        playerMovement.speed = 3;
+                
+        gancho.transform.parent = transform;
+        gancho.transform.position = puntoLanzamientoGancho.transform.position;
+
+        distanceJoint.autoConfigureDistance = true;
+        distanceJoint.enabled = false;
+
+        //playerMovement.saltar(playerMovement.jumpForce);
+                
+        enganchado = false;
+
+        playerPoints.MakeBreackGanchoPoint();
     }
 
     private void FixedUpdate()
@@ -236,6 +246,22 @@ public class PlayerGanchoController : MonoBehaviour
 
             enganchado = false;
             ganchoLanzado = false;
+        }
+    }
+
+    public void saltarMovil()
+    {
+        if (!groundController.isGrounded && !playerMovement.aireSaltandoPared && puedeDispararGancho)
+        {
+            if (!ganchoLanzado && !enganchado)
+            {
+                lanzarGancho();
+            }
+
+            if (enganchado)
+            {
+                soltarGancho();
+            }
         }
     }
 }

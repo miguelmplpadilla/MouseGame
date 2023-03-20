@@ -33,16 +33,7 @@ public class PlayerDeslizarController : MonoBehaviour
     {
         if (Input.mouseScrollDelta.y < 0)
         {
-            if (!deslizarBloqueado)
-            {
-                if (!deslizandoSuelo)
-                {
-                    playerPoints.MakeDeslizarPoint();
-                    StartCoroutine("resetearDeslizar");
-                    animator.SetBool("deslizandoSuelo", true);
-                    deslizandoSuelo = true;
-                }
-            }
+            deslizar();
         }
     }
 
@@ -110,5 +101,24 @@ public class PlayerDeslizarController : MonoBehaviour
     public void desbloquearVariables()
     {
         deslizarBloqueado = false;
+    }
+
+    public void deslizar()
+    {
+        if (!deslizarBloqueado)
+        {
+            if (!deslizandoSuelo)
+            {
+                playerPoints.MakeDeslizarPoint();
+                StartCoroutine("resetearDeslizar");
+                animator.SetBool("deslizandoSuelo", true);
+                deslizandoSuelo = true;
+            }
+        }
+    }
+
+    public void deslizarMovil()
+    {
+        deslizar();
     }
 }

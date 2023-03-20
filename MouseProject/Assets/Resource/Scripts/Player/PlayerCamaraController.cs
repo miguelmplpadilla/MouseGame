@@ -23,6 +23,8 @@ public class PlayerCamaraController : MonoBehaviour
     private PlayerBordeController playerBordeController;
     private PlayerDeslizarController playerDeslizarController;
 
+    private bool moverCamMovil = false;
+
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
@@ -44,7 +46,7 @@ public class PlayerCamaraController : MonoBehaviour
         {
             if (playerMovement.estamina > 0 && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
             {
-                if (Input.GetButton("Fire1"))
+                if (Input.GetButton("Fire1") || moverCamMovil)
                 {
                     if (camSize < camSizeMax)
                     {
@@ -85,5 +87,15 @@ public class PlayerCamaraController : MonoBehaviour
 
         cm.m_Lens.OrthographicSize = camSize;
         cmft.m_TrackedObjectOffset = new Vector3(camOfsetX, cmft.m_TrackedObjectOffset.y, cmft.m_TrackedObjectOffset.z);
+    }
+
+    public void moverCamaraMovil()
+    {
+        moverCamMovil = true;
+    }
+
+    public void dejarMoverCamaraMovil()
+    {
+        moverCamMovil = false;
     }
 }

@@ -18,6 +18,11 @@ public class TutorialController : MonoBehaviour
 
     public float velocidadRelentizarTiempo = 2;
 
+    private bool saltar = false;
+    
+    [SerializeField] private Vector2 startTouchPosition;
+    [SerializeField] private Vector2 endTouchPosition;
+
     private void Awake()
     {
         gameObjectTeclaTutorial = transform.GetChild(0).gameObject;
@@ -32,6 +37,18 @@ public class TutorialController : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (SystemInfo.deviceType == DeviceType.Desktop)
+        {
+            tutorialPC();
+        }
+        else
+        {
+            tutorialMovil();
+        }
+    }
+
+    public void tutorialPC()
     {
         if (!bloquearTutorial)
         {
@@ -50,6 +67,38 @@ public class TutorialController : MonoBehaviour
                 else
                 {
                     if (Input.GetButtonDown(teclaTutorial))
+                    {
+                        bloquearTutorial = true;
+                        Time.timeScale = 1;
+                    }
+                }
+            }
+        }
+    }
+
+    public void tutorialMovil()
+    {
+        if (!bloquearTutorial)
+        {
+            if (empezarTutorial)
+            {
+                Time.timeScale -= velocidadRelentizarTiempo * Time.deltaTime;
+                
+                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+                {
+                    startTouchPosition = Input.GetTouch(0).position;
+                    Debug.Log("Posicion inicial: " + startTouchPosition);
+
+                    if (!teclaTutorial.Equals("Deslizar"))
+                    {
+                        bloquearTutorial = true;
+                        Time.timeScale = 1;
+                    }
+                }
+
+                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    if ((startTouchPosition.y - endTouchPosition.y) > 50)
                     {
                         bloquearTutorial = true;
                         Time.timeScale = 1;

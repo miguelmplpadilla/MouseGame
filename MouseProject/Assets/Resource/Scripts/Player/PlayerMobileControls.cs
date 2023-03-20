@@ -54,6 +54,7 @@ public class PlayerMobileControls : MonoBehaviour
             }
             
             player.BroadcastMessage("dejarMoverCamaraMovil");
+            player.BroadcastMessage("dejarCorrerMovil");
 
             tiempoPulsado = 0;
 

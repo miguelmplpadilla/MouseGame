@@ -40,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
     private PlayerPoints playerPoints;
 
     public bool desbloquearVar = false;
+
+    private bool sprintar = false;
     
     private void Awake()
     {
@@ -248,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!bloqueoSprint)
             {
-                if (Input.GetButton("Fire1"))
+                if (Input.GetButton("Fire1") || sprintar)
                 {
                     if (estamina > 0)
                     {
@@ -357,9 +359,15 @@ public class PlayerMovement : MonoBehaviour
                     if (!bloqueoSprint)
                     {
                         speed = maxSpeed;
+                        sprintar = true;
                     }
                 }
             }
         }
+    }
+
+    public void dejarCorrerMovil()
+    {
+        sprintar = false;
     }
 }

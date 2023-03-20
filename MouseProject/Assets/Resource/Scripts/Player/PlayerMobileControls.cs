@@ -19,7 +19,7 @@ public class PlayerMobileControls : MonoBehaviour
 
     private void Awake()
     {
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
     }
 
     private void Start()
@@ -48,17 +48,9 @@ public class PlayerMobileControls : MonoBehaviour
                 player.BroadcastMessage("deslizarMovil");
                 
                 Debug.Log("Deslizdo hacia abajo");
-            }
-            else if (tiempoPulsado > 0.005f && tiempoPulsado < 0.15f)
+            } else if ((startTouchPosition.y - endTouchPosition.y) < -50)
             {
                 player.BroadcastMessage("saltarMovil");
-                
-                Debug.Log("Pulsado");
-            }
-            else if (tiempoPulsado > 0.15f)
-            {
-                Debug.Log("Tiempo pulsado: "+tiempoPulsado);
-                Debug.Log("Mantenido");
             }
             
             player.BroadcastMessage("dejarMoverCamaraMovil");

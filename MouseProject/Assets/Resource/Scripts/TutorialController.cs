@@ -89,7 +89,7 @@ public class TutorialController : MonoBehaviour
                     startTouchPosition = Input.GetTouch(0).position;
                     Debug.Log("Posicion inicial: " + startTouchPosition);
 
-                    if (!teclaTutorial.Equals("Deslizar"))
+                    if (!teclaTutorial.Equals("Deslizar") && !teclaTutorial.Equals("Jump"))
                     {
                         bloquearTutorial = true;
                         Time.timeScale = 1;
@@ -99,6 +99,10 @@ public class TutorialController : MonoBehaviour
                 if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
                 {
                     if ((startTouchPosition.y - endTouchPosition.y) > 50)
+                    {
+                        bloquearTutorial = true;
+                        Time.timeScale = 1;
+                    } else if ((startTouchPosition.y - endTouchPosition.y) < -50)
                     {
                         bloquearTutorial = true;
                         Time.timeScale = 1;

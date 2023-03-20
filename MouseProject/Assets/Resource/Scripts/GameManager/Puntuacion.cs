@@ -70,15 +70,6 @@ public class Puntuacion : MonoBehaviour
         recordTxt.text = (int)record + "m";
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            guardarPuntuacion();
-            LoadSceneController.cargarEscena("Creditos");
-        }
-    }
-
     void FixedUpdate()
     {
         puntuacion = Vector3.Distance(player.transform.position, puntoInicio) * 10;

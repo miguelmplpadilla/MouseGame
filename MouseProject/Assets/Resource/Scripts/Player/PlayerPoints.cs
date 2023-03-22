@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Autor: Miguel Padilla Lillo
+// Autor: Mario Marin Teran
 public class PlayerPoints : MonoBehaviour
 {
     public bool visualMarks;

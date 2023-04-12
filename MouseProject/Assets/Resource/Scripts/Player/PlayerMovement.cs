@@ -95,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!bloqueoSaltar)
             {
-                if (Input.GetButtonDown("Jump"))
+                if (Input.GetButtonDown("Jump") && Application.platform != RuntimePlatform.Android)
                 {
                     if (groundController.isGrounded && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
                     {
@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (!bloqueoSprint)
                     {
-                        if (Input.GetButton("Fire1"))
+                        if ((Input.GetButton("Fire1") && Application.platform != RuntimePlatform.Android) || sprintar)
                         {
                             speed = maxSpeed;
                         }
@@ -207,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!bloqueoSaltar)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && Application.platform != RuntimePlatform.Android)
             {
                 if (saltandoParedes)
                 {
@@ -250,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!bloqueoSprint)
             {
-                if (Input.GetButton("Fire1") || sprintar)
+                if ((Input.GetButton("Fire1") && Application.platform != RuntimePlatform.Android) || sprintar)
                 {
                     if (estamina > 0)
                     {
@@ -318,6 +318,8 @@ public class PlayerMovement : MonoBehaviour
     
     public void saltarMovil()
     {
+        Debug.Log("Saltar movil");
+        
         if (!saltandoParedes)
         {
             if (!bloqueoSaltar)

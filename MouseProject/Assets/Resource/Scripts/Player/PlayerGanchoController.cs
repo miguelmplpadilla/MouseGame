@@ -90,7 +90,7 @@ public class PlayerGanchoController : MonoBehaviour
         {
             if (!ganchoLanzado && !enganchado)
             {
-                if (Input.GetButtonDown("Jump"))
+                if (Input.GetButtonDown("Jump") && Application.platform != RuntimePlatform.Android)
                 {
                     lanzarGancho();
                 }
@@ -105,7 +105,7 @@ public class PlayerGanchoController : MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle-90, Vector3.forward);
             
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump") && Application.platform != RuntimePlatform.Android)
             {
                 soltarGancho();
             }

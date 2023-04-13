@@ -24,12 +24,17 @@ public class PlayerMobileControls : MonoBehaviour
 
     private void Update()
     {
+        //controlerV1();
+        controlerV2();
+    }
+
+    private void controlerV1()
+    {
         if (Input.touchCount > 0 && Input.touchCount < 2)
         {
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 startTouchPosition = Input.GetTouch(0).position;
-                Debug.Log("Posicion inicial Touch 1: " + startTouchPosition);
 
                 pulsado = true;
             }
@@ -38,21 +43,15 @@ public class PlayerMobileControls : MonoBehaviour
             {
                 endTouchPosition = Input.GetTouch(0).position;
 
-                Debug.Log("Posicion final Touch 1: " + endTouchPosition);
-
                 if (tiempoPulsado < 0.2f)
                 {
                     if ((startTouchPosition.y - endTouchPosition.y) > 50)
                     {
                         player.BroadcastMessage("deslizarMovil");
-
-                        Debug.Log("Deslizdo hacia abajo Touch 1");
                     }
                     else if ((startTouchPosition.y - endTouchPosition.y) < -50)
                     {
                         player.BroadcastMessage("saltarMovil");
-                
-                        Debug.Log("Deslizdo hacia arriba Touch 1");
                     }
                 }
 
@@ -61,8 +60,6 @@ public class PlayerMobileControls : MonoBehaviour
 
                 player.BroadcastMessage("dejarMoverCamaraMovil");
                 player.BroadcastMessage("dejarCorrerMovil");
-
-                Debug.Log("Tiempo pulsado: "+tiempoPulsado);
 
                 tiempoPulsado = 0;
 
@@ -73,26 +70,19 @@ public class PlayerMobileControls : MonoBehaviour
             if (Input.GetTouch(1).phase == TouchPhase.Began)
             {
                 startTouchPosition = Input.GetTouch(1).position;
-                Debug.Log("Posicion inicial Touch 2: " + startTouchPosition);
             }
 
             if (Input.GetTouch(1).phase == TouchPhase.Ended)
             {
                 endTouchPosition = Input.GetTouch(1).position;
-
-                Debug.Log("Posicion final Touch 2: " + endTouchPosition);
                 
                 if ((startTouchPosition.y - endTouchPosition.y) > 50)
                 {
                     player.BroadcastMessage("deslizarMovil");
-
-                    Debug.Log("Deslizdo hacia abajo Touch 2");
                 }
                 else if ((startTouchPosition.y - endTouchPosition.y) < -50)
                 {
                     player.BroadcastMessage("saltarMovil");
-                    
-                    Debug.Log("Deslizdo hacia arriba Touch 2");
                 }
 
                 startTouchPosition = new Vector2(0, 0);
@@ -109,6 +99,63 @@ public class PlayerMobileControls : MonoBehaviour
             }
 
             tiempoPulsado += 1 * Time.deltaTime;
+        }
+    }
+
+    private void controlerV2()
+    {
+        if (Input.touchCount > 0)
+        {
+            controlV2DetectorTouch(0);
+        }
+        else
+        {
+            player.BroadcastMessage("dejarMoverCamaraMovil");
+            player.BroadcastMessage("dejarCorrerMovil");
+        }
+        
+        if (Input.touchCount > 1)
+        {
+            controlV2DetectorTouch(1);
+        }
+    }
+    
+    private void controlV2DetectorTouch(int numTouch)
+    {
+        if (Input.GetTouch(numTouch).phase == TouchPhase.Began)
+        {
+            startTouchPosition = Input.GetTouch(numTouch).position;
+            
+            Debug.Log("StartTouchPosition Touch "+numTouch+": "+startTouchPosition);
+
+            if (Input.GetTouch(numTouch).position.x < 1003)
+            {
+                player.BroadcastMessage("moverCamaraMovil");
+                player.BroadcastMessage("correrMovil");
+            }
+        }
+        
+        if (Input.GetTouch(numTouch).phase == TouchPhase.Ended)
+        {
+            endTouchPosition = Input.GetTouch(numTouch).position;
+            
+            Debug.Log("EndTouchPosition Touch "+numTouch+": "+endTouchPosition);
+
+            if (Input.GetTouch(numTouch).position.x < 1003)
+            {
+                player.BroadcastMessage("dejarMoverCamaraMovil");
+                player.BroadcastMessage("dejarCorrerMovil");
+            } else if (Input.GetTouch(numTouch).position.x > 1003)
+            {
+                if ((startTouchPosition.y - endTouchPosition.y) > 50)
+                {
+                    player.BroadcastMessage("deslizarMovil");
+                }
+                else
+                {
+                    player.BroadcastMessage("saltarMovil");
+                }
+            }
         }
     }
 }

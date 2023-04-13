@@ -18,7 +18,7 @@ public class OpcionesController : MonoBehaviour
     public void botonPlay()
     {
         esconderCursor();
-        LoadSceneController.cargarEscena("GameScene");
+        LoadSceneController.cargarEscena("EscenaMiguel");
     }
 
     public void botonSalir()

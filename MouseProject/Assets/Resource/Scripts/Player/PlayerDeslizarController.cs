@@ -31,7 +31,7 @@ public class PlayerDeslizarController : MonoBehaviour
 
     void Update()
     {
-        if (Input.mouseScrollDelta.y < 0 && Application.platform != RuntimePlatform.Android)
+        if ((Input.mouseScrollDelta.y < 0 || Input.GetButton("Fire2")) && Application.platform != RuntimePlatform.Android)
         {
             deslizar();
         }

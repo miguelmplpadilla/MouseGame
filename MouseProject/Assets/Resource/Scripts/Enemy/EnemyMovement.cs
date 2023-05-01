@@ -496,7 +496,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
         {
-            if (Input.GetButton("Fire1"))
+            if (Input.GetAxisRaw("Fire1") > 0)
             {
                 if (estamina > 0)
                 {

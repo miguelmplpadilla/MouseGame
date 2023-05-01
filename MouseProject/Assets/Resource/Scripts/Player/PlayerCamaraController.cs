@@ -46,7 +46,7 @@ public class PlayerCamaraController : MonoBehaviour
         {
             if (playerMovement.estamina > 0 && !playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
             {
-                if ((Input.GetButton("Fire1") && Application.platform != RuntimePlatform.Android) || moverCamMovil)
+                if ((Input.GetAxisRaw("Fire1") > 0 && Application.platform != RuntimePlatform.Android) || moverCamMovil)
                 {
                     if (camSize < camSizeMax)
                     {

@@ -37,6 +37,7 @@ public class PlayerPoints : MonoBehaviour
     public int IwalkPoint;
 
     public bool run;
+    private bool correrPulsado = false;
 
     void Awake()
     {
@@ -56,18 +57,25 @@ public class PlayerPoints : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetAxisRaw("Fire1") > 0)
         {
             if (playerScript.estamina > 0)
             {
-                MakeRunPoint();
+                if (!correrPulsado)
+                {
+                    MakeRunPoint();
+                    correrPulsado = true;
+                }
             }
         }
-        else if (Input.GetButtonUp("Fire1"))
+        else if (Input.GetAxisRaw("Fire1") == 0)
         {
-            MakeWalkPoint();
+            if (correrPulsado)
+            {
+                MakeWalkPoint();
+                correrPulsado = false;
+            }
         }
-
     }
 
 

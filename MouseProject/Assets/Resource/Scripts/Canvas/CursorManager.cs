@@ -24,11 +24,11 @@ public class CursorManager : MonoBehaviour
 
     public void OnButtonCursorEnter()
     {
-        Cursor.SetCursor(cursor_OnButton, onButtonCursorHotSpot, CursorMode.Auto);
+        //Cursor.SetCursor(cursor_OnButton, onButtonCursorHotSpot, CursorMode.Auto);
     }
 
     public void OnButtonCursorExit()
     {
-        Cursor.SetCursor(cursor_Normal, normalCursorSpot, CursorMode.Auto);
+        //Cursor.SetCursor(cursor_Normal, normalCursorSpot, CursorMode.Auto);
     }
 }

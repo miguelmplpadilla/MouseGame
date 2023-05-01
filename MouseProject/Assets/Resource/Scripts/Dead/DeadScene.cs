@@ -7,7 +7,7 @@ public class DeadScene : MonoBehaviour
 {
     void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetAxisRaw("Fire1") > 1)
         {
             SaltarCinematica();
         }

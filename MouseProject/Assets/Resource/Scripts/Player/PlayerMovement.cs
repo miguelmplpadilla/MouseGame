@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     if (!bloqueoSprint)
                     {
-                        if ((Input.GetButton("Fire1") && Application.platform != RuntimePlatform.Android) || sprintar)
+                        if ((Input.GetAxisRaw("Fire1") > 0 && Application.platform != RuntimePlatform.Android) || sprintar)
                         {
                             speed = maxSpeed;
                         }
@@ -250,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!bloqueoSprint)
             {
-                if ((Input.GetButton("Fire1") && Application.platform != RuntimePlatform.Android) || sprintar)
+                if ((Input.GetAxisRaw("Fire1") > 0 && Application.platform != RuntimePlatform.Android) || sprintar)
                 {
                     if (estamina > 0)
                     {

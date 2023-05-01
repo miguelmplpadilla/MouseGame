@@ -11,6 +11,14 @@ PrefabInstance:
       propertyPath: teclaTutorial
       value: Deslizar
       objectReference: {fileID: 0}
+    - target: {fileID: 38769265654323032, guid: 08a084e855f7656479cf790408653724, type: 3}
+      propertyPath: textoTutorial
+      value: Slide
+      objectReference: {fileID: 0}
+    - target: {fileID: 38769265654323032, guid: 08a084e855f7656479cf790408653724, type: 3}
+      propertyPath: spriteTutorial
+      value: 
+      objectReference: {fileID: 21300000, guid: b572b0148489b474b8411e9c2b3606f7, type: 3}
     - target: {fileID: 38769265654323033, guid: 08a084e855f7656479cf790408653724, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -57,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 38769265654323036, guid: 08a084e855f7656479cf790408653724, type: 3}
       propertyPath: m_Name
-      value: TutorialDeslizar
+      value: TutorialDeslizar Variant
       objectReference: {fileID: 0}
     - target: {fileID: 38769266801424002, guid: 08a084e855f7656479cf790408653724, type: 3}
       propertyPath: m_Sprite

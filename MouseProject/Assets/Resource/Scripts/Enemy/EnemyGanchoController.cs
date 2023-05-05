@@ -98,7 +98,7 @@ public class EnemyGanchoController : MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
 
-            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.04f)
+            if (Vector3.Distance(playerPoints.breackGanchoPoint[IBreackGanchoPoint], transform.position) < 0.02f)
             {
                 gancho.SetActive(false);
                 playerPoints.breackGanchoPoint[IBreackGanchoPoint] = Vector3.zero;
@@ -110,7 +110,7 @@ public class EnemyGanchoController : MonoBehaviour
 
                 distanceJoint.autoConfigureDistance = true;
                 distanceJoint.enabled = false;
-                enemyMovement.saltar(1f);
+                //enemyMovement.saltar(1);
                 //enemyMovement.saltar(2);
 
                 enganchado = false;
@@ -175,7 +175,7 @@ public class EnemyGanchoController : MonoBehaviour
 
         if (!ganchoLanzado && !enganchado)
         {
-            if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.2f)
+            if (Vector3.Distance(playerPoints.ganchoPoint[IGanchoPoint], transform.position) < 0.04f)
             {
                 gancho.SetActive(true);
                 playerPoints.ganchoPoint[IGanchoPoint] = Vector3.zero;
@@ -239,7 +239,7 @@ public class EnemyGanchoController : MonoBehaviour
 
         distanceJoint.enabled = false;
 
-        //enemyMovement.saltar(enemyMovement.jumpForce);
+        enemyMovement.saltar(enemyMovement.jumpForce);
 
         enganchado = false;
 
@@ -317,7 +317,7 @@ public class EnemyGanchoController : MonoBehaviour
 
             distanceJoint.enabled = false;
 
-            enemyMovement.saltar(1f);
+            //enemyMovement.saltar(1f);
             enemyMovement.speed = 3.1f;
 
             enganchado = false;

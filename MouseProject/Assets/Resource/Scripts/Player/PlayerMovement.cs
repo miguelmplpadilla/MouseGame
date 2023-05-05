@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (saltandoParedes)
         {
-            if (rigidbody.velocity.y < 0.2f)
+            if (rigidbody.velocity.y < 0.8f)
             {
                 animator.SetBool("deslizando", true);
             }

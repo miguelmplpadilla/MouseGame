@@ -93,20 +93,20 @@ public class EnemyMovement : MonoBehaviour
 
         if ((distanciaSalto < 0.1f) && enemyGanchoController.distanciaSaltarGancho < 4) //SALTAR
         {
-            jumpForce = 3.4f;
+            jumpForce = 3;
             EjecutarSalto();
 
         }
 
-        if ((distanciaSalto < 0.04f)  && speed >= 1.9f) //SALTAR
+        if ((distanciaSalto < 0.03f)  && speed >= 1.9f) //SALTAR
         {
-            jumpForce = 3.3f;
+            jumpForce = 3;
             EjecutarSalto();
 
         }
-        else if ((distanciaSalto < 0.03f ) && (speed < 1.9f)) //SALTAR
+        else if ((distanciaSalto < 0.02f ) && (speed < 1.9f)) //SALTAR
         {
-            jumpForce = 3.1f;
+            jumpForce = 3;
             EjecutarSalto();
         }
 
@@ -171,20 +171,20 @@ public class EnemyMovement : MonoBehaviour
                 extendiendoManos = false;
             }
 
-            if (player.transform.position.x - 6 > transform.position.x && !enemyGanchoController.enganchado)
+            if (player.transform.position.x - 6 > transform.position.x && !enemyGanchoController.enganchado && groundController.isGrounded)
             {
 
                 transform.position = player.transform.position - new Vector3(2.8f, 0, 0);
-                speed = 3;
+                speed = 2.2f;
                 enemyGanchoController.SoltarseGanchoTeleport();
 
             }
-            if (player.transform.position.x < transform.position.x && distancia > 2)
+            if (player.transform.position.x < transform.position.x && distancia > 2 && groundController.isGrounded)
             {
 
                 transform.position = player.transform.position - new Vector3(2.8f, 0, 0);
                 enemyGanchoController.SoltarseGanchoTeleport();
-                speed = 3;
+                speed = 2.2f;
 
             }
 
@@ -199,7 +199,7 @@ public class EnemyMovement : MonoBehaviour
                 if (!jugadorCerca && groundController.isGrounded)
                 {
                     ultimaVelocidad = speed;
-                    if (groundController.isGrounded) speed = 0.9f;
+                    if (groundController.isGrounded) speed = 1f;
                     pararse = true;
                     jugadorCerca = true;
                 }
@@ -210,7 +210,7 @@ public class EnemyMovement : MonoBehaviour
                 jugadorCerca = false;
             }
 
-            if (distancia > 1.8 && !recuperandoPosicion)
+            if (distancia > 2 && !recuperandoPosicion)
             {
                 if (groundController.isGrounded && !enemyGanchoController.enganchado)
                 {
@@ -372,7 +372,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void SetRun()
     {
-        if (!recuperandoPosicion)
+        if (!recuperandoPosicion && !jugadorCerca)
         {
             ultimaVelocidad = 2;
             if (groundController.isGrounded)
@@ -394,7 +394,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void SetWalk()
     {
-        if (!recuperandoPosicion)
+        if (!recuperandoPosicion && !jugadorCerca)
         {
             if (groundController.isGrounded)
             {
@@ -477,9 +477,7 @@ public class EnemyMovement : MonoBehaviour
     public void EjecutarSaltoPared()
     {
 
-
-        if (Vector3.Distance(playerPoints.paredJumpPoint[IparedJumpPoint], transform.position) < 6) jumpForcePared = 4.15f;
-        else jumpForcePared = 4.15f;
+        jumpForcePared = 4.02f;
 
         rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
 

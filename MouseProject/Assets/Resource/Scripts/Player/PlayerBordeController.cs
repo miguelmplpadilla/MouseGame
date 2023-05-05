@@ -22,7 +22,7 @@ public class PlayerBordeController : MonoBehaviour
     {
         if (col.CompareTag("Borde"))
         {
-            if (!enganchadoBorde && rigidbody.velocity.y < 0)
+            if (!enganchadoBorde)
             {
                 rigidbody.bodyType = RigidbodyType2D.Static;
                 transform.parent.parent = col.gameObject.transform.parent;

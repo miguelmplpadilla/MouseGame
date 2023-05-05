@@ -100,13 +100,13 @@ public class EnemyMovement : MonoBehaviour
 
         if ((distanciaSalto < 0.03f)  && speed >= 1.9f) //SALTAR
         {
-            jumpForce = 3;
+            jumpForce = 3.1f;
             EjecutarSalto();
 
         }
         else if ((distanciaSalto < 0.02f ) && (speed < 1.9f)) //SALTAR
         {
-            jumpForce = 3;
+            jumpForce = 3.1f;
             EjecutarSalto();
         }
 
@@ -194,7 +194,7 @@ public class EnemyMovement : MonoBehaviour
                 //LoadSceneController.cargarEscena("Dead");
                 SceneManager.LoadScene("Dead");
             }
-            else if (distancia < 0.8 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
+            else if (distancia < 0.4 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
             {
                 if (!jugadorCerca && groundController.isGrounded)
                 {
@@ -205,7 +205,7 @@ public class EnemyMovement : MonoBehaviour
                 }
 
             }
-            else if (distancia > 1 && groundController.isGrounded)
+            else if (distancia > 0.4 && groundController.isGrounded)
             {
                 jugadorCerca = false;
             }
@@ -427,7 +427,7 @@ public class EnemyMovement : MonoBehaviour
         rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         animator.SetTrigger("jump");
 
-        if (jugadorCerca || recuperandoPosicion)
+        if ((jugadorCerca || recuperandoPosicion) && speed <= 1)
         {
             speed = ultimaVelocidad;
         }
@@ -477,7 +477,7 @@ public class EnemyMovement : MonoBehaviour
     public void EjecutarSaltoPared()
     {
 
-        jumpForcePared = 4.02f;
+        jumpForcePared = 4.15f;
 
         rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
 

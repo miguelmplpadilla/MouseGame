@@ -171,20 +171,20 @@ public class EnemyMovement : MonoBehaviour
                 extendiendoManos = false;
             }
 
-            if (player.transform.position.x - 6 > transform.position.x && !enemyGanchoController.enganchado && groundController.isGrounded)
+            if (player.transform.position.x - 6 > transform.position.x && !enemyGanchoController.enganchado)
             {
 
                 transform.position = player.transform.position - new Vector3(2.8f, 0, 0);
-                speed = 2.2f;
+                if (groundController.isGrounded) speed = 2.2f;
                 enemyGanchoController.SoltarseGanchoTeleport();
 
             }
-            if (player.transform.position.x < transform.position.x && distancia > 2 && groundController.isGrounded)
+            if (player.transform.position.x < transform.position.x && distancia > 2)
             {
 
                 transform.position = player.transform.position - new Vector3(2.8f, 0, 0);
                 enemyGanchoController.SoltarseGanchoTeleport();
-                speed = 2.2f;
+                if (groundController.isGrounded) speed = 2.2f;
 
             }
 

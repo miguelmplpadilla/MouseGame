@@ -40,11 +40,11 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private Vector2 startTouchPosition;
     [SerializeField] private Vector2 endTouchPosition;
 
-    [MenuItem("Scripts/DeletePlayerPrefs")]
+    /*[MenuItem("Scripts/DeletePlayerPrefs")]
     public static void deletePlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
-    }
+    }*/
 
     private void Awake()
     {

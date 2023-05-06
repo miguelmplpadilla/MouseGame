@@ -98,15 +98,15 @@ public class EnemyMovement : MonoBehaviour
 
         }
 
-        if ((distanciaSalto < 0.03f)  && speed >= 1.9f) //SALTAR
+        if ((distanciaSalto < 0.03f) && speed >= 1.9f) //SALTAR
         {
-            jumpForce = 3;
+            jumpForce = 3.1f;
             EjecutarSalto();
 
         }
-        else if ((distanciaSalto < 0.02f ) && (speed < 1.9f)) //SALTAR
+        else if ((distanciaSalto < 0.02f) && (speed < 1.9f)) //SALTAR
         {
-            jumpForce = 3;
+            jumpForce = 3.1f;
             EjecutarSalto();
         }
 
@@ -126,7 +126,7 @@ public class EnemyMovement : MonoBehaviour
             animator.SetBool("isRun", false);
             animator.SetBool("isWalk", true);
         }
-  
+
     }
 
     private void FixedUpdate()
@@ -194,7 +194,7 @@ public class EnemyMovement : MonoBehaviour
                 //LoadSceneController.cargarEscena("Dead");
                 SceneManager.LoadScene("Dead");
             }
-            else if (distancia < 0.8 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
+            else if (distancia < 0.4 && !saltandoParedes && !aireSaltandoPared && !enemyGanchoController.enganchado)
             {
                 if (!jugadorCerca && groundController.isGrounded)
                 {
@@ -205,7 +205,7 @@ public class EnemyMovement : MonoBehaviour
                 }
 
             }
-            else if (distancia > 1 && groundController.isGrounded)
+            else if (distancia > 0.4 && groundController.isGrounded)
             {
                 jugadorCerca = false;
             }
@@ -339,14 +339,14 @@ public class EnemyMovement : MonoBehaviour
 
         if (Vector3.Distance(playerPoints.runPoint[IRunPoint], transform.position) < 0.03)
         {
-           SetRun();
-           playerPoints.runPoint[IRunPoint] = Vector3.zero;
+            SetRun();
+            playerPoints.runPoint[IRunPoint] = Vector3.zero;
         }
         else if (Vector3.Distance(playerPoints.walkPoint[IWalkPoint], transform.position) < 0.03)
         {
 
-             SetWalk();
-             playerPoints.walkPoint[IWalkPoint] = Vector3.zero;
+            SetWalk();
+            playerPoints.walkPoint[IWalkPoint] = Vector3.zero;
         }
 
         if (pararse == true && groundController.isGrounded && saltandoParedes == false && aireSaltandoPared == false)
@@ -384,7 +384,7 @@ public class EnemyMovement : MonoBehaviour
             {
                 speedAlCaer = 2;
             }
-            
+
         }
         else
         {
@@ -411,7 +411,7 @@ public class EnemyMovement : MonoBehaviour
         {
             ultimaVelocidad = 1;
         }
-        
+
     }
 
     public void saltar(float fuerzaSalto)
@@ -427,7 +427,7 @@ public class EnemyMovement : MonoBehaviour
         rigidbody.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         animator.SetTrigger("jump");
 
-        if (jugadorCerca || recuperandoPosicion)
+        if ((jugadorCerca || recuperandoPosicion) && speed <= 1)
         {
             speed = ultimaVelocidad;
         }
@@ -449,7 +449,7 @@ public class EnemyMovement : MonoBehaviour
         float distance = Vector3.Distance(playerPoints.paredJumpPoint[IparedJumpPoint], transform.position);
         if (distance < 0.15)
         {
-            
+
             if (jugadorCerca)
             {
                 speed = ultimaVelocidad;
@@ -477,7 +477,7 @@ public class EnemyMovement : MonoBehaviour
     public void EjecutarSaltoPared()
     {
 
-        jumpForcePared = 4.02f;
+        jumpForcePared = 4.15f;
 
         rigidbody.velocity = new Vector2(rigidbody.velocity.x, 0);
 
@@ -489,12 +489,12 @@ public class EnemyMovement : MonoBehaviour
         transform.localScale.z);
         canJumpWall = false;
     }
- 
+
     public void actualizarEstamina()
     {
         if (!playerBordeController.enganchadoBorde && !playerDeslizarController.deslizandoSuelo)
         {
-            if (Input.GetAxisRaw("Fire1") > 0)
+            if (Input.GetButton("Fire1"))
             {
                 if (estamina > 0)
                 {
@@ -569,5 +569,6 @@ public class EnemyMovement : MonoBehaviour
         animator.SetTrigger("jump");
         playerBordeController.enganchadoBorde = false;
     }
+
 
 }

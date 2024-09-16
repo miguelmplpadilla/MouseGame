@@ -8,7 +8,6 @@ using UnityEngine;
 // Autor: Miguel Padilla Lillo
 public class TutorialController : MonoBehaviour
 {
-    
     [Serializable]
     public struct Teclas {
         public string name;
@@ -19,6 +18,9 @@ public class TutorialController : MonoBehaviour
     public Teclas[] teclasMando;
 
     [SerializeField] private string textoTutorial;
+    [SerializeField] private string textoTutorialKeyboard;
+    [SerializeField] private string textoTutorialMobile;
+    [SerializeField] private string textoTutorialGamepad;
     Dictionary<string, Sprite> spriteTeclasTeclado = new Dictionary<string, Sprite>();
     Dictionary<string, Sprite> spriteTeclasMando = new Dictionary<string, Sprite>();
 
@@ -40,7 +42,7 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private Vector2 startTouchPosition;
     [SerializeField] private Vector2 endTouchPosition;
 
-    [MenuItem("Scripts/DeletePlayerPrefs")]
+    //[MenuItem("Scripts/DeletePlayerPrefs")]
     public static void deletePlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
@@ -66,11 +68,16 @@ public class TutorialController : MonoBehaviour
         if (Input.GetJoystickNames().Length > 0)
         {
             teclaTutorialSpriteRenderer.sprite = spriteTeclasMando[teclaTutorial];
+            textoTutorial = textoTutorialGamepad;
         }
         else
         {
+            textoTutorial = textoTutorialKeyboard;
             teclaTutorialSpriteRenderer.sprite = spriteTeclasTeclado[teclaTutorial];
         }
+
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+            textoTutorial = textoTutorialMobile;
         
         textoCanvasTutorial.text = textoTutorial;
         player = GameObject.Find("Player");

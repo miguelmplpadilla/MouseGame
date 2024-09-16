@@ -13,7 +13,7 @@ public class GenerarTerreno : MonoBehaviour
 
     public bool tutorial;
 
-    public float distance;
+    public double distance;
 
     private void Awake()
     {

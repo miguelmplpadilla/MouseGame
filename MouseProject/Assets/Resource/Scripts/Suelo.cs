@@ -40,7 +40,7 @@ public class Suelo : MonoBehaviour
         {
             if (!tutorial && !postTutorial)
             {
-                Invoke("DestroyObj", 50);
+                Invoke("DestroyObj", 200);
 
                 random = Random.Range(0, escenarios.Length);
 
@@ -54,7 +54,7 @@ public class Suelo : MonoBehaviour
             else if (postTutorial)
             {
                 escenaPostTutorial.SetActive(true);
-                Invoke("DestroyObj", 50);
+                Invoke("DestroyObj", 200);
             }
         }
 

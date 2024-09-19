@@ -8,19 +8,11 @@ using UnityEngine;
 // Autor: Miguel Padilla Lillo
 public class TutorialController : MonoBehaviour
 {
-    
-    [Serializable]
-    public struct Teclas {
-        public string name;
-        public Sprite image;
-    }
-    
-    public Teclas[] teclasTeclado;
-    public Teclas[] teclasMando;
 
     [SerializeField] private string textoTutorial;
-    Dictionary<string, Sprite> spriteTeclasTeclado = new Dictionary<string, Sprite>();
-    Dictionary<string, Sprite> spriteTeclasMando = new Dictionary<string, Sprite>();
+    [SerializeField] private string textoTutorialKeyboard;
+    [SerializeField] private string textoTutorialMobile;
+    [SerializeField] private string textoTutorialGamepad;
 
     private bool empezarTutorial = false;
     private bool bloquearTutorial = false;
@@ -40,20 +32,14 @@ public class TutorialController : MonoBehaviour
     [SerializeField] private Vector2 startTouchPosition;
     [SerializeField] private Vector2 endTouchPosition;
 
-    /*[MenuItem("Scripts/DeletePlayerPrefs")]
     public static void deletePlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
-    }*/
+    }
 
     private void Awake()
     {
-        for (int i = 0; i < teclasTeclado.Length; i++)
-        {
-            spriteTeclasTeclado.Add(teclasTeclado[i].name, teclasTeclado[i].image);
-            spriteTeclasMando.Add(teclasMando[i].name, teclasMando[i].image);
-        }
-        
+        //deletePlayerPrefs();
         canvas = transform.GetChild(1).gameObject;
         teclaTutorialSpriteRenderer = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
         textoCanvasTutorial = canvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
@@ -63,14 +49,10 @@ public class TutorialController : MonoBehaviour
 
     private void Start()
     {
-        if (Input.GetJoystickNames().Length > 0)
-        {
-            teclaTutorialSpriteRenderer.sprite = spriteTeclasMando[teclaTutorial];
-        }
-        else
-        {
-            teclaTutorialSpriteRenderer.sprite = spriteTeclasTeclado[teclaTutorial];
-        }
+        textoTutorial = Input.GetJoystickNames().Length > 0 ? textoTutorialGamepad : textoTutorialKeyboard;
+
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
+            textoTutorial = textoTutorialMobile;
         
         textoCanvasTutorial.text = textoTutorial;
         player = GameObject.Find("Player");
